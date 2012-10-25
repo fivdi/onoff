@@ -1,0 +1,28 @@
+{
+  "name": "onoff",
+  "version": "0.0.0",
+  "description": "Control GPIO outputs and detect interrupts on GPIO inputs with Node.js on the BeagleBone or Raspberry Pi",
+  "main": "onoff.js",
+  "directories": {
+    "example": "examples",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install": "node-gyp rebuild"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fivdi/onoff.git"
+  },
+  "keywords": [
+    "GPIO",
+    "Interrupt",
+    "BeagleBone",
+    "Raspberry",
+    "Linux"
+  ],
+  "author": "fivdi",
+  "license": "MIT",
+  "gypfile": true
+}
