@@ -3,7 +3,10 @@
 #include <node.h>
 #include <string>
 
-// TODO - Forward declaration. Usually, you do this in a header file.
+/*
+ * This Node.js addon can be used to detect interrupts on GPIO inputs.
+ */
+
 v8::Handle<v8::Value> Watch(const v8::Arguments& args);
 void WatchWork(uv_work_t* req);
 void WatchAfter(uv_work_t* req);
@@ -33,8 +36,8 @@ struct Baton {
  * Wait for a gpio pin to change its state (interrupt) and call the callback
  * when the state change occurs.
  *
- * args[0] {Number} gpio pin number
- * args[1] {Function} callback 
+ * args[0] pin: number
+ * args[1] callback: (err: error, value: number) => {}
  */
 v8::Handle<v8::Value> Watch(const v8::Arguments& args) {
     v8::HandleScope scope;
@@ -71,6 +74,9 @@ v8::Handle<v8::Value> Watch(const v8::Arguments& args) {
     return v8::Undefined();
 }
 
+/*
+ * Fill baton with error info.
+ */
 void SetError(Baton* baton) {
     baton->error = true;
     baton->error_message = strerror(errno);
@@ -103,7 +109,7 @@ void WatchWork(uv_work_t* req) {
             // pfd[0].revents & POLLERR is always true on the Beaglebone after
             // calling poll even if there is no error so it's not handled.
 
-	        if (ready == -1) {
+            if (ready == -1) {
                 SetError(baton);
             } else if (ready == 1 && pfd[0].revents & POLLPRI) {
                 off_t offset = lseek(fd, 0, SEEK_SET);

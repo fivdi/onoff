@@ -105,7 +105,7 @@ exports.watch = pinWatcher.watch;
  * Read
  * pin: number
  * filename: string // 'direction', 'value', or 'edge'
- * [callback: (err: error, data: string) => {}]
+ * [callback: (err: error, data: string or number) => {}]
  *
  * Write
  * pin: number
