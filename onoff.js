@@ -137,6 +137,7 @@ var rwPinFile = function(pin, filename, value, callback) {
 };
 
 // Consider adding the following features:
+// - Replace the word pin with the word gpio everywhere.
 // - unwatch.
 // - Snyc versions of all functions. Probably not.
 // - GPIO objects. Among other things, GPIO objects could hold file

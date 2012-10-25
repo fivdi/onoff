@@ -49,4 +49,5 @@ The functions are known to work on the BeagleBone (Ångström) and Raspberry Pi
 (Raspbian).
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
+should be passed to onoff functions.
 
