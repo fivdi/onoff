@@ -3,6 +3,10 @@
 GPIO based I/O and interrupt detection with Node.js on Linux boards such as the
 BeagleBone or Raspberry Pi
 
+## Installation
+
+    $ npm install onoff
+
 ## Blink the LED on GPIO #17 forever
 
 ```js
@@ -19,10 +23,6 @@ onoff.configure(ledGpio, 'out', function (err) {
     }, 200);
 });
 ```
-
-## Installation
-
-    $ npm install onoff
 
 ## Wait for the button on GPIO #18 to interrupt
 
