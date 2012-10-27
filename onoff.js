@@ -100,7 +100,7 @@ exports.edge = function(gpio, edge, callback) {
 exports.watch = gpioWatcher.watch;
 
 /**
- * Convenience function for exporting an GPIO to userspace and setting its
+ * Convenience function for exporting a GPIO to userspace and setting its
  * direction and edge.
  *
  * gpio: number

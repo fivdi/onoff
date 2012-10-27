@@ -5,6 +5,14 @@
 
 /*
  * This Node.js addon can be used to detect interrupts on GPIO inputs.
+ *
+ * Why is this addon needed?
+ *
+ * Node.js provides two File System methods for watching files, fs.watch and
+ * fs.watchFile. Currently fs.watch can't detect changes on sysfs files located
+ * at /sys/classes/gpio. fs.watchFile can detect such changes by polling the
+ * target files. To detect changes quickly, fs.watchFile needs to poll at a
+ * high frequency an this has a negative impact on CPU usage.
  */
 
 v8::Handle<v8::Value> Watch(const v8::Arguments& args);

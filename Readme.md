@@ -1,7 +1,7 @@
 ## onoff
 
-Functions for turning Linux board GPIO outputs on and off and detecting
-interrupts on GPIO inputs.
+Sysfs based functions for turning Linux board GPIO outputs on and off and
+detecting interrupts on GPIO inputs.
 
 ## Blink the LED on GPIO #17 forever
 
@@ -39,8 +39,14 @@ onoff.configure(buttonGpio, 'in', 'both', function (err) {
 
 ## Info
 
-The functions are known to work on the BeagleBone (Ångström) and Raspberry Pi
-(Raspbian).
+onoff has been tested on the BeagleBone (Ångström) and Raspberry Pi (Raspbian).
+The suitability of onoff for a particular Linux board is highly dependent on
+how GPIO interfaces are made available on that board. The document describing
+[GPIO interfaces](http://www.kernel.org/doc/Documentation/gpio.txt) speaks of
+GPIO access conventions on Linux. The word conventions is important here. For
+example, onoff relies on sysfs files located at /sys/classes/gpio being
+available. However, these sysfs files for userspace GPIO are optional and may
+not be available on a particular platform.
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
 should be passed to onoff functions.
