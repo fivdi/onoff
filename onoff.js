@@ -100,6 +100,34 @@ exports.edge = function(gpio, edge, callback) {
 exports.watch = gpioWatcher.watch;
 
 /**
+ * Convenience function for exporting an GPIO to userspace and setting its
+ * direction and edge.
+ *
+ * gpio: number
+ * direction: string // 'in' or 'out'
+ * [edge: string] // 'none', 'rising', 'falling' or 'both'.
+ * [callback: (err: error) => {}]
+ */
+exports.configure = function(gpio, direction, edge, callback) {
+    var cb = arguments[arguments.length - 1];
+
+    callback = (typeof cb === 'function' ? cb : function () {});
+    edge = (typeof edge === 'string' ? edge : undefined);
+
+    exports.exp(gpio, function (err) {
+        if (err) return callback(err);
+        exports.direction(gpio, direction, function (err) {
+            if (err) return callback(err);
+            if (edge) {
+                exports.edge(gpio, edge, callback);
+            } else {
+                callback(null);
+            }
+        });
+    });
+};
+
+/**
  * Read or write the contents of a GPIO file.
  *
  * Read

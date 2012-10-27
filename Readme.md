@@ -10,35 +10,29 @@ var onoff = require('../onoff'),
     ledGpio = 17,
     nextLedState = 1;
 
-onoff.exp(ledGpio, function (err) {
-    onoff.direction(ledGpio, 'out', function (err) {
-        setInterval(function() {
-            onoff.value(ledGpio, nextLedState);
-            nextLedState = nextLedState === 1 ? 0 : 1;
-        }, 200);
-    });
+onoff.configure(ledGpio, 'out', function (err) {
+    if (err) throw err;
+
+    setInterval(function() {
+        onoff.value(ledGpio, nextLedState);
+        nextLedState = nextLedState === 1 ? 0 : 1;
+    }, 200);
 });
 ```
 
-## Wait for the button on GPIO #18 to be pressed and interrupt
+## Wait for the button on GPIO #18 to interrupt
 
 ```js
 var onoff = require('../onoff'),
     buttonGpio = 18;
 
-function watchButton() {
-    console.log('Please press the button...');
+onoff.configure(buttonGpio, 'in', 'both', function (err) {
+    if (err) throw err;
+    console.log('Please press the button on GPIO 18...');
     onoff.watch(buttonGpio, function (err, value) {
-        console.log('Button pressed!');
+        if (err) throw err;
+        console.log('Button pressed!, its value was ' + value);
         onoff.unexp(buttonGpio);
-    });
-};
-
-onoff.exp(buttonGpio, function (err) {
-    onoff.direction(buttonGpio, 'in', function (err) {
-        onoff.edge(buttonGpio, 'both', function (err) {
-            watchButton();
-        });
     });
 });
 ```
