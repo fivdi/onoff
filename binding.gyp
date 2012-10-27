@@ -1,8 +1,8 @@
 {
-  'targets': [
+  "targets": [
     {
-      'target_name': 'gpiowatcher',
-      'sources': [ './src/gpiowatcher.cc' ]
+      "target_name": "gpiowatcher",
+      "sources": [ "./src/gpiowatcher.cc" ]
     }
   ]
 }

@@ -1,7 +1,7 @@
 ## onoff
 
-Sysfs based functions for turning Linux board GPIO outputs on and off and
-detecting interrupts on GPIO inputs.
+GPIO based I/O and interrupt detection with Node.js on Linux boards such as the
+BeagleBone or Raspberry Pi
 
 ## Blink the LED on GPIO #17 forever
 
