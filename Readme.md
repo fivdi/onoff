@@ -6,7 +6,7 @@ BeagleBone or Raspberry Pi
 ## Blink the LED on GPIO #17 forever
 
 ```js
-var onoff = require('../onoff'),
+var onoff = require('onoff'),
     ledGpio = 17,
     nextLedState = 1;
 
@@ -20,10 +20,14 @@ onoff.configure(ledGpio, 'out', function (err) {
 });
 ```
 
+## Installation
+
+    $ npm install onoff
+
 ## Wait for the button on GPIO #18 to interrupt
 
 ```js
-var onoff = require('../onoff'),
+var onoff = require('onoff'),
     buttonGpio = 18;
 
 onoff.configure(buttonGpio, 'in', 'both', function (err) {
