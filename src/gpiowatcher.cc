@@ -12,7 +12,8 @@
  * fs.watchFile. Currently fs.watch can't detect changes on sysfs files located
  * at /sys/classes/gpio. fs.watchFile can detect such changes by polling the
  * target files. To detect changes quickly, fs.watchFile needs to poll at a
- * high frequency an this has a negative impact on CPU usage.
+ * high frequency which has a negative impact on CPU usage. This addon can
+ * detect the same changes without negatively impacting CPU usage.
  */
 
 v8::Handle<v8::Value> Watch(const v8::Arguments& args);

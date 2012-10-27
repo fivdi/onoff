@@ -48,6 +48,10 @@ example, onoff relies on sysfs files located at /sys/classes/gpio being
 available. However, these sysfs files for userspace GPIO are optional and may
 not be available on a particular platform.
 
+As its name hopefully indicates, onoff can be used for turing things on and off
+at a "reasonable" frequency. It's not suitable for
+[bit banging](http://en.wikipedia.org/wiki/Bit_banging).
+
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
 should be passed to onoff functions.
 
