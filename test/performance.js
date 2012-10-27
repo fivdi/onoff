@@ -1,12 +1,12 @@
 var onoff = require('../onoff'),
-    ledPin = 17,
+    ledGpio = 17,
     count = 0,
     iv;
 
 var loop = function () {
-    onoff.value(ledPin, 1, function (err) {
+    onoff.value(ledGpio, 1, function (err) {
         if (err) throw err;
-        onoff.value(ledPin, 0, function () {
+        onoff.value(ledGpio, 0, function () {
             if (err) throw err;
             count += 1;
             process.nextTick(function () {
@@ -16,9 +16,9 @@ var loop = function () {
     });
 };
 
-onoff.exp(ledPin, function(err) {
+onoff.exp(ledGpio, function(err) {
     if (err) throw err;
-    onoff.direction(ledPin, 'out', function (err) {
+    onoff.direction(ledGpio, 'out', function (err) {
         if (err) throw err;
         loop();
     });
@@ -31,9 +31,9 @@ iv = setInterval(function () {
 
 setTimeout(function () {
     clearInterval(iv);
-    onoff.value(ledPin, 0, function (err) {
+    onoff.value(ledGpio, 0, function (err) {
         if (err) throw err;
-        onoff.unexp(ledPin, function() {
+        onoff.unexp(ledGpio, function() {
             if (err) throw err;
         });
     });

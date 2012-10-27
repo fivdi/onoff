@@ -1,13 +1,13 @@
 var onoff = require('../onoff'),
     assert = require('assert'),
-    inputPin = 18;
+    inputGpio = 18;
 
 function configureInput(callback) {
-    onoff.exp(inputPin, function (err) {
+    onoff.exp(inputGpio, function (err) {
         if (err) throw err;
-        onoff.direction(inputPin, 'in', function (err) {
+        onoff.direction(inputGpio, 'in', function (err) {
             if (err) throw err;
-            onoff.edge(inputPin, 'both', function (err) {
+            onoff.edge(inputGpio, 'both', function (err) {
                 if (err) throw err;
                 callback();
             });
@@ -16,9 +16,9 @@ function configureInput(callback) {
 };
 
 function waitForInterrupt(callback) {
-    onoff.watch(inputPin, function (err, value) {
+    onoff.watch(inputGpio, function (err, value) {
         if (err) throw err;
-        onoff.unexp(inputPin, function (err) {
+        onoff.unexp(inputGpio, function (err) {
             if (err) throw err;
             assert(value === 0 || value === 1);
             callback(value);
@@ -27,11 +27,11 @@ function waitForInterrupt(callback) {
 };
 
 configureInput(function () {
-    console.info('Input pin configured.');
+    console.info('Input GPIO configured.');
     console.info('Waiting for interrupt...');
-    console.info('Please press button attached to pin ' + inputPin + '...');
+    console.info('Please press button attached to GPIO ' + inputGpio + '...');
     waitForInterrupt(function (value) {
-        console.info('There was an interrupt (pin value was ' + value + ').');
+        console.info('There was an interrupt (GPIO value was ' + value + ').');
     });
 });
 

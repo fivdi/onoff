@@ -1,120 +1,120 @@
 var fs = require('fs'),
-    pinWatcher = require('./build/Release/pinwatcher'),
+    gpioWatcher = require('./build/Release/gpiowatcher'),
     gpioPath = '/sys/class/gpio/';
 
 /**
  * Export a GPIO to userspace.
  *
- * Example - Export pin 17:
+ * Example - Export GPIO 17:
  *
  * onoff.exp(17, function (err) {
  *     if (err) throw err;
- *     console.log('Pin 17 has been exported to userspace.');
+ *     console.log('GPIO 17 has been exported to userspace.');
  * });
  *
- * pin: number
+ * gpio: number
  * [callback: (err: error) => {}]
  */
-exports.exp = function(pin, callback) {
-    fs.writeFile(gpioPath + 'export', pin, callback);
+exports.exp = function(gpio, callback) {
+    fs.writeFile(gpioPath + 'export', gpio, callback);
 };
 
 /**
  * Reverse the effect of exporting a GPIO to userspace.
  *
- * pin: number
+ * gpio: number
  * [callback: (err: error) => {}]
  */
-exports.unexp = function(pin, callback) {
-    fs.writeFile(gpioPath + 'unexport', pin, callback);
+exports.unexp = function(gpio, callback) {
+    fs.writeFile(gpioPath + 'unexport', gpio, callback);
 };
 
 /**
  * Get or set the direction of a GPIO.
  *
- * Example - Get direction of pin 17:
+ * Example - Get direction of GPIO 17:
  *
  * onoff.direction(17, function (err, direction) {
  *     if (err) throw err;
- *     console.log('Pin 17 is an ' + direction + ' pin.');
+ *     console.log('GPIO 17 has direction ' + direction);
  * });
  *
- * Example - Set direction of pin 17 to 'out':
+ * Example - Set direction of gpio 17 to 'out':
  *
  * onoff.direction(17, 'out', function (err) {
  *     if (err) throw err;
- *     console.log('Pin 17 is an output pin.');
+ *     console.log('GPIO 17 is an output.');
  * });
  *
  * Get
- * pin: number
+ * gpio: number
  * [callback: (err: error, direction: string) => {}]
  *
  * Set
- * pin: number
+ * gpio: number
  * direction: string // 'in' or 'out'
  * [callback: (err: error) => {}]
  */
-exports.direction = function(pin, direction, callback) {
-    rwPinFile(pin, 'direction', direction, callback);
+exports.direction = function(gpio, direction, callback) {
+    rwGpioFile(gpio, 'direction', direction, callback);
 };
 
 /**
  * Get or set the value of a GPIO.
  *
  * Get
- * pin: number
+ * gpio: number
  * [callback: (err: error, value: number) => {}]
  *
  * Set
- * pin: number
+ * gpio: number
  * value: number // 0 or 1.
  * [callback: (err: error) => {}]
  */
-exports.value = function(pin, value, callback) {
-    rwPinFile(pin, 'value', value, callback);
+exports.value = function(gpio, value, callback) {
+    rwGpioFile(gpio, 'value', value, callback);
 };
 
 /**
  * Get or set the interrupt generating edge of a GPIO.
  *
  * Get
- * pin: number
+ * gpio: number
  * [callback: (err: error, edge: string) => {}]
  *
  * Set
- * pin: number
+ * gpio: number
  * edge: string // 'none', 'rising', 'falling' or 'both'.
  * [callback: (err: error) => {}]
  */
-exports.edge = function(pin, edge, callback) {
-    rwPinFile(pin, 'edge', edge, callback);
+exports.edge = function(gpio, edge, callback) {
+    rwGpioFile(gpio, 'edge', edge, callback);
 };
 
 /**
  * Watch and wait for a GPIO to interrupt in a separate worker thread.
  *
- * pin: number
+ * gpio: number
  * callback: (err: error, value: number) => {}
  */
-exports.watch = pinWatcher.watch;
+exports.watch = gpioWatcher.watch;
 
 /**
- * Read or write the contents of a GPIO file for a specific pin.
+ * Read or write the contents of a GPIO file.
  *
  * Read
- * pin: number
+ * gpio: number
  * filename: string // 'direction', 'value', or 'edge'
  * [callback: (err: error, data: string or number) => {}]
  *
  * Write
- * pin: number
+ * gpio: number
  * filename: string // 'direction', 'value', or 'edge'
  * value: string
  * [callback: (err: error) => {}]
  */
-var rwPinFile = function(pin, filename, value, callback) {
-    var pinFilename = gpioPath + 'gpio' + pin + '/' + filename;
+var rwGpioFile = function(gpio, filename, value, callback) {
+    var gpioFilename = gpioPath + 'gpio' + gpio + '/' + filename;
 
     if (typeof value === 'function' && !callback) {
         callback = value;
@@ -122,7 +122,7 @@ var rwPinFile = function(pin, filename, value, callback) {
     }
 
     if (value === undefined) {
-        fs.readFile(pinFilename, function (err, data) {
+        fs.readFile(gpioFilename, function (err, data) {
             if (!err) {
                 data = data.toString().replace(/\n/, ''); // Strip newline.
                 if (filename === 'value') {
@@ -132,14 +132,12 @@ var rwPinFile = function(pin, filename, value, callback) {
             callback(err, data);
         });
     } else {
-        fs.writeFile(pinFilename, value, callback);
+        fs.writeFile(gpioFilename, value, callback);
     }
 };
 
 // Consider adding the following features:
-// - Replace the word pin with the word gpio everywhere.
 // - unwatch.
-// - Snyc versions of all functions. Probably not.
 // - GPIO objects. Among other things, GPIO objects could hold file
 //   descriptors for the GPIO value file to improve performance.
 // - making the callback parameter to watch optional

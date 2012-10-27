@@ -1,13 +1,13 @@
 var onoff = require('../onoff'),
     assert = require('assert'),
-    inputPin = 18;
+    inputGpio = 18;
 
 function configureInput(callback) {
-    onoff.exp(inputPin, function (err) {
+    onoff.exp(inputGpio, function (err) {
         if (err) throw err;
-        onoff.direction(inputPin, 'in', function (err) {
+        onoff.direction(inputGpio, 'in', function (err) {
             if (err) throw err;
-            onoff.edge(inputPin, 'rising', function (err) {
+            onoff.edge(inputGpio, 'rising', function (err) {
                 if (err) throw err;
                 callback();
             });
@@ -16,13 +16,13 @@ function configureInput(callback) {
 };
 
 function checkInputConfiguration(callback) {
-    onoff.direction(inputPin, function (err, direction) {
+    onoff.direction(inputGpio, function (err, direction) {
         if (err) throw err;
         assert(direction === 'in');
-        onoff.edge(inputPin, function (err, edge) {
+        onoff.edge(inputGpio, function (err, edge) {
             if (err) throw err;
             assert(edge === 'rising');
-            onoff.unexp(inputPin, function (err) {
+            onoff.unexp(inputGpio, function (err) {
                 if (err) throw err;
                 callback();
             });
@@ -31,9 +31,9 @@ function checkInputConfiguration(callback) {
 };
 
 configureInput(function () {
-    console.info('Input pin configured.');
+    console.info('Input GPIO configured.');
     checkInputConfiguration(function () {
-        console.info('Input pin configuration successfully verified.');
+        console.info('Input GPIO configuration successfully verified.');
     });
 });
 
