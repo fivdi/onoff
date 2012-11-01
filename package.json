@@ -22,11 +22,18 @@
     "linux"
   ],
   "keywords": [
-    "GPIO",
-    "Interrupt",
-    "BeagleBone",
-    "Raspberry",
-    "Linux"
+    "gpio",
+    "embedded",
+    "interrupt",
+    "interrupts",
+    "beaglebone",
+    "beagle",
+    "bone",
+    "raspberry",
+    "raspi",
+    "rpi",
+    "pi",
+    "linux"
   ],
   "author": "fivdi",
   "license": "MIT",

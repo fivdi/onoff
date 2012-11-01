@@ -15,7 +15,7 @@ var fs = require('fs'),
  * gpio: number
  * [callback: (err: error) => {}]
  */
-exports.exp = function(gpio, callback) {
+exports.exp = function (gpio, callback) {
     fs.writeFile(gpioPath + 'export', gpio, callback);
 };
 
@@ -25,7 +25,7 @@ exports.exp = function(gpio, callback) {
  * gpio: number
  * [callback: (err: error) => {}]
  */
-exports.unexp = function(gpio, callback) {
+exports.unexp = function (gpio, callback) {
     fs.writeFile(gpioPath + 'unexport', gpio, callback);
 };
 
@@ -71,7 +71,7 @@ exports.direction = function(gpio, direction, callback) {
  * value: number // 0 or 1.
  * [callback: (err: error) => {}]
  */
-exports.value = function(gpio, value, callback) {
+exports.value = function (gpio, value, callback) {
     rwGpioFile(gpio, 'value', value, callback);
 };
 
@@ -87,7 +87,7 @@ exports.value = function(gpio, value, callback) {
  * edge: string // 'none', 'rising', 'falling' or 'both'.
  * [callback: (err: error) => {}]
  */
-exports.edge = function(gpio, edge, callback) {
+exports.edge = function (gpio, edge, callback) {
     rwGpioFile(gpio, 'edge', edge, callback);
 };
 
@@ -108,7 +108,7 @@ exports.watch = gpioWatcher.watch;
  * [edge: string] // 'none', 'rising', 'falling' or 'both'.
  * [callback: (err: error) => {}]
  */
-exports.configure = function(gpio, direction, edge, callback) {
+exports.configure = function (gpio, direction, edge, callback) {
     var cb = arguments[arguments.length - 1];
 
     callback = (typeof cb === 'function' ? cb : function () {});
@@ -141,7 +141,7 @@ exports.configure = function(gpio, direction, edge, callback) {
  * value: string
  * [callback: (err: error) => {}]
  */
-var rwGpioFile = function(gpio, filename, value, callback) {
+var rwGpioFile = function (gpio, filename, value, callback) {
     var gpioFilename = gpioPath + 'gpio' + gpio + '/' + filename;
 
     if (typeof value === 'function' && !callback) {
@@ -164,9 +164,4 @@ var rwGpioFile = function(gpio, filename, value, callback) {
     }
 };
 
-// Consider adding the following features:
-// - unwatch.
-// - GPIO objects. Among other things, GPIO objects could hold file
-//   descriptors for the GPIO value file to improve performance.
-// - making the callback parameter to watch optional
 

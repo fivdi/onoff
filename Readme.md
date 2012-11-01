@@ -17,7 +17,7 @@ var onoff = require('onoff'),
 onoff.configure(ledGpio, 'out', function (err) {
     if (err) throw err;
 
-    setInterval(function() {
+    setInterval(function () {
         onoff.value(ledGpio, nextLedState);
         nextLedState = nextLedState === 1 ? 0 : 1;
     }, 200);
@@ -45,16 +45,17 @@ onoff.configure(buttonGpio, 'in', 'both', function (err) {
 
 onoff has been tested on the BeagleBone (Ångström) and Raspberry Pi (Raspbian).
 The suitability of onoff for a particular Linux board is highly dependent on
-how GPIO interfaces are made available on that board. The document describing
-[GPIO interfaces](http://www.kernel.org/doc/Documentation/gpio.txt) speaks of
-GPIO access conventions on Linux. The word conventions is important here. For
-example, onoff relies on sysfs files located at /sys/classes/gpio being
-available. However, these sysfs files for userspace GPIO are optional and may
-not be available on a particular platform.
+how GPIO interfaces are made available on that board. The
+[GPIO interfaces](http://www.kernel.org/doc/Documentation/gpio.txt)
+documentation describes GPIO access conventions rather than standards that must
+be followed so GPIO can vary from platform to platform. For example, onoff
+relies on sysfs files located at /sys/classes/gpio being available. However,
+these sysfs files for userspace GPIO are optional and may not be available on a
+particular platform.
 
-As its name hopefully indicates, onoff can be used for turing things on and off
-at a "reasonable" frequency. It's not suitable for
-[bit banging](http://en.wikipedia.org/wiki/Bit_banging).
+As its name hopefully indicates, onoff can be used for turning things on and
+off and detecting interrupts at a "reasonable" frequency. It's not intended for
+use in [bit banging](http://en.wikipedia.org/wiki/Bit_banging) applications.
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
 should be passed to onoff functions.
