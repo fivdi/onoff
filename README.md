@@ -24,19 +24,21 @@ to userspace. For example, pin P1_11 on the Raspberry Pi P1 expansion header
 corresponds to GPIO #17 in Raspbian Linux. 17 is therefore the number to pass
 to the onoff Gpio constructor when using pin P1_11 on the P1 expansion header.
 
+onoff requires Node.js v0.8.0 or higher.
+
 ## Installation
 
     $ npm install onoff
 
-## Blink the LED on GPIO #17 for 5 seconds
+## Synchronous API - Blink the LED on GPIO #17 for 5 seconds
 
-Thr and the following two examples need to be run by the superuser to function
+This and the following two examples need to be run by the superuser to function
 correctly. The final example demonstrates a technique for handling superuser
 issues.
 
 ```js
-var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
-    ledGpio = new Gpio(17, 'out'),   // Export GPIO #17 as an output.
+var Gpio = require('onoff').Gpio,  // Constructor function for Gpio objects.
+    ledGpio = new Gpio(17, 'out'), // Export GPIO #17 as an output.
     iv;
 
 // Toggle the state of the LED on GPIO #17 every 200ms.
@@ -53,11 +55,11 @@ setTimeout(function() {
 }, 5000);
 ```
 
-## Blink the LED on GPIO #17 20 times
+## Asynchronous API - Blink the LED on GPIO #17 20 times
 
 ```js
-var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
-    ledGpio = new Gpio(17, 'out');   // Export GPIO #17 as an output.
+var Gpio = require('onoff').Gpio,  // Constructor function for Gpio objects.
+    ledGpio = new Gpio(17, 'out'); // Export GPIO #17 as an output.
 
 // Toggle the state of the LED on GPIO #17 every 200ms 'count' times.
 // Here asynchronous methods are used. Synchronous methods are also available.
@@ -125,7 +127,7 @@ Highspeed blinking:
 
 ```js
 var Gpio = require('../../onoff').Gpio,
-    ledGpio = new Gpio(/* 38 */ 17, 'out'),
+    ledGpio = new Gpio(17, 'out'),
     time = process.hrtime(),
     herz,
     i;
