@@ -1,39 +1,28 @@
-var onoff = require('../onoff'),
+var Gpio = require('../onoff').Gpio,
     assert = require('assert'),
-    outputGpio = 17;
+    outputGpio = new Gpio(/* 38 */ 17, 'out');
 
-function configureOutput(callback) {
-    onoff.exp(outputGpio, function (err) {
+console.info('Output GPIO configured.');
+
+assert(outputGpio.direction() === 'out');
+
+outputGpio.writeSync(1);
+assert(outputGpio.readSync() === 1);
+
+outputGpio.writeSync(0);
+assert(outputGpio.readSync() === 0);
+
+outputGpio.write(1, function(err) {
+    if (err) throw err;
+    outputGpio.read(function(err, value) {
         if (err) throw err;
-        onoff.direction(outputGpio, 'out', function (err) {
-            if (err) throw err;
-            onoff.value(outputGpio, 1, function (err) {
-                if (err) throw err;
-                callback();
-            });
-        });
-    });
-};
+        assert(value === 1);
 
-function checkOutputConfiguration(callback) {
-    onoff.direction(outputGpio, function (err, direction) {
-        if (err) throw err;
-        assert(direction === 'out');
-        onoff.value(outputGpio, function (err, value) {
-            if (err) throw err;
-            assert(value === 1);
-            onoff.unexp(outputGpio, function (err) {
-                if (err) throw err;
-                callback();
-            });
-        });
-    });
-};
+        outputGpio.writeSync(0);
+        assert(outputGpio.readSync() === 0);
 
-configureOutput(function () {
-    console.info('Output GPIO configured.');
-    checkOutputConfiguration(function () {
+        outputGpio.unexport();
         console.info('Output GPIO configuration successfully verified.');
     });
-});
+})
 

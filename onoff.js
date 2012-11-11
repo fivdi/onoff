@@ -1,167 +1,127 @@
 var fs = require('fs'),
     gpioWatcher = require('./build/Release/gpiowatcher'),
-    gpioPath = '/sys/class/gpio/';
+    util = require('util'),
+    gpioRootPath = '/sys/class/gpio/',
+    zero = new Buffer('0'),
+    one = new Buffer('1');
+
+exports.version = '0.1.0';
 
 /**
- * Export a GPIO to userspace.
+ * Constructor. Exports a GPIO to userspace, sets its direction, and optionally
+ * its interrupting edge.
  *
- * Example - Export GPIO 17:
+ * The constructor is written to function for both superusers and
+ * non-superusers. See README.md for more details.
  *
- * onoff.exp(17, function (err) {
- *     if (err) throw err;
- *     console.log('GPIO 17 has been exported to userspace.');
- * });
- *
- * gpio: number
- * [callback: (err: error) => {}]
+ * gpio: number      // The Linux GPIO identifier; an unsigned integer
+ * direction: string // 'in', 'out', 'high', or 'low'
+ * [edge: string]    // 'none', 'rising', 'falling' or 'both' [optional]
  */
-exports.exp = function (gpio, callback) {
-    fs.writeFile(gpioPath + 'export', gpio, callback);
-};
+function Gpio(gpio, direction, edge) {
+    var valuePath;
+
+    this.gpio = gpio;
+    this.gpioPath = gpioRootPath + 'gpio' + this.gpio + '/';
+    this.readBuffer = new Buffer(16);
+
+    valuePath = this.gpioPath + 'value';
+
+    if (!fs.existsSync(this.gpioPath)) {
+        fs.writeFileSync(gpioRootPath + 'export', this.gpio);
+        fs.writeFileSync(this.gpioPath + 'direction', direction);
+        if (edge) {
+            fs.writeFileSync(this.gpioPath + 'edge', edge);
+        }
+
+        // Allow all users to read and write the GPIO value file
+        fs.chmodSync(valuePath, 0666);
+    }
+
+    this.valueFd = fs.openSync(valuePath, 'r+');
+}
+exports.Gpio = Gpio;
 
 /**
- * Reverse the effect of exporting a GPIO to userspace.
+ * Read GPIO value asynchronously.
  *
- * gpio: number
- * [callback: (err: error) => {}]
- */
-exports.unexp = function (gpio, callback) {
-    fs.writeFile(gpioPath + 'unexport', gpio, callback);
-};
-
-/**
- * Get or set the direction of a GPIO.
- *
- * Example - Get direction of GPIO 17:
- *
- * onoff.direction(17, function (err, direction) {
- *     if (err) throw err;
- *     console.log('GPIO 17 has direction ' + direction);
- * });
- *
- * Example - Set direction of gpio 17 to 'out':
- *
- * onoff.direction(17, 'out', function (err) {
- *     if (err) throw err;
- *     console.log('GPIO 17 is an output.');
- * });
- *
- * Get
- * gpio: number
- * [callback: (err: error, direction: string) => {}]
- *
- * Set
- * gpio: number
- * direction: string // 'in' or 'out'
- * [callback: (err: error) => {}]
- */
-exports.direction = function(gpio, direction, callback) {
-    rwGpioFile(gpio, 'direction', direction, callback);
-};
-
-/**
- * Get or set the value of a GPIO.
- *
- * Get
- * gpio: number
  * [callback: (err: error, value: number) => {}]
- *
- * Set
- * gpio: number
- * value: number // 0 or 1.
- * [callback: (err: error) => {}]
  */
-exports.value = function (gpio, value, callback) {
-    rwGpioFile(gpio, 'value', value, callback);
-};
-
-/**
- * Get or set the interrupt generating edge of a GPIO.
- *
- * Get
- * gpio: number
- * [callback: (err: error, edge: string) => {}]
- *
- * Set
- * gpio: number
- * edge: string // 'none', 'rising', 'falling' or 'both'.
- * [callback: (err: error) => {}]
- */
-exports.edge = function (gpio, edge, callback) {
-    rwGpioFile(gpio, 'edge', edge, callback);
-};
-
-/**
- * Watch and wait for a GPIO to interrupt in a separate worker thread.
- *
- * gpio: number
- * callback: (err: error, value: number) => {}
- */
-exports.watch = gpioWatcher.watch;
-
-/**
- * Convenience function for exporting a GPIO to userspace and setting its
- * direction and edge.
- *
- * gpio: number
- * direction: string // 'in' or 'out'
- * [edge: string] // 'none', 'rising', 'falling' or 'both'.
- * [callback: (err: error) => {}]
- */
-exports.configure = function (gpio, direction, edge, callback) {
-    var cb = arguments[arguments.length - 1];
-
-    callback = (typeof cb === 'function' ? cb : function () {});
-    edge = (typeof edge === 'string' ? edge : undefined);
-
-    exports.exp(gpio, function (err) {
-        if (err) return callback(err);
-        exports.direction(gpio, direction, function (err) {
+Gpio.prototype.read = function(callback) {
+    fs.read(this.valueFd, this.readBuffer, 0, 1, 0, function(err, bytes, buf) {
+        if (typeof callback === 'function') {
             if (err) return callback(err);
-            if (edge) {
-                exports.edge(gpio, edge, callback);
-            } else {
-                callback(null);
-            }
-        });
+            callback(null, buf[0] === one[0] ? 1 : 0);
+        }
     });
 };
 
 /**
- * Read or write the contents of a GPIO file.
+ * Read GPIO value synchronously.
  *
- * Read
- * gpio: number
- * filename: string // 'direction', 'value', or 'edge'
- * [callback: (err: error, data: string or number) => {}]
- *
- * Write
- * gpio: number
- * filename: string // 'direction', 'value', or 'edge'
- * value: string
- * [callback: (err: error) => {}]
+ * Returns - number // 0 or 1
  */
-var rwGpioFile = function (gpio, filename, value, callback) {
-    var gpioFilename = gpioPath + 'gpio' + gpio + '/' + filename;
-
-    if (typeof value === 'function' && !callback) {
-        callback = value;
-        value = undefined;
-    }
-
-    if (value === undefined) {
-        fs.readFile(gpioFilename, function (err, data) {
-            if (!err) {
-                data = data.toString().replace(/\n/, ''); // Strip newline.
-                if (filename === 'value') {
-                    data = parseInt(data, 2);
-                }
-            }
-            callback(err, data);
-        });
-    } else {
-        fs.writeFile(gpioFilename, value, callback);
-    }
+Gpio.prototype.readSync = function() {
+    fs.readSync(this.valueFd, this.readBuffer, 0, 1, 0);
+    return this.readBuffer[0] === one[0] ? 1 : 0;
 };
 
+/**
+ * Write GPIO value asynchronously.
+ *
+ * value: number                  // 0 or 1.
+ * [callback: (err: error) => {}] // optional callback
+ */
+Gpio.prototype.write = function(value, callback) {
+    var writeBuffer = value === 1 ? one : zero;
+    fs.write(this.valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
+};
+
+/**
+ * Write GPIO value synchronously.
+ *
+ * value: number // 0 or 1.
+ */
+Gpio.prototype.writeSync = function(value) {
+    // Replacing a with b made ./test/performance-sync.js 3.5 times faster.
+    // var writeBuffer = new Buffer(value.toString()); // a
+    var writeBuffer = value === 1 ? one : zero;        // b
+    fs.writeSync(this.valueFd, writeBuffer, 0, writeBuffer.length, 0);
+};
+
+/**
+ * Watch and wait for GPIO to interrupt.
+ *
+ * callback: (err: error, value: number) => {}
+ */
+Gpio.prototype.watch = function(callback) {
+    gpioWatcher.watch(this.gpio, callback);
+};
+
+/**
+ * Read GPIO direction.
+ *
+ * Returns - string // 'in', 'out'
+ */
+Gpio.prototype.direction = function() {
+    return fs.readFileSync(this.gpioPath + 'direction').toString().trim();
+}
+
+/**
+ * Read GPIO interrupt generating edge.
+ *
+ * Returns - string // 'none', 'rising', 'falling' or 'both'
+ */
+Gpio.prototype.edge = function() {
+    return fs.readFileSync(this.gpioPath + 'edge').toString().trim();
+}
+
+/**
+ * Reverse the effect of exporting the GPIO to userspace. The Gpio object
+ * should not be used after calling this method.
+ */
+Gpio.prototype.unexport = function(callback) {
+    fs.closeSync(this.valueFd);
+    fs.writeFileSync(gpioRootPath + 'unexport', this.gpio);
+};
 

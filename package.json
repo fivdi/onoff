@@ -1,6 +1,6 @@
 {
   "name": "onoff",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "GPIO based I/O and interrupt detection on the BeagleBone or Raspberry Pi",
   "main": "onoff.js",
   "directories": {
@@ -39,3 +39,4 @@
   "license": "MIT",
   "gypfile": true
 }
+

@@ -14,6 +14,8 @@
  * target files. To detect changes quickly, fs.watchFile needs to poll at a
  * high frequency which has a negative impact on CPU usage. This addon can
  * detect the same changes without negatively impacting CPU usage.
+ *
+ * GPIO documentation: http://www.kernel.org/doc/Documentation/gpio.txt
  */
 
 v8::Handle<v8::Value> Watch(const v8::Arguments& args);
@@ -78,7 +80,7 @@ v8::Handle<v8::Value> Watch(const v8::Arguments& args) {
 
     int status = uv_queue_work(uv_default_loop(), &baton->request,
         WatchWork, WatchAfter);
-    assert(status == 0); // TODO - Should we be throwing an exception here like WatchAfter does?
+    assert(status == 0);
 
     return v8::Undefined();
 }
@@ -96,7 +98,6 @@ void WatchWork(uv_work_t* req) {
 
     char filename[1024];
     sprintf(filename, "/sys/class/gpio/gpio%d/value", baton->gpio);
-
     int fd = open(filename, O_RDONLY);
     if (fd == -1) {
         SetError(baton);
@@ -104,7 +105,7 @@ void WatchWork(uv_work_t* req) {
     else {
         char value[16];
 
-        // Read fd before poll to avoid spurious notifications on Beaglebone.
+        // Read fd before poll to prevent unauthentic notifications.
         ssize_t size = read(fd, value, sizeof(value));
         if (size == -1) {
             SetError(baton);
@@ -115,7 +116,7 @@ void WatchWork(uv_work_t* req) {
             pfd[0].revents = 0;
             int ready = poll(pfd, 1, -1);
 
-            // pfd[0].revents & POLLERR is always true on the Beaglebone after
+            // pfd[0].revents & POLLERR is always true on some platforms after
             // calling poll even if there is no error so it's not handled.
 
             if (ready == -1) {

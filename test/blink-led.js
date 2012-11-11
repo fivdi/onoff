@@ -1,33 +1,16 @@
-var onoff = require('../onoff'),
-    assert = require('assert'),
-    ledGpio = 17,
-    nextLedState = 1;
+var Gpio = require('../onoff').Gpio,
+    ledGpio = new Gpio(/* 38 */ 17, 'out'),
+    nextLedState = 0,
+    iv;
 
-function configureLedGpio(callback) {
-    onoff.exp(ledGpio, function (err) {
-        if (err) throw err;
-        onoff.direction(ledGpio, 'out', function (err) {
-            if (err) throw err;
-            callback();
-        });
-    });
-};
+iv = setInterval(function() {
+    ledGpio.writeSync(nextLedState);
+    nextLedState = nextLedState === 1 ? 0 : 1;
+}, 100);
 
-function blinkLed() {
-    var iv = setInterval(function() {
-        onoff.value(ledGpio, nextLedState);
-        nextLedState = nextLedState === 1 ? 0 : 1;
-    }, 100);
-
-    setTimeout(function () {
-        clearInterval(iv);
-        onoff.value(ledGpio, 0, function () {
-            onoff.unexp(ledGpio, function (err) {
-                if (err) throw err;
-            });
-        });
-    }, 2000);
-};
-
-configureLedGpio(blinkLed);
+setTimeout(function() {
+    clearInterval(iv);
+    ledGpio.writeSync(0);
+    ledGpio.unexport();
+}, 2000);
 
