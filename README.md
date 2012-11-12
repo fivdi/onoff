@@ -37,40 +37,39 @@ correctly. The final example demonstrates a technique for handling superuser
 issues.
 
 ```js
-var Gpio = require('onoff').Gpio,  // Constructor function for Gpio objects.
-    ledGpio = new Gpio(17, 'out'), // Export GPIO #17 as an output.
+var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
+    led = new Gpio(17, 'out'),    // Export GPIO #17 as an output.
     iv;
 
 // Toggle the state of the LED on GPIO #17 every 200ms.
 // Here synchronous methods are used. Asynchronous methods are also available.
 iv = setInterval(function() {
-    ledGpio.writeSync(ledGpio.readSync() === 0 ? 1 : 0); // 1 = on, 0 = off.
+    led.writeSync(led.readSync() === 0 ? 1 : 0); // 1 = on, 0 = off.
 }, 200);
 
 // Stop blinking the LED and turn it off after 5 seconds.
 setTimeout(function() {
-    clearInterval(iv);    // Stop blinking
-    ledGpio.writeSync(0); // Turn LED off.
-    ledGpio.unexport();   // Unexport GPIO and free resources
+    clearInterval(iv); // Stop blinking
+    led.writeSync(0);  // Turn LED off.
+    led.unexport();    // Unexport GPIO and free resources
 }, 5000);
 ```
 
 ## Asynchronous API - Blink the LED on GPIO #17 20 times
 
 ```js
-var Gpio = require('onoff').Gpio,  // Constructor function for Gpio objects.
-    ledGpio = new Gpio(17, 'out'); // Export GPIO #17 as an output.
+var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
+    led = new Gpio(17, 'out');    // Export GPIO #17 as an output.
 
 // Toggle the state of the LED on GPIO #17 every 200ms 'count' times.
 // Here asynchronous methods are used. Synchronous methods are also available.
 function blink(count) {
-    if (count <= 0) return ledGpio.unexport();
+    if (count <= 0) return led.unexport();
 
-    // Asynchronous read.
-    ledGpio.read(function(err, value) {
+    led.read(function(err, value) {  // Asynchronous read.
         if (err) throw err;
-        // Asynchronous write.
-        ledGpio.write(value === 0 ? 1 : 0, function(err) {
+
+        led.write(value === 0 ? 1 : 0, function(err) { // Asynchronous write.
             if (err) throw err;
         });
     });
@@ -86,20 +85,20 @@ blink(20);
 ## Wait for the button on GPIO #18 to interrupt
 
 ```js
-var Gpio = require('onoff').Gpio,  // Constructor function for Gpio objects.
-    buttonGpio = new Gpio(18, 'in', 'both'); // Export GPIO #18 as an interrupt
-                                             // generating input.
+var Gpio = require('onoff').Gpio,        // Constructor function for Gpio objects.
+    button = new Gpio(18, 'in', 'both'); // Export GPIO #18 as an interrupt
+                                         // generating input.
 
 console.log('Please press the button on GPIO #18...');
 
 // The callback passed to watch will be called when the button on GPIO #18 is
 // pressed. 
-buttonGpio.watch(function (err, value) {
+button.watch(function (err, value) {
     if (err) throw err;
 
     console.log('Button pressed!, its value was ' + value);
 
-    buttonGpio.unexport(); // Unexport GPIO and free resources
+    button.unexport(); // Unexport GPIO and free resources
 });
 ```
 
@@ -118,7 +117,7 @@ allowing all users read and write access.
  
 ```js
 var Gpio = require('onoff').Gpio,
-    ledGpio = new Gpio(17, 'out');
+    led = new Gpio(17, 'out');
 ```
 
 Step 2 - The application can be run by a non-superuser
@@ -126,15 +125,15 @@ Step 2 - The application can be run by a non-superuser
 Highspeed blinking:
 
 ```js
-var Gpio = require('../../onoff').Gpio,
-    ledGpio = new Gpio(17, 'out'),
+var Gpio = require('onoff').Gpio,
+    led = new Gpio(17, 'out'),
     time = process.hrtime(),
     herz,
     i;
 
 for (i = 0; i != 50000; i += 1) {
-    ledGpio.writeSync(1);
-    ledGpio.writeSync(0);
+    led.writeSync(1);
+    led.writeSync(0);
 }
 
 time = process.hrtime(time);
@@ -150,9 +149,9 @@ superuser privileges.
  
 ```js
 var Gpio = require('onoff').Gpio,
-    ledGpio = new Gpio(17, 'out');
+    led = new Gpio(17, 'out');
 
-ledGpio.unexport();
+led.unexport();
 ```
 
 ## Additional Information

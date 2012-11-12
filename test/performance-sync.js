@@ -1,12 +1,12 @@
 var Gpio = require('../onoff').Gpio,
-    ledGpio = new Gpio(/* 38 */ 17, 'out'),
+    led = new Gpio(/* 38 */ 17, 'out'),
     time = process.hrtime(),
     herz,
     i;
 
 for (i = 0; i != 50000; i += 1) {
-    ledGpio.writeSync(1);
-    ledGpio.writeSync(0);
+    led.writeSync(1);
+    led.writeSync(0);
 }
 
 time = process.hrtime(time);
@@ -14,5 +14,7 @@ herz = Math.floor(i / (time[0] + time[1] / 1E9));
 
 console.log('Frequency = ' + herz / 1000 + 'KHz');
 
-ledGpio.unexport();
+led.unexport();
+
+console.log('ok - ' + __filename);
 

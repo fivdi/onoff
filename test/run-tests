@@ -1,0 +1,9 @@
+#!/bin/sh
+sudo node blink-led
+sudo node configure-and-check-input
+sudo node configure-and-check-output
+sudo node many-interrupts
+sudo node performance-async
+sudo node performance-sync
+sudo node wait-for-interrupt
+

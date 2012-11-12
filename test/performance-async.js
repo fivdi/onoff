@@ -22,7 +22,8 @@ function test() {
                 console.log('Frequency = ' + herz / 1000 + 'KHz');
 
                 ledGpio.unexport();
-            }
+
+                console.log('ok - ' + __filename);            }
         });
     });
 }

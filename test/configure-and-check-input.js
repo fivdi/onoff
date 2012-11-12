@@ -1,13 +1,11 @@
 var Gpio = require('../onoff').Gpio,
     assert = require('assert'),
-    inputGpio = new Gpio(/* 117 */ 18, 'in', 'rising');
+    input = new Gpio(/* 117 */ 18, 'in', 'rising');
 
-console.info('Input GPIO configured.');
+assert(input.direction() === 'in');
+assert(input.edge() === 'rising');
 
-assert(inputGpio.direction() === 'in');
-assert(inputGpio.edge() === 'rising');
+input.unexport();
 
-inputGpio.unexport();
-
-console.info('Input GPIO configuration successfully verified.');
+console.log('ok - ' + __filename);
 
