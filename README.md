@@ -44,7 +44,7 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
 // Toggle the state of the LED on GPIO #17 every 200ms.
 // Here synchronous methods are used. Asynchronous methods are also available.
 iv = setInterval(function() {
-    led.writeSync(led.readSync() === 0 ? 1 : 0); // 1 = on, 0 = off.
+    led.writeSync(led.readSync() === 0 ? 1 : 0); // 1 = on, 0 = off :)
 }, 200);
 
 // Stop blinking the LED and turn it off after 5 seconds.
@@ -63,7 +63,7 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
 
 // Toggle the state of the LED on GPIO #17 every 200ms 'count' times.
 // Here asynchronous methods are used. Synchronous methods are also available.
-function blink(count) {
+(function blink(count) {
     if (count <= 0) return led.unexport();
 
     led.read(function(err, value) {  // Asynchronous read.
@@ -75,11 +75,9 @@ function blink(count) {
     });
 
     setTimeout(function() {
-        blink(count -1);
+        blink(count - 1);
     }, 200);
-}
-
-blink(20);
+})(20);
 ```
 
 ## Wait for the button on GPIO #18 to interrupt
@@ -131,7 +129,7 @@ var Gpio = require('onoff').Gpio,
     herz,
     i;
 
-for (i = 0; i != 50000; i += 1) {
+for (i = 0; i !== 50000; i += 1) {
     led.writeSync(1);
     led.writeSync(0);
 }

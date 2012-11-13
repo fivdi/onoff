@@ -1,32 +1,27 @@
-var Gpio = require('../onoff').Gpio,
-    ledGpio = new Gpio(/* 38 */ 17, 'out'),
-    time = process.hrtime(),
-    herz,
-    i = 0;
+(function (loops) {
+    var Gpio = require('../onoff').Gpio,
+        led = new Gpio(/* 38 */ 17, 'out'),
+        time = process.hrtime(),
+        herz;
 
-function test() {
-    ledGpio.write(1, function(err) {
-        if (err) throw err;
+    (function next(i) {
+        if (i >= 0) {
+            led.write(1, function(err) {
+                if (err) throw err;
+                led.write(0, function(err) {
+                    if (err) throw err;
+                    next(i - 1);
+                });
+            });
+        } else {
+            time = process.hrtime(time);
+            herz = Math.floor(loops / (time[0] + time[1] / 1E9));
 
-        ledGpio.write(0, function(err) {
-            if (err) throw err;
+            led.unexport();
 
-            i += 1;
-
-            if (i != 4000) {
-                test();
-            } else {
-                time = process.hrtime(time);
-                herz = Math.floor(i / (time[0] + time[1] / 1E9));
-
-                console.log('Frequency = ' + herz / 1000 + 'KHz');
-
-                ledGpio.unexport();
-
-                console.log('ok - ' + __filename);            }
-        });
-    });
-}
-
-test();
+            console.log('ok - ' + __filename);
+            console.log('     async frequency = ' + herz / 1000 + 'KHz');
+        }
+    })(loops);
+})(4000);
 

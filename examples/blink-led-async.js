@@ -3,7 +3,7 @@ var Gpio = require('../onoff').Gpio, // Constructor function for Gpio objects.
 
 // Toggle the state of the LED on GPIO #17 every 200ms 'count' times.
 // Here asynchronous methods are used. Synchronous methods are also available.
-function blink(count) {
+(function blink(count) {
     if (count <= 0) return led.unexport();
 
     led.read(function(err, value) {  // Asynchronous read.
@@ -15,9 +15,7 @@ function blink(count) {
     });
 
     setTimeout(function() {
-        blink(count -1);
+        blink(count - 1);
     }, 200);
-}
-
-blink(20);
+})(20);
 

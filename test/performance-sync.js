@@ -4,7 +4,7 @@ var Gpio = require('../onoff').Gpio,
     herz,
     i;
 
-for (i = 0; i != 50000; i += 1) {
+for (i = 0; i !== 50000; i += 1) {
     led.writeSync(1);
     led.writeSync(0);
 }
@@ -12,9 +12,8 @@ for (i = 0; i != 50000; i += 1) {
 time = process.hrtime(time);
 herz = Math.floor(i / (time[0] + time[1] / 1E9));
 
-console.log('Frequency = ' + herz / 1000 + 'KHz');
-
 led.unexport();
 
 console.log('ok - ' + __filename);
+console.log('     sync frequency = ' + herz / 1000 + 'KHz');
 

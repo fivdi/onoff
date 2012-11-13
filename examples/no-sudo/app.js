@@ -4,7 +4,7 @@ var Gpio = require('../../onoff').Gpio,
     herz,
     i;
 
-for (i = 0; i != 50000; i += 1) {
+for (i = 0; i !== 50000; i += 1) {
     led.writeSync(1);
     led.writeSync(0);
 }

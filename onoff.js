@@ -1,6 +1,5 @@
 var fs = require('fs'),
     gpioWatcher = require('./build/Release/gpiowatcher'),
-    util = require('util'),
     gpioRootPath = '/sys/class/gpio/',
     zero = new Buffer('0'),
     one = new Buffer('1');
