@@ -104,7 +104,7 @@ Gpio.prototype.watch = function(callback) {
  */
 Gpio.prototype.direction = function() {
     return fs.readFileSync(this.gpioPath + 'direction').toString().trim();
-}
+};
 
 /**
  * Read GPIO interrupt generating edge.
@@ -113,7 +113,7 @@ Gpio.prototype.direction = function() {
  */
 Gpio.prototype.edge = function() {
     return fs.readFileSync(this.gpioPath + 'edge').toString().trim();
-}
+};
 
 /**
  * Reverse the effect of exporting the GPIO to userspace. The Gpio object

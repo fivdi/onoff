@@ -5,9 +5,9 @@ BeagleBone or Raspberry Pi.
 
 onoff provides a constructor function called Gpio which can be used to make
 Gpio objects corresponding to Linux GPIOs. The Gpio constructor function has
-three arguments; a GPIO #, a direction, and an optional interrupt generating
-edge. Examples of its usage can be seen in the code below. The Gpio methods
-available are as follows:
+three arguments; a GPIO number, a direction, and an optional interrupt
+generating edge. Examples of its usage can be seen in the code below. The Gpio
+methods available are as follows:
 
   * read(callback) - Read GPIO value asynchronously
   * readSync() - Read GPIO value synchronously
@@ -82,6 +82,8 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
 
 ## Wait for the button on GPIO #18 to interrupt
 
+This example watches an input, it's also possible to watch outputs.
+
 ```js
 var Gpio = require('onoff').Gpio,        // Constructor function for Gpio objects.
     button = new Gpio(18, 'in', 'both'); // Export GPIO #18 as an interrupt
@@ -109,9 +111,9 @@ unacceptable for most. To resolve this issue onoff can be used as follows:
 Step 1 - Export GPIOs as superuser
 
 Create a simple program for exporting GPIOs and execute this program with
-superuser privileges. In addition to exporting the GPIOs, this program
-will automatically change the access permissions for the GPIOs value file
-allowing all users read and write access.
+superuser privileges. In addition to exporting the GPIOs, this program will
+automatically change the access permissions for the GPIOs value file giving
+all users read and write access.
  
 ```js
 var Gpio = require('onoff').Gpio,
@@ -120,7 +122,12 @@ var Gpio = require('onoff').Gpio,
 
 Step 2 - The application can be run by a non-superuser
 
-Highspeed blinking:
+After the program from step one has been executed by the superuser, the
+application itself can be executed by a non-superuser. The Gpio constructor
+will see that the GPIO has already been exported to userspace and will not
+attempt to export it again.
+
+Highspeed blinking application:
 
 ```js
 var Gpio = require('onoff').Gpio,
@@ -140,11 +147,14 @@ herz = Math.floor(i / (time[0] + time[1] / 1E9));
 console.log('Frequency = ' + herz / 1000 + 'KHz');
 ```
 
+Depending on the system load, the frequency logged to the console should be up
+to 35KHz on a 720MHz BeagleBone or 23KHz on a 700MHz Raspberry Pi.
+
 Step 3 - Unexport GPIOs as superuser
 
-Create a simple program for unexporting GPIOs and execute this program with
-superuser privileges.
- 
+After the application has terminated, a third program can be executed by the
+superuser to unexport the appropriate GPIOs.
+
 ```js
 var Gpio = require('onoff').Gpio,
     led = new Gpio(17, 'out');
