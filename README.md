@@ -6,8 +6,8 @@ BeagleBone or Raspberry Pi.
 onoff provides a constructor function called Gpio which can be used to make
 Gpio objects corresponding to Linux GPIOs. The Gpio constructor function has
 three arguments; a GPIO number, a direction, and an optional interrupt
-generating edge. Examples of its usage can be seen in the code below. The Gpio
-methods available are as follows:
+generating edge. Examples of its usage can be seen in the exaplmes below. The
+Gpio methods available are as follows:
 
   * read(callback) - Read GPIO value asynchronously
   * readSync() - Read GPIO value synchronously
@@ -32,9 +32,8 @@ onoff requires Node.js v0.8.0 or higher.
 
 ## Synchronous API - Blink the LED on GPIO #17 for 5 seconds
 
-This and the following two examples need to be run by the superuser to function
-correctly. The final example demonstrates a technique for handling superuser
-issues.
+The examples here can be run by the superuser or by non-superusers when the
+technique described in section "How handle superuser issues" is used.
 
 ```js
 var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
@@ -82,7 +81,10 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
 
 ## Wait for the button on GPIO #18 to interrupt
 
-This example watches an input, it's also possible to watch outputs.
+This example watches a momentary push button on GPIO #18 and prints a message
+when when the button is pressed interrupting the CPU. The watch method doesn't
+require CPU resources while waiting for an interrupt to occur freeing the CPU
+to perfrom other tasks.
 
 ```js
 var Gpio = require('onoff').Gpio,        // Constructor function for Gpio objects.
@@ -114,7 +116,7 @@ Create a simple program for exporting GPIOs and execute this program with
 superuser privileges. In addition to exporting the GPIOs, this program will
 automatically change the access permissions for the GPIOs value file giving
 all users read and write access.
- 
+
 ```js
 var Gpio = require('onoff').Gpio,
     led = new Gpio(17, 'out');
@@ -125,9 +127,10 @@ Step 2 - The application can be run by a non-superuser
 After the program from step one has been executed by the superuser, the
 application itself can be executed by a non-superuser. The Gpio constructor
 will see that the GPIO has already been exported to userspace and will not
-attempt to export it again.
+attempt to export it again. The value of the GPIO can be modified as all
+users have read and write access to its value file.
 
-Highspeed blinking application:
+Highspeed Blinking
 
 ```js
 var Gpio = require('onoff').Gpio,
@@ -148,7 +151,7 @@ console.log('Frequency = ' + herz / 1000 + 'KHz');
 ```
 
 Depending on the system load, the frequency logged to the console should be up
-to 35KHz on a 720MHz BeagleBone or 23KHz on a 700MHz Raspberry Pi.
+to 35KHz on a 720MHz BeagleBone or up to 23KHz on a 700MHz Raspberry Pi.
 
 Step 3 - Unexport GPIOs as superuser
 
