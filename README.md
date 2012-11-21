@@ -33,7 +33,7 @@ onoff requires Node.js v0.8.0 or higher.
 ## Synchronous API - Blink the LED on GPIO #17 for 5 seconds
 
 The examples here can be run by the superuser or by non-superusers when the
-technique described in section "How handle superuser issues" is used.
+technique described in section "How to handle superuser issues" is used.
 
 ```js
 var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
@@ -104,7 +104,7 @@ button.watch(function (err, value) {
 });
 ```
 
-## How handle superuser issues
+## How to handle superuser issues
 
 In gereral, superuser privileges are required for exporting and using GPIOs.
 However, running all processes that access GPIOs as the superuser will be
