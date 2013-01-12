@@ -4,7 +4,7 @@ var fs = require('fs'),
     zero = new Buffer('0'),
     one = new Buffer('1');
 
-exports.version = '0.1.1';
+exports.version = '0.1.2';
 
 /**
  * Constructor. Exports a GPIO to userspace.
