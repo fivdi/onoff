@@ -4,10 +4,8 @@ GPIO based I/O and interrupt detection with Node.js on Linux boards such as the
 BeagleBone or Raspberry Pi.
 
 onoff provides a constructor function called Gpio which can be used to make
-Gpio objects corresponding to Linux GPIOs. The Gpio constructor function has
-three arguments; a GPIO number, a direction, and an optional interrupt
-generating edge. Examples of its usage can be seen in the exaplmes below. The
-Gpio methods available are as follows:
+Gpio objects corresponding to Linux GPIOs. Examples of its usage can be seen in
+the code below. The Gpio methods available are as follows:
 
   * read(callback) - Read GPIO value asynchronously
   * readSync() - Read GPIO value synchronously
@@ -16,6 +14,7 @@ Gpio methods available are as follows:
   * watch(callback) - Watch and wait for GPIO to interrupt
   * direction() - Read GPIO direction
   * edge() - Read GPIO interrupt generating edge
+  * options() - Get GPIO options
   * unexport() - Reverse the effect of exporting the GPIO to userspace
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that

@@ -4,24 +4,44 @@ var fs = require('fs'),
     zero = new Buffer('0'),
     one = new Buffer('1');
 
-exports.version = '0.1.0';
+exports.version = '0.1.1';
 
 /**
- * Constructor. Exports a GPIO to userspace, sets its direction, and optionally
- * its interrupting edge.
+ * Constructor. Exports a GPIO to userspace.
  *
  * The constructor is written to function for both superusers and
  * non-superusers. See README.md for more details.
  *
  * gpio: number      // The Linux GPIO identifier; an unsigned integer
  * direction: string // 'in', 'out', 'high', or 'low'
- * [edge: string]    // 'none', 'rising', 'falling' or 'both' [optional]
+ * [edge: string]    // The interrupt generating edge for a GPIO input
+ *                   // 'none', 'rising', 'falling' or 'both'
+ *                   // The default value is 'none' [optional]
+ * [options: object] // Additional options [optional]
+ *
+ * The options argument supports the following:
+ * persistentWatch: boolean // Specifies whether or not interrupt watching
+ *                          // for a GPIO input is one-shot or persistent.
+ *                          // The default value is false (one-shot).
+ * debounceTimeout: number  // Can be used to software debounce a button or
+ *                          // switch using a timeout. Specified in
+ *                          // milliseconds. The default value is 0.
  */
-function Gpio(gpio, direction, edge) {
+function Gpio(gpio, direction, edge, options) {
     var valuePath;
+
+    if (typeof edge === 'object' && !options) {
+        options = edge;
+        edge = undefined;
+    }
+
+    options = options || {};
 
     this.gpio = gpio;
     this.gpioPath = gpioRootPath + 'gpio' + this.gpio + '/';
+    this.opts = {};
+    this.opts.persistentWatch = options.persistentWatch || false;
+    this.opts.debounceTimeout = options.debounceTimeout || 0;
     this.readBuffer = new Buffer(16);
 
     valuePath = this.gpioPath + 'value';
@@ -91,10 +111,32 @@ Gpio.prototype.writeSync = function(value) {
 /**
  * Watch and wait for GPIO to interrupt.
  *
+ * Note that the value passed to the callback does not represent the value of
+ * the GPIO the instant the interrupt occured, it represents the value of the
+ * GPIO the instant the GPIO value file is read which may be several
+ * millisecond after the actual interrupt. By the time the GPIO value is read
+ * the value may have changed. There are scenarios where this is likely to
+ * occur, for example, with buttons or switches that are not hadrware
+ * debounced.
+ *
  * callback: (err: error, value: number) => {}
  */
 Gpio.prototype.watch = function(callback) {
-    gpioWatcher.watch(this.gpio, callback);
+    gpioWatcher.watch(this.gpio, function (err, value) {
+        if (err) return callback(err);
+
+        if (this.opts.persistentWatch) {
+            if (this.opts.debounceTimeout > 0) {
+                setTimeout(function () {
+                    this.watch(callback);
+                }.bind(this), this.opts.debounceTimeout);
+            } else {
+                this.watch(callback);
+            }
+        }
+
+        callback(null, value);
+    }.bind(this));
 };
 
 /**
@@ -113,6 +155,15 @@ Gpio.prototype.direction = function() {
  */
 Gpio.prototype.edge = function() {
     return fs.readFileSync(this.gpioPath + 'edge').toString().trim();
+};
+
+/**
+ * Get GPIO options.
+ *
+ * Returns - object // Must not be modified
+ */
+Gpio.prototype.options = function() {
+    return this.opts;
 };
 
 /**

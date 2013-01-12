@@ -6,4 +6,5 @@ sudo node many-interrupts
 sudo node performance-async
 sudo node performance-sync
 sudo node wait-for-interrupt
+sudo node wait-for-many-interrupts
 
