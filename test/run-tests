@@ -5,6 +5,8 @@ sudo node configure-and-check-output
 sudo node many-interrupts
 sudo node performance-async
 sudo node performance-sync
+sleep 1
 sudo node wait-for-interrupt
+sleep 1
 sudo node wait-for-many-interrupts
 

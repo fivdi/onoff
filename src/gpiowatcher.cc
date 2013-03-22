@@ -1,7 +1,9 @@
 #include <poll.h>
-#include <errno.h>
-#include <node.h>
+#include <cerrno>
+#include <cstring>
 #include <string>
+#include <node.h>
+#include <node_version.h>
 
 /*
  * This Node.js addon can be used to detect interrupts on GPIO inputs.
@@ -19,8 +21,14 @@
  */
 
 v8::Handle<v8::Value> Watch(const v8::Arguments& args);
+
 void WatchWork(uv_work_t* req);
+
+#if NODE_VERSION_AT_LEAST(0, 10, 0)
+void WatchAfter(uv_work_t* req, int status);
+#else
 void WatchAfter(uv_work_t* req);
+#endif
 
 /*
  * Baton is used to pass information from JavaScript land to a worker thread
@@ -151,7 +159,11 @@ void WatchWork(uv_work_t* req) {
     }
 }
 
+#if NODE_VERSION_AT_LEAST(0, 10, 0)
+void WatchAfter(uv_work_t* req, int status) {
+#else
 void WatchAfter(uv_work_t* req) {
+#endif
     v8::HandleScope scope;
     Baton* baton = static_cast<Baton*>(req->data);
 
