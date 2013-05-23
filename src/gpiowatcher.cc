@@ -4,6 +4,8 @@
 #include <string>
 #include <node.h>
 #include <node_version.h>
+#include <sys/types.h> 
+#include <unistd.h>
 
 /*
  * This Node.js addon can be used to detect interrupts on GPIO inputs.
