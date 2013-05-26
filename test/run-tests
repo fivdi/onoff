@@ -1,12 +1,12 @@
 #!/bin/sh
-sudo node blink-led
-sudo node configure-and-check-input
-sudo node configure-and-check-output
-sudo node many-interrupts
-sudo node performance-async
-sudo node performance-sync
+node blink-led
+node configure-and-check-input
+node configure-and-check-output
+node many-interrupts
+node performance-async
+node performance-sync
 sleep 1
-sudo node wait-for-interrupt
+node wait-for-interrupt
 sleep 1
-sudo node wait-for-many-interrupts
+node wait-for-many-interrupts
 
