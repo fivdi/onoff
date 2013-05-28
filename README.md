@@ -164,6 +164,20 @@ var Gpio = require('onoff').Gpio,
 led.unexport();
 ```
 
+## How to watch five or more inputs
+
+onoff uses threads to watch and wait for GPIOs to interrupt. These threads are
+managed by Nodes libuv thread pool. The default size of this thread pool is
+[four on unix systems](https://github.com/joyent/libuv/blob/v0.10.8/src/unix/threadpool.c#L32).
+A thread is required for each GPIO being watched. If five or more GPIOs need to
+be watched, the size of the libuv thread pool needs to be increased from four
+to at least five. With Node v0.10.x the thread pool size can be specified using
+the [UV_THREADPOOL_SIZE](https://github.com/joyent/libuv/blob/v0.10.8/src/unix/threadpool.c#L99)
+environment variable. An example of the usage of UV_THREADPOOL_SIZE can be seen in
+[run-five-inputs](https://github.com/fivdi/onoff/blob/master/test/run-five-inputs)
+which runs [five-inputs](https://github.com/fivdi/onoff/blob/master/test/five-inputs.js)
+with a thread pool size of ten.
+
 ## Additional Information
 
 onoff has been tested on the BeagleBone (Ångström) and Raspberry Pi (Raspbian).
