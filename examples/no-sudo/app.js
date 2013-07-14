@@ -1,7 +1,7 @@
 var Gpio = require('../../onoff').Gpio,
     led = new Gpio(/* 38 */ 17, 'out'),
     time = process.hrtime(),
-    herz,
+    hertz,
     i;
 
 for (i = 0; i !== 50000; i += 1) {
@@ -10,7 +10,7 @@ for (i = 0; i !== 50000; i += 1) {
 }
 
 time = process.hrtime(time);
-herz = Math.floor(i / (time[0] + time[1] / 1E9));
+hertz = Math.floor(i / (time[0] + time[1] / 1E9));
 
-console.log('Frequency = ' + herz / 1000 + 'KHz');
+console.log('Frequency = ' + hertz / 1000 + 'KHz');
 
