@@ -1,3 +1,9 @@
+0.1.6 - July 15 2013
+===================
+
+  * Fixed typos
+  * Documented how to watch five or more inputs
+
 0.1.5 - May 26 2013
 ===================
 
