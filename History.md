@@ -1,3 +1,8 @@
+0.1.7 - Sep 17 2013
+===================
+
+  * Remove OS limitations for installing [#12](https://github.com/fivdi/onoff/issues/12)
+
 0.1.6 - July 15 2013
 ===================
 

@@ -4,23 +4,23 @@
 #include <string>
 #include <node.h>
 #include <node_version.h>
-#include <sys/types.h> 
+#include <sys/types.h>
 #include <unistd.h>
 
 /*
- * This Node.js addon can be used to detect interrupts on GPIO inputs.
- *
- * Why is this addon needed?
- *
- * Node.js provides two File System methods for watching files, fs.watch and
- * fs.watchFile. Currently fs.watch can't detect changes on sysfs files located
- * at /sys/classes/gpio. fs.watchFile can detect such changes by polling the
- * target files. To detect changes quickly, fs.watchFile needs to poll at a
- * high frequency which has a negative impact on CPU usage. This addon can
- * detect the same changes without negatively impacting CPU usage.
- *
- * GPIO documentation: http://www.kernel.org/doc/Documentation/gpio.txt
- */
+* This Node.js addon can be used to detect interrupts on GPIO inputs.
+*
+* Why is this addon needed?
+*
+* Node.js provides two File System methods for watching files, fs.watch and
+* fs.watchFile. Currently fs.watch can't detect changes on sysfs files located
+* at /sys/classes/gpio. fs.watchFile can detect such changes by polling the
+* target files. To detect changes quickly, fs.watchFile needs to poll at a
+* high frequency which has a negative impact on CPU usage. This addon can
+* detect the same changes without negatively impacting CPU usage.
+*
+* GPIO documentation: http://www.kernel.org/doc/Documentation/gpio.txt
+*/
 
 v8::Handle<v8::Value> Watch(const v8::Arguments& args);
 
@@ -33,9 +33,9 @@ void WatchAfter(uv_work_t* req);
 #endif
 
 /*
- * Baton is used to pass information from JavaScript land to a worker thread
- * and back while watching a gpio and waiting for it to interrupt.
- */
+* Baton is used to pass information from JavaScript land to a worker thread
+* and back while watching a gpio and waiting for it to interrupt.
+*/
 struct Baton {
     uv_work_t request;
 
@@ -54,12 +54,12 @@ struct Baton {
 };
 
 /*
- * Wait for a gpio to change its state (interrupt) and call the callback
- * when the state change occurs.
- *
- * args[0] gpio: number
- * args[1] callback: (err: error, value: number) => {}
- */
+* Wait for a gpio to change its state (interrupt) and call the callback
+* when the state change occurs.
+*
+* args[0] gpio: number
+* args[1] callback: (err: error, value: number) => {}
+*/
 v8::Handle<v8::Value> Watch(const v8::Arguments& args) {
     v8::HandleScope scope;
 
@@ -96,8 +96,8 @@ v8::Handle<v8::Value> Watch(const v8::Arguments& args) {
 }
 
 /*
- * Fill baton with error info.
- */
+* Fill baton with error info.
+*/
 void SetError(Baton* baton) {
     baton->error = true;
     baton->error_message = strerror(errno);
@@ -205,4 +205,5 @@ void RegisterModule(v8::Handle<v8::Object> target) {
 }
 
 NODE_MODULE(gpiowatcher, RegisterModule);
+
 
