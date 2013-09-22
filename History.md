@@ -1,3 +1,11 @@
+0.2.0 - Sep 22 2013
+===================
+
+  * Use epoll module for interrupt detection [#15](https://github.com/fivdi/onoff/issues/15)
+  * 0.11.4+ compatability [#11](https://github.com/fivdi/onoff/issues/10)
+  * One thread for watching all GPIOs rather than one thread per GPIO [#5](https://github.com/fivdi/onoff/issues/5)
+  * Unwatch API added [#4](https://github.com/fivdi/onoff/issues/4)
+
 0.1.7 - Sep 17 2013
 ===================
 

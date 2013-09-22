@@ -1,6 +1,6 @@
 {
   "name": "onoff",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "GPIO based I/O and interrupt detection on the BeagleBone or Raspberry Pi",
   "main": "onoff.js",
   "directories": {
@@ -8,8 +8,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Tests can only be run manually from the command line. They access hardware GPIOs.\" && exit 1",
-    "install": "node-gyp rebuild"
+    "test": "echo \"Tests can only be run manually from the command line. They access hardware GPIOs.\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -17,6 +16,9 @@
   },
   "engines": {
     "node": ">=0.8.0"
+  },
+  "dependencies": {
+    "epoll": "~0.0.2"
   },
   "keywords": [
     "gpio",

@@ -1,10 +1,10 @@
 var fs = require('fs'),
-    gpioWatcher = require('./build/Release/gpiowatcher'),
+    Epoll = require('epoll').Epoll,
     gpioRootPath = '/sys/class/gpio/',
     zero = new Buffer('0'),
     one = new Buffer('1');
 
-exports.version = '0.1.7';
+exports.version = '0.2.0';
 
 /**
  * Constructor. Exports a GPIO to userspace.
@@ -43,6 +43,7 @@ function Gpio(gpio, direction, edge, options) {
     this.opts.persistentWatch = options.persistentWatch || false;
     this.opts.debounceTimeout = options.debounceTimeout || 0;
     this.readBuffer = new Buffer(16);
+    this.listeners = [];
 
     valuePath = this.gpioPath + 'value';
 
@@ -58,13 +59,18 @@ function Gpio(gpio, direction, edge, options) {
     }
 
     this.valueFd = fs.openSync(valuePath, 'r+');
+
+    // Read current value before polling to prevent unauthentic interrupts.
+    this.readSync();
+
+    this.poller = new Epoll(pollerEventHandler.bind(this));
 }
 exports.Gpio = Gpio;
 
 /**
  * Read GPIO value asynchronously.
  *
- * [callback: (err: error, value: number) => {}]
+ * [callback: (err: error, value: number) => {}] // Optional callback
  */
 Gpio.prototype.read = function(callback) {
     fs.read(this.valueFd, this.readBuffer, 0, 1, 0, function(err, bytes, buf) {
@@ -88,8 +94,8 @@ Gpio.prototype.readSync = function() {
 /**
  * Write GPIO value asynchronously.
  *
- * value: number                  // 0 or 1.
- * [callback: (err: error) => {}] // optional callback
+ * value: number                  // 0 or 1
+ * [callback: (err: error) => {}] // Optional callback
  */
 Gpio.prototype.write = function(value, callback) {
     var writeBuffer = value === 1 ? one : zero;
@@ -99,7 +105,7 @@ Gpio.prototype.write = function(value, callback) {
 /**
  * Write GPIO value synchronously.
  *
- * value: number // 0 or 1.
+ * value: number // 0 or 1
  */
 Gpio.prototype.writeSync = function(value) {
     // Replacing a with b made ./test/performance-sync.js 3.5 times faster.
@@ -121,7 +127,7 @@ Gpio.prototype.writeSync = function(value) {
  *
  * callback: (err: error, value: number) => {}
  */
-Gpio.prototype.watch = function(callback) {
+/*Gpio.prototype.watch = function(callback) {
     gpioWatcher.watch(this.gpio, function (err, value) {
         if (err) return callback(err);
 
@@ -137,12 +143,88 @@ Gpio.prototype.watch = function(callback) {
 
         callback(null, value);
     }.bind(this));
+};*/
+
+/**
+ * Watch for changes on the GPIO.
+ *
+ * Note that the value passed to the callback does not represent the value of
+ * the GPIO the instant the interrupt occured, it represents the value of the
+ * GPIO the instant the GPIO value file is read which may be several
+ * millisecond after the actual interrupt. By the time the GPIO value is read
+ * the value may have changed. There are scenarios where this is likely to
+ * occur, for example, with buttons or switches that are not hadrware
+ * debounced.
+ *
+ * callback: (err: error, value: number) => {}
+ */
+Gpio.prototype.watch = function(callback) {
+    var events;
+
+    this.listeners.push(callback);
+
+    if (this.listeners.length === 1) {
+        events = Epoll.EPOLLPRI;
+        if (!this.opts.persistentWatch || this.opts.debounceTimeout > 0) {
+            events |= Epoll.EPOLLONESHOT;
+        }
+        this.poller.add(this.valueFd, events);
+    }
 };
+
+/**
+ * Stop watching for changes on the GPIO.
+ */
+Gpio.prototype.unwatch = function(callback) {
+    if (this.listeners.length > 0) {
+        if (typeof callback !== 'function') {
+            this.listeners = [];
+        } else {
+            this.listeners = this.listeners.filter(function (listener) {
+                return callback !== listener;
+            });
+        }
+
+        if (this.listeners.length === 0) {
+            this.poller.remove(this.valueFd);
+        }
+    }
+};
+
+/**
+ * Remove all watchers for the GPIO.
+ */
+Gpio.prototype.unwatchAll = function() {
+    this.unwatch();
+};
+
+function pollerEventHandler(err, fd, events) {
+    var value = this.readSync(),
+        callbacks = this.listeners.slice(0);
+
+    if (this.opts.persistentWatch && this.opts.debounceTimeout > 0) {
+        setTimeout(function () {
+            if (this.listeners.length > 0) {
+                // Read current value before polling to prevent unauthentic interrupts.
+                this.readSync();
+                this.poller.modify(this.valueFd, Epoll.EPOLLPRI | Epoll.EPOLLONESHOT);
+            }
+        }.bind(this), this.opts.debounceTimeout);
+    }
+
+    if (!this.opts.persistentWatch) {
+        this.unwatchAll();
+    }
+
+    callbacks.forEach(function (callback) {
+        callback(err, value);
+    });
+}
 
 /**
  * Read GPIO direction.
  *
- * Returns - string // 'in', 'out'
+ * Returns - string // 'in', or 'out'
  */
 Gpio.prototype.direction = function() {
     return fs.readFileSync(this.gpioPath + 'direction').toString().trim();
@@ -171,6 +253,7 @@ Gpio.prototype.options = function() {
  * should not be used after calling this method.
  */
 Gpio.prototype.unexport = function(callback) {
+    this.unwatchAll();
     fs.closeSync(this.valueFd);
     fs.writeFileSync(gpioRootPath + 'unexport', this.gpio);
 };
