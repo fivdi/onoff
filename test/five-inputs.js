@@ -15,8 +15,6 @@ function buttonPressed(err, value) {
         for (j = 0; j !== buttons.length; j += 1) {
             buttons[j].unexport();
         }
-
-        process.kill(process.pid, 'SIGHUP');
     }
 }
 
