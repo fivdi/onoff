@@ -1,3 +1,0 @@
-export UV_THREADPOOL_SIZE=10
-node five-inputs
-
