@@ -23,7 +23,6 @@ button.watch(function(err, value) {
     if (count === 5) {
         button.unexport();
         console.log('ok - ' + __filename);
-        process.exit(0);
     }
 });
 
