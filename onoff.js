@@ -1,8 +1,8 @@
 var fs = require('fs'),
     Epoll = require('epoll').Epoll,
     gpioRootPath = '/sys/class/gpio/',
-    zero = new Buffer('0'),
-    one = new Buffer('1');
+    zero = new Buffer('0'), // Using zero and one rather than creating them 
+    one = new Buffer('1');  // on the fly when needed improves performance.
 
 exports.version = '0.2.0';
 
@@ -58,7 +58,7 @@ function Gpio(gpio, direction, edge, options) {
         fs.chmodSync(valuePath, 0666);
     }
 
-    this.valueFd = fs.openSync(valuePath, 'r+');
+    this.valueFd = fs.openSync(valuePath, 'r+'); // Cache fd for performance.
 
     // Read current value before polling to prevent unauthentic interrupts.
     this.readSync();
@@ -113,37 +113,6 @@ Gpio.prototype.writeSync = function(value) {
     var writeBuffer = value === 1 ? one : zero;        // b
     fs.writeSync(this.valueFd, writeBuffer, 0, writeBuffer.length, 0);
 };
-
-/**
- * Watch and wait for GPIO to interrupt.
- *
- * Note that the value passed to the callback does not represent the value of
- * the GPIO the instant the interrupt occured, it represents the value of the
- * GPIO the instant the GPIO value file is read which may be several
- * millisecond after the actual interrupt. By the time the GPIO value is read
- * the value may have changed. There are scenarios where this is likely to
- * occur, for example, with buttons or switches that are not hadrware
- * debounced.
- *
- * callback: (err: error, value: number) => {}
- */
-/*Gpio.prototype.watch = function(callback) {
-    gpioWatcher.watch(this.gpio, function (err, value) {
-        if (err) return callback(err);
-
-        if (this.opts.persistentWatch) {
-            if (this.opts.debounceTimeout > 0) {
-                setTimeout(function () {
-                    this.watch(callback);
-                }.bind(this), this.opts.debounceTimeout);
-            } else {
-                this.watch(callback);
-            }
-        }
-
-        callback(null, value);
-    }.bind(this));
-};*/
 
 /**
  * Watch for changes on the GPIO.
