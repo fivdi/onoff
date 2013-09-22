@@ -1,6 +1,6 @@
 {
   "name": "onoff",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "GPIO based I/O and interrupt detection on the BeagleBone or Raspberry Pi",
   "main": "onoff.js",
   "directories": {
