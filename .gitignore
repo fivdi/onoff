@@ -1,3 +1,4 @@
 junk/
-build/
+node_modules/
 *~
+
