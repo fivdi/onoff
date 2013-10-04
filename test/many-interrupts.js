@@ -37,7 +37,5 @@ function toggleLedState(wait) {
 }
 
 led.watch(interrupt);
-setTimeout(function() {
-    toggleLedState();
-}, 1);
+toggleLedState();
 
