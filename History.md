@@ -1,6 +1,7 @@
 0.2.2 -
 ===================
 
+  * Use epoll 0.0.7
   * Removed timeout hack in many-interrupts test
 
 0.2.1 - Sep 25 2013
