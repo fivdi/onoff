@@ -31,10 +31,62 @@ onoff requires Node.js v0.8.0 or higher.
 
     $ npm install onoff
 
-## Synchronous API - Blink the LED on GPIO #17 for 5 seconds
+## Example - It's called onoff so lets turn something on and off
 
-The examples here can be run by the superuser or by non-superusers when the
-technique described in section "How to handle superuser issues" is used.
+Assume that there's an LED on GPIO #17 and a momentary push button on GPIO #18.
+When the button is pressed the LED should trun on, when it's released the LED
+should turn off. This can be acheived with the following code:
+
+```js
+var Gpio = require('onoff').Gpio,
+    led = new Gpio(17, 'out'),
+    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
+
+button.watch(function(err, value) {
+    led.writeSync(value);
+});
+```
+
+Here two Gpio objects are being created. One called led for the LED on GPIO #17
+which is an output, and one called button for the momentary push button on
+GPIO #18 which is an input. In addition to specifying that the button is an
+input it's also necessary to specify whether 'falling', 'rising', or 'both'
+button events are of interest. Here 'both' are of interest. Finally, the button
+needs to be told whether it should post event notifications exactly once or
+forever. Here persistentWatch is true so it posts event notifications forever.
+
+After everything has been setup correctly, the buttons watch method is used to
+specify a callback function to execute every time the button is pressed or
+released. The value argument passed to the callback function represents the
+state of the button which will be 0 for pressed and 1 for released. This value
+is used by the callback to turn the LED on or off using its writeSync method.
+
+When the above program is running it can be terminated with ctrl-c. However,
+it doesn't free its resources. It also ignores the err argument passed to
+callback. Here's a slightly modified variant of the program that handles
+ctrl-c gracefully and bails out on error. The resources used by the led and
+button Gpio objects are released by calling their unexport method.
+
+```js
+var Gpio = require('onoff').Gpio,
+    led = new Gpio(38, 'out'), // 17
+    button = new Gpio(117, 'in', 'both', {persistentWatch: true}); // 18
+
+button.watch(function(err, value) {
+    if (err) exit();
+    led.writeSync(value);
+});
+
+function exit() {
+    led.unexport();
+    button.unexport();
+    process.exit();
+}
+
+process.on('SIGINT', exit);
+```
+
+## Synchronous API - Blink the LED on GPIO #17 for 5 seconds
 
 ```js
 var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
