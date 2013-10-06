@@ -69,8 +69,8 @@ button Gpio objects are released by calling their unexport method.
 
 ```js
 var Gpio = require('onoff').Gpio,
-    led = new Gpio(38, 'out'), // 17
-    button = new Gpio(117, 'in', 'both', {persistentWatch: true}); // 18
+    led = new Gpio(17, 'out'),
+    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
 
 button.watch(function(err, value) {
     if (err) exit();
