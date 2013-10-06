@@ -31,7 +31,7 @@ onoff requires Node.js v0.8.0 or higher.
 
     $ npm install onoff
 
-## Example - It's called onoff so lets turn something on and off
+## Example - It's called onoff so let's turn something on and off
 
 Assume that there's an LED on GPIO #17 and a momentary push button on GPIO #18.
 When the button is pressed the LED should trun on, when it's released the LED
@@ -63,7 +63,7 @@ is used by the callback to turn the LED on or off using its writeSync method.
 
 When the above program is running it can be terminated with ctrl-c. However,
 it doesn't free its resources. It also ignores the err argument passed to
-callback. Here's a slightly modified variant of the program that handles
+the callback. Here's a slightly modified variant of the program that handles
 ctrl-c gracefully and bails out on error. The resources used by the led and
 button Gpio objects are released by calling their unexport method.
 
