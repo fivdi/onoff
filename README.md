@@ -1,7 +1,15 @@
 ## onoff
 
-GPIO based I/O and interrupt detection with Node.js on Linux boards such as the
+GPIO access and interrupt detection with Node.js on Linux boards such as the
 BeagleBone or Raspberry Pi.
+
+## Installation
+
+    $ [sudo] npm install onoff
+
+onoff requires Node.js v0.8.0 or higher.
+
+## API
 
 onoff provides a constructor function called Gpio which can be used to make
 Gpio objects corresponding to Linux GPIOs. Examples of its usage can be seen in
@@ -24,12 +32,6 @@ should be passed to the onoff Gpio constructor function when exporting GPIOs
 to userspace. For example, pin P1_11 on the Raspberry Pi P1 expansion header
 corresponds to GPIO #17 in Raspbian Linux. 17 is therefore the number to pass
 to the onoff Gpio constructor when using pin P1_11 on the P1 expansion header.
-
-onoff requires Node.js v0.8.0 or higher.
-
-## Installation
-
-    $ npm install onoff
 
 ## Example - It's called onoff so let's turn something on and off
 
