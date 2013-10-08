@@ -119,9 +119,8 @@ echo both > /sys/class/gpio/gpio18/edge
 ``` 
 
 In order detect hardware interrupts,
-[poll](http://man7.org/linux/man-pages/man2/poll.2.html) or
 [epoll](http://man7.org/linux/man-pages/man7/epoll.7.html) can be used to
-detect POLLPRI or EPOLLPRI events on the value file corresponding to the GPIO.
+be notified about EPOLLPRI events on GPIO value files.
 
 Internally onoff uses sysfs files to access GPIOs and epoll to detect hardware
 interrupts. For interrupt detection the [epoll](https://github.com/fivdi/epoll)
