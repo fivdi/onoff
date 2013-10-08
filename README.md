@@ -118,13 +118,15 @@ echo in > /sys/class/gpio/gpio18/direction
 echo both > /sys/class/gpio/gpio18/edge
 ``` 
 
-In order detect hardware interrupts,
-[epoll](http://man7.org/linux/man-pages/man7/epoll.7.html) can be used to
-be notified about EPOLLPRI events on GPIO value files.
+To detect hardware interrupts, the Linux
+[epoll I/O event notification facility]
+(http://man7.org/linux/man-pages/man7/epoll.7.html) can be used. Interrupts on
+a GPIO can be detected by leveraging epoll to detect EPOLLPRI events on the
+GPIO value file.
 
-Internally onoff uses sysfs files to access GPIOs and epoll to detect hardware
-interrupts. For interrupt detection the [epoll](https://github.com/fivdi/epoll)
-module is used. It can detect several thousand interrupts per second on both
+Internally onoff uses sysfs files to access GPIOs and the
+[Node.js epoll module](https://github.com/fivdi/epoll) to detect hardware
+interrupts. It can detect several thousand interrupts per second on both
 the BeagleBone and the Raspberry Pi.
 
 More information about GPIO can be found in the 
