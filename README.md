@@ -52,14 +52,17 @@ which is an output, and one called button for the momentary push button on
 GPIO #18 which is an input. In addition to specifying that the button is an
 input it's also necessary to specify whether 'falling', 'rising', or 'both'
 button events are of interest. Here 'both' are of interest. Finally, the button
-needs to be told whether it should post event notifications exactly once or
-forever. Here persistentWatch is true so it posts event notifications forever.
+needs to be told whether it should inform it's watcher about a single event
+and then stop sending notifications until told to do so again, or to inform
+its watcher about all events. Here persistentWatch is true so the watcher is
+informed about all events.
 
 After everything has been setup correctly, the buttons watch method is used to
-specify a callback function to execute every time the button is pressed or
-released. The value argument passed to the callback function represents the
-state of the button which will be 0 for pressed and 1 for released. This value
-is used by the callback to turn the LED on or off using its writeSync method.
+specify a callback function to execute every time the button posts an event
+notification indicating that it has been pressed or released. The value
+argument passed to the callback function represents the state of the button
+which will be 1 for pressed and 0 for released. This value is used by the
+callback to turn the LED on or off using its writeSync method.
 
 When the above program is running it can be terminated with ctrl-c. However,
 it doesn't free its resources. It also ignores the err argument passed to
@@ -85,6 +88,49 @@ function exit() {
 
 process.on('SIGINT', exit);
 ```
+
+## How does it work?
+
+The Linux operating system uses files to acheive many things so it should come
+as no surprise that files can be used for General Purpose Input/Output or GPIO
+on many Linux platforms. A GPIO is a software controlled digital signal
+representing a bit connected to a pin on the processor. Operating systems such
+as Ångström on the BeagleBone or Raspbian on the Raspberry Pi provide sysfs
+files for controlling and accessing these pins. These files are located at
+/sys/files/gpio.
+
+For example, the following bash script uses these sysfs files to export
+GPIO #17 to userspace, set its direction to 'out', and set its value to '1':
+
+```bash
+#!/bin/sh
+echo 17 > /sys/class/gpio/export
+echo out > /sys/class/gpio/gpio17/direction
+echo 1 > /sys/class/gpio/gpio17/value
+``` 
+
+The following bash script exports GPIO #18 to userspace, set its direction to
+'in', and configures it to generate interrupts on 'both' edges.
+
+```bash
+echo 18 > /sys/class/gpio/export
+echo in > /sys/class/gpio/gpio18/direction
+echo both > /sys/class/gpio/gpio18/edge
+``` 
+
+In order detect hardware interrupts,
+[poll](http://man7.org/linux/man-pages/man2/poll.2.html) or
+[epoll](http://man7.org/linux/man-pages/man7/epoll.7.html) can be used to
+detect POLLPRI or EPOLLPRI events on the value file corresponding to the GPIO.
+
+Internally onoff uses sysfs files to access GPIOs and epoll to detect hardware
+interrupts. For interrupt detection the [epoll](https://github.com/fivdi/epoll)
+module is used. It can detect several thousand interrupts per second on both
+the BeagleBone and the Raspberry Pi.
+
+More information about GPIO can be found in the 
+[GPIO interfaces](http://www.kernel.org/doc/Documentation/gpio.txt)
+document.
 
 ## Synchronous API - Blink the LED on GPIO #17 for 5 seconds
 
