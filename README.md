@@ -182,31 +182,6 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
 })(20);
 ```
 
-## Wait for the button on GPIO #18 to interrupt
-
-This example watches a momentary push button on GPIO #18 and prints a message
-when when the button is pressed interrupting the CPU. The watch method doesn't
-require CPU resources while waiting for an interrupt to occur freeing the CPU
-to perfrom other tasks.
-
-```js
-var Gpio = require('onoff').Gpio,        // Constructor function for Gpio objects.
-    button = new Gpio(18, 'in', 'both'); // Export GPIO #18 as an interrupt
-                                         // generating input.
-
-console.log('Please press the button on GPIO #18...');
-
-// The callback passed to watch will be called when the button on GPIO #18 is
-// pressed. 
-button.watch(function (err, value) {
-    if (err) throw err;
-
-    console.log('Button pressed!, its value was ' + value);
-
-    button.unexport(); // Unexport GPIO and free resources
-});
-```
-
 ## How to handle superuser issues
 
 In gereral, superuser privileges are required for exporting and using GPIOs.
