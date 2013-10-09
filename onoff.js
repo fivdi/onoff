@@ -12,16 +12,23 @@ exports.version = '0.2.2';
  * The constructor is written to function for both superusers and
  * non-superusers. See README.md for more details.
  *
- * gpio: number      // The Linux GPIO identifier; an unsigned integer
- * direction: string // 'in', 'out', 'high', or 'low'
- * [edge: string]    // The interrupt generating edge for a GPIO input
- *                   // 'none', 'rising', 'falling' or 'both'
- *                   // The default value is 'none' [optional]
- * [options: object] // Additional options [optional]
+ * gpio: number      // The Linux GPIO identifier; an unsigned integer.
+ * direction: string // Specifies whether the GPIO should be configured as an
+ *                   // input or output. The valid values are: 'in', 'out',
+ *                   // 'high', and 'low'. 'high' and 'low' are variants of
+ *                   // 'out' that configure the GPIO as an output with an
+ *                   // initial level of high or low respectively.
+ * [edge: string]    // The interrupt generating edge(s) for the GPIO. Can be
+ *                   // specified for GPIO inputs and outputs. The edge(s)
+ *                   // specified determine what watchers watch for. The valid
+ *                   // values are: 'none', 'rising', 'falling' or 'both'.
+ *                   // The default value is 'none'. [optional]
+ * [options: object] // Additional options. [optional]
  *
  * The options argument supports the following:
  * persistentWatch: boolean // Specifies whether or not interrupt watching
- *                          // for a GPIO input is one-shot or persistent.
+ *                          // for the GPIO is one-shot or persistent.
+ *                          // Can be specified for GPIO inputs and outputs.
  *                          // The default value is false (one-shot).
  * debounceTimeout: number  // Can be used to software debounce a button or
  *                          // switch using a timeout. Specified in
@@ -115,12 +122,14 @@ Gpio.prototype.writeSync = function(value) {
 };
 
 /**
- * Watch for changes on the GPIO.
+ * Watch for hardware interrupts on the GPIO. Can be used for both inputs and
+ * outputs. The edge argument that was passed to the constructor determine
+ * which hardware interrupts are watcher for.
  *
  * Note that the value passed to the callback does not represent the value of
  * the GPIO the instant the interrupt occured, it represents the value of the
  * GPIO the instant the GPIO value file is read which may be several
- * millisecond after the actual interrupt. By the time the GPIO value is read
+ * milliseconds after the actual interrupt. By the time the GPIO value is read
  * the value may have changed. There are scenarios where this is likely to
  * occur, for example, with buttons or switches that are not hadrware
  * debounced.
@@ -142,7 +151,7 @@ Gpio.prototype.watch = function(callback) {
 };
 
 /**
- * Stop watching for changes on the GPIO.
+ * Stop watching for hardware interrupts on the GPIO.
  */
 Gpio.prototype.unwatch = function(callback) {
     if (this.listeners.length > 0) {

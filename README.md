@@ -19,11 +19,11 @@ the code below. The Gpio methods available are as follows:
   * readSync() - Read GPIO value synchronously
   * write(value, callback) - Write GPIO value asynchronously
   * writeSync(value) - Write GPIO value synchronously
-  * watch(callback) - Watch for changes on the GPIO
-  * unwatch(callback) - Stop watching for changes on the GPIO
+  * watch(callback) - Watch for hardware interrupts on the GPIO
+  * unwatch(callback) - Stop watching for hardware interrupts on the GPIO
   * unwatchAll() - Remove all watchers for the GPIO
   * direction() - Read GPIO direction
-  * edge() - Read GPIO interrupt generating edge
+  * edge() - Read GPIO interrupt generating edge(s)
   * options() - Get GPIO options
   * unexport() - Reverse the effect of exporting the GPIO to userspace
 
