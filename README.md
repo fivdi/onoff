@@ -55,17 +55,15 @@ which is an output, and one called button for the momentary push button on
 GPIO #18 which is an input. In addition to specifying that the button is an
 input it's also necessary to specify whether 'falling', 'rising', or 'both'
 button events are of interest. Here 'both' are of interest. Finally, the button
-needs to be told whether it should inform it's watcher about a single event
-and then stop sending notifications until told to do so again, or to inform
-its watcher about all events. Here persistentWatch is true so the watcher is
-informed about all events.
+needs to be told whether watchers are interested the first event that occurs
+or all events. Here persistentWatch is true so watchers are informed about all
+events.
 
 After everything has been setup correctly, the buttons watch method is used to
-specify a callback function to execute every time the button posts an event
-notification indicating that it has been pressed or released. The value
-argument passed to the callback function represents the state of the button
-which will be 1 for pressed and 0 for released. This value is used by the
-callback to turn the LED on or off using its writeSync method.
+specify a callback function to execute every time the button is pressed or
+released. The value argument passed to the callback function represents the
+state of the button which will be 1 for pressed and 0 for released. This value
+is used by the callback to turn the LED on or off using its writeSync method.
 
 When the above program is running it can be terminated with ctrl-c. However,
 it doesn't free its resources. It also ignores the err argument passed to
