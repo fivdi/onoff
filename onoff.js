@@ -18,8 +18,8 @@ exports.version = '0.2.2';
  *                   // 'high', and 'low'. 'high' and 'low' are variants of
  *                   // 'out' that configure the GPIO as an output with an
  *                   // initial level of high or low respectively.
- * [edge: string]    // The interrupt generating edge(s) for the GPIO. Can be
- *                   // specified for GPIO inputs and outputs. The edge(s)
+ * [edge: string]    // The interrupt generating edge for the GPIO. Can be
+ *                   // specified for GPIO inputs and outputs. The edge
  *                   // specified determine what watchers watch for. The valid
  *                   // values are: 'none', 'rising', 'falling' or 'both'.
  *                   // The default value is 'none'. [optional]
@@ -122,8 +122,8 @@ Gpio.prototype.writeSync = function(value) {
 };
 
 /**
- * Watch for hardware interrupts on the GPIO. Can be used for both inputs and
- * outputs. The edge argument that was passed to the constructor determine
+ * Watch for hardware interrupts on the GPIO. Inputs and outputs can be
+ * watched. The edge argument that was passed to the constructor determines
  * which hardware interrupts are watcher for.
  *
  * Note that the value passed to the callback does not represent the value of

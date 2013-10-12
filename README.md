@@ -20,11 +20,13 @@ the code below. The Gpio methods available are as follows:
   * readSync() - Read GPIO value synchronously
   * write(value, callback) - Write GPIO value asynchronously
   * writeSync(value) - Write GPIO value synchronously
-  * watch(callback) - Watch for hardware interrupts on the GPIO
+  * watch(callback) - Watch for hardware interrupts on the GPIO. Inputs and
+    outputs can be watched. The edge argument that was passed to the
+    constructor determines which hardware interrupts are watcher for.
   * unwatch(callback) - Stop watching for hardware interrupts on the GPIO
   * unwatchAll() - Remove all watchers for the GPIO
   * direction() - Read GPIO direction
-  * edge() - Read GPIO interrupt generating edge(s)
+  * edge() - Read GPIO interrupt generating edge
   * options() - Get GPIO options
   * unexport() - Reverse the effect of exporting the GPIO to userspace
 
@@ -53,11 +55,11 @@ button.watch(function(err, value) {
 Here two Gpio objects are being created. One called led for the LED on GPIO #17
 which is an output, and one called button for the momentary push button on
 GPIO #18 which is an input. In addition to specifying that the button is an
-input it's also necessary to specify whether 'falling', 'rising', or 'both'
-button events are of interest. Here 'both' are of interest. Finally, the button
-needs to be told whether watchers are interested the first event that occurs
-or all events. Here persistentWatch is true so watchers are informed about all
-events.
+input, the constructors optional third argument is used to specify that 'both'
+rising and falling interrupt edges should be configured for the button GPIO.
+Finally, the button needs to be told whether watchers are interested the first
+event that occurs or all events. Here persistentWatch is true so watchers are
+informed about all events.
 
 After everything has been setup correctly, the buttons watch method is used to
 specify a callback function to execute every time the button is pressed or
