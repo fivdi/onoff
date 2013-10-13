@@ -301,10 +301,10 @@ led.unexport();
 button.unexport();
 ```
 
-## Configuring pull-up and pull-resistors
+## Configuring pull-up and pull-down resistors
 
-As onoff plays well with quick2wire-gpio-admin, the gpio-admin can be used to
-configure pull-up and pull-resistors on th Pi.
+As onoff plays well with quick2wire-gpio-admin, the gpio-admin utility can be
+used to configure pull-up and pull-down resistors on th Pi.
 
 TODO - This should also be possible with the WiringPi gpio utility, verify that
 this is actually the case.

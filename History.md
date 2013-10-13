@@ -3,8 +3,8 @@
 
   * onoff now plays well with the quick2wire gpio-admin and the WiringPi gpio utilities on the Pi [#14](https://github.com/fivdi/onoff/issues/14)
   * Documentation improved
-  * New test to monitor interrupt performance 70f2dc38a2173d29d15d241f1e60b03bc2a841ac
-  * New light switch example e968007561f88378d06db8d8f5bc92fb1af035a0
+  * New test to monitor interrupt performance
+  * New light switch example
 
 0.2.2 - Oct 05 2013
 ===================
