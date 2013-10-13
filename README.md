@@ -56,10 +56,10 @@ Here two Gpio objects are being created. One called led for the LED on GPIO #17
 which is an output, and one called button for the momentary push button on
 GPIO #18 which is an input. In addition to specifying that the button is an
 input, the constructors optional third argument is used to specify that 'both'
-rising and falling interrupt edges should be configured for the button GPIO.
-Finally, the button needs to be told whether watchers are interested the first
-event that occurs or all events. Here persistentWatch is true so watchers are
-informed about all events.
+rising and falling interrupt edges should be configured for the button GPIO as
+both button presses and releases should be handled. Finally, the button needs
+to be told whether watchers are interested the first event that occurs or all
+events. Here persistentWatch is true so watchers are informed about all events.
 
 After everything has been setup correctly, the buttons watch method is used to
 specify a callback function to execute every time the button is pressed or
@@ -186,7 +186,66 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
 
 In gereral, superuser privileges are required for exporting and using GPIOs.
 However, running all processes that access GPIOs as the superuser will be
-unacceptable for most. To resolve this issue onoff can be used as follows:
+unacceptable for most. There are several ways to resolve this issue.
+
+**Resolving superuser issues on the Pi with quick2wire-gpio-admin**
+
+After [quick2wire-gpio-admin](https://github.com/quick2wire/quick2wire-gpio-admin)
+has been successfully installed, the gpio-admin utility can be used to
+export/unexport GPIOs and the application can be executed without superuser
+privileges. Let's assume that the application is the led/button example from
+above.
+
+Step 1 - Export GPIOs with gpio-admin
+
+Run the following commands to export GPIO #17 and #18:
+
+```bash
+gpio-admin export 17
+gpio-admin export 18
+```
+
+Step 2 - Run the application
+
+Now the application can be executed without superuser privileges. Note that
+unlike the led/button example from above, the applications exit function does
+not attempt to unexport the GPIOs when it terminates.
+
+```js
+var Gpio = require('onoff').Gpio,
+    led = new Gpio(17, 'out'),
+    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
+
+button.watch(function(err, value) {
+    if (err) exit();
+    led.writeSync(value);
+});
+
+function exit() {
+    process.exit();
+}
+
+process.on('SIGINT', exit);
+```
+
+Step 3 - Unxport GPIOs with gpio-admin
+
+After the application has terminated, run the following commands to unexport
+GPIO #17 and #18:
+
+```bash
+gpio-admin unexport 17
+gpio-admin unexport 18
+```
+
+**Resolving superuser issues on the Pi with the WiringPi gpio utility**
+
+TODO - This should also work, verify that it actually does.
+
+**Resolving superuser issues with onoff**
+
+onoff itself also has built in functionality which can be leveraged to resolve
+superuser issues. 
 
 Step 1 - Export GPIOs as superuser
 
@@ -197,7 +256,8 @@ all users read and write access.
 
 ```js
 var Gpio = require('onoff').Gpio,
-    led = new Gpio(17, 'out');
+    led = new Gpio(17, 'out'),
+    button = new Gpio(18, 'in', 'both');
 ```
 
 Step 2 - The application can be run by a non-superuser
@@ -206,30 +266,26 @@ After the program from step one has been executed by the superuser, the
 application itself can be executed by a non-superuser. The Gpio constructor
 will see that the GPIO has already been exported to userspace and will not
 attempt to export it again. The value of the GPIO can be modified as all
-users have read and write access to its value file.
-
-Highspeed Blinking
+users have read and write access to its value file. Note that unlike the
+initial led/button example, the applications exit function does not attempt
+to unexport the GPIOs when it terminates.
 
 ```js
 var Gpio = require('onoff').Gpio,
     led = new Gpio(17, 'out'),
-    time = process.hrtime(),
-    hertz,
-    i;
+    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
 
-for (i = 0; i !== 50000; i += 1) {
-    led.writeSync(1);
-    led.writeSync(0);
+button.watch(function(err, value) {
+    if (err) exit();
+    led.writeSync(value);
+});
+
+function exit() {
+    process.exit();
 }
 
-time = process.hrtime(time);
-hertz = Math.floor(i / (time[0] + time[1] / 1E9));
-
-console.log('Frequency = ' + hertz / 1000 + 'KHz');
+process.on('SIGINT', exit);
 ```
-
-Depending on the system load, the frequency logged to the console should be up
-to 35KHz on a 720MHz BeagleBone or up to 23KHz on a 700MHz Raspberry Pi.
 
 Step 3 - Unexport GPIOs as superuser
 
@@ -238,10 +294,20 @@ superuser to unexport the appropriate GPIOs.
 
 ```js
 var Gpio = require('onoff').Gpio,
-    led = new Gpio(17, 'out');
+    led = new Gpio(17, 'out'),
+    button = new Gpio(18, 'in', 'both');
 
 led.unexport();
+button.unexport();
 ```
+
+## Configuring pull-up and pull-resistors
+
+As onoff plays well with quick2wire-gpio-admin, the gpio-admin can be used to
+configure pull-up and pull-resistors on th Pi.
+
+TODO - This should also be possible with the WiringPi gpio utility, verify that
+this is actually the case.
 
 ## Additional Information
 

@@ -1,4 +1,4 @@
-var Gpio = require('onoff').Gpio,
+var Gpio = require('../onoff').Gpio,
     led = new Gpio(17, 'out'), // 38
     button = new Gpio(18, 'in', 'both', {persistentWatch: true}); // 117
 
