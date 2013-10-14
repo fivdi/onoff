@@ -1,6 +1,7 @@
 0.2.3 - Oct 14 2013
 ===================
 
+  * Use epoll 0.0.8
   * onoff now plays well with the quick2wire gpio-admin and the WiringPi gpio utilities on the Pi [#14](https://github.com/fivdi/onoff/issues/14)
   * Documentation improved
   * New test to monitor interrupt performance
