@@ -79,6 +79,9 @@ function Gpio(gpio, direction, edge, options) {
         // truckin'.
         try {
             fs.writeFileSync(this.gpioPath + 'direction', direction);
+        } catch (e) {
+        }
+        try {
             if (edge) {
                 fs.writeFileSync(this.gpioPath + 'edge', edge);
             }

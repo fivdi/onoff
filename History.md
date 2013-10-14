@@ -1,4 +1,4 @@
-0.2.3 - soon
+0.2.3 - Oct 14 2013
 ===================
 
   * onoff now plays well with the quick2wire gpio-admin and the WiringPi gpio utilities on the Pi [#14](https://github.com/fivdi/onoff/issues/14)

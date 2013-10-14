@@ -25,6 +25,8 @@
     "embedded",
     "interrupt",
     "beaglebone",
+    "bbb",
+    "bb",
     "raspberry",
     "raspi",
     "rpi",

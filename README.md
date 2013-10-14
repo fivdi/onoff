@@ -9,34 +9,7 @@ BeagleBone or Raspberry Pi.
 
 onoff requires Node.js v0.8.0 or higher.
 
-## API
-
-onoff provides a constructor function called Gpio which can be used to make
-Gpio objects corresponding to Linux GPIOs. Examples of its usage can be seen in
-the code below. The Gpio methods available are as follows:
-
-  * [Gpio](https://github.com/fivdi/onoff/blob/master/onoff.js#L9-L36) - Constructor
-  * read(callback) - Read GPIO value asynchronously
-  * readSync() - Read GPIO value synchronously
-  * write(value, callback) - Write GPIO value asynchronously
-  * writeSync(value) - Write GPIO value synchronously
-  * watch(callback) - Watch for hardware interrupts on the GPIO. Inputs and
-    outputs can be watched. The edge argument that was passed to the
-    constructor determines which hardware interrupts are watcher for.
-  * unwatch(callback) - Stop watching for hardware interrupts on the GPIO
-  * unwatchAll() - Remove all watchers for the GPIO
-  * direction() - Read GPIO direction
-  * edge() - Read GPIO interrupt generating edge
-  * options() - Get GPIO options
-  * unexport() - Reverse the effect of exporting the GPIO to userspace
-
-GPIOs on Linux are identified by unsigned integers. These are the numbers that
-should be passed to the onoff Gpio constructor function when exporting GPIOs
-to userspace. For example, pin P1_11 on the Raspberry Pi P1 expansion header
-corresponds to GPIO #17 in Raspbian Linux. 17 is therefore the number to pass
-to the onoff Gpio constructor when using pin P1_11 on the P1 expansion header.
-
-## Example - It's called onoff so let's turn something on and off
+## Usage
 
 Assume that there's an LED on GPIO #17 and a momentary push button on GPIO #18.
 When the button is pressed the LED should trun on, when it's released the LED
@@ -94,47 +67,37 @@ process.on('SIGINT', exit);
 
 ## How does it work?
 
-The Linux operating system uses files to acheive many things so it should come
-as no surprise that files can be used for General Purpose Input/Output or GPIO
-on many Linux platforms. A GPIO is a software controlled digital signal
-representing a bit connected to a pin on the processor. Operating systems such
-as Ångström on the BeagleBone or Raspbian on the Raspberry Pi provide sysfs
-files for controlling and accessing these pins. These files are located at
-/sys/files/gpio.
+Internally onoff uses sysfs files located at /sys/class/gpio to access GPIOs
+and the [Node.js epoll module](https://github.com/fivdi/epoll) to detect
+hardware interrupts. It can detect several thousand interrupts per second on
+both the BeagleBone and the Raspberry Pi.
 
-For example, the following bash script uses these sysfs files to export
-GPIO #17 to userspace, set its direction to 'out', and set its value to '1':
+## API
 
-```bash
-#!/bin/sh
-echo 17 > /sys/class/gpio/export
-echo out > /sys/class/gpio/gpio17/direction
-echo 1 > /sys/class/gpio/gpio17/value
-``` 
+onoff provides a constructor function called Gpio which can be used to make
+Gpio objects corresponding to Linux GPIOs. Examples of its usage can be seen in
+the code below. The Gpio methods available are as follows:
 
-The following bash script exports GPIO #18 to userspace, set its direction to
-'in', and configures it to generate interrupts on 'both' edges.
+  * [Gpio](https://github.com/fivdi/onoff/blob/master/onoff.js#L9-L36) - Constructor
+  * read(callback) - Read GPIO value asynchronously
+  * readSync() - Read GPIO value synchronously
+  * write(value, callback) - Write GPIO value asynchronously
+  * writeSync(value) - Write GPIO value synchronously
+  * watch(callback) - Watch for hardware interrupts on the GPIO. Inputs and
+    outputs can be watched. The edge argument that was passed to the
+    constructor determines which hardware interrupts are watcher for.
+  * unwatch(callback) - Stop watching for hardware interrupts on the GPIO
+  * unwatchAll() - Remove all watchers for the GPIO
+  * direction() - Read GPIO direction
+  * edge() - Read GPIO interrupt generating edge
+  * options() - Get GPIO options
+  * unexport() - Reverse the effect of exporting the GPIO to userspace
 
-```bash
-echo 18 > /sys/class/gpio/export
-echo in > /sys/class/gpio/gpio18/direction
-echo both > /sys/class/gpio/gpio18/edge
-``` 
-
-To detect hardware interrupts, the Linux
-[epoll I/O event notification facility]
-(http://man7.org/linux/man-pages/man7/epoll.7.html) can be used. Interrupts on
-a GPIO can be detected by leveraging epoll to detect EPOLLPRI events on the
-GPIO value file.
-
-Internally onoff uses sysfs files to access GPIOs and the
-[Node.js epoll module](https://github.com/fivdi/epoll) to detect hardware
-interrupts. It can detect several thousand interrupts per second on both
-the BeagleBone and the Raspberry Pi.
-
-More information about GPIO can be found in the 
-[GPIO interfaces](http://www.kernel.org/doc/Documentation/gpio.txt)
-document.
+GPIOs on Linux are identified by unsigned integers. These are the numbers that
+should be passed to the onoff Gpio constructor function when exporting GPIOs
+to userspace. For example, pin P1_11 on the Raspberry Pi P1 expansion header
+corresponds to GPIO #17 in Raspbian Linux. 17 is therefore the number to pass
+to the onoff Gpio constructor when using pin P1_11 on the P1 expansion header.
 
 ## Synchronous API - Blink the LED on GPIO #17 for 5 seconds
 
@@ -188,64 +151,11 @@ In gereral, superuser privileges are required for exporting and using GPIOs.
 However, running all processes that access GPIOs as the superuser will be
 unacceptable for most. There are several ways to resolve this issue.
 
-**Resolving superuser issues on the Pi with quick2wire-gpio-admin**
-
-After [quick2wire-gpio-admin](https://github.com/quick2wire/quick2wire-gpio-admin)
-has been successfully installed, the gpio-admin utility can be used to
-export/unexport GPIOs and the application can be executed without superuser
-privileges. Let's assume that the application is the led/button example from
-above.
-
-Step 1 - Export GPIOs with gpio-admin
-
-Run the following commands to export GPIO #17 and #18:
-
-```bash
-gpio-admin export 17
-gpio-admin export 18
-```
-
-Step 2 - Run the application
-
-Now the application can be executed without superuser privileges. Note that
-unlike the led/button example from above, the applications exit function does
-not attempt to unexport the GPIOs when it terminates.
-
-```js
-var Gpio = require('onoff').Gpio,
-    led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
-
-button.watch(function(err, value) {
-    if (err) exit();
-    led.writeSync(value);
-});
-
-function exit() {
-    process.exit();
-}
-
-process.on('SIGINT', exit);
-```
-
-Step 3 - Unxport GPIOs with gpio-admin
-
-After the application has terminated, run the following commands to unexport
-GPIO #17 and #18:
-
-```bash
-gpio-admin unexport 17
-gpio-admin unexport 18
-```
-
-**Resolving superuser issues on the Pi with the WiringPi gpio utility**
-
-TODO - This should also work, verify that it actually does.
-
 **Resolving superuser issues with onoff**
 
-onoff itself also has built in functionality which can be leveraged to resolve
-superuser issues. 
+onoff has built in functionality which can be leveraged to resolve superuser
+issues. Let's assume that the application is the led/button example from
+above.
 
 Step 1 - Export GPIOs as superuser
 
@@ -301,13 +211,110 @@ led.unexport();
 button.unexport();
 ```
 
+**Resolving superuser issues on the Pi with quick2wire-gpio-admin**
+
+After [quick2wire-gpio-admin](https://github.com/quick2wire/quick2wire-gpio-admin)
+has been successfully installed, the gpio-admin utility can be used to
+export/unexport GPIOs and the application can be executed without superuser
+privileges. Let's assume that the application is the led/button example from
+above.
+
+Step 1 - Export GPIOs with gpio-admin
+
+Run the following commands to export GPIO #17 and #18:
+
+```bash
+gpio-admin export 17
+gpio-admin export 18
+```
+
+Step 2 - Run the application
+
+Now the application can be executed without superuser privileges. Note that
+unlike the initial led/button example, the applications exit function does
+not attempt to unexport the GPIOs when it terminates.
+
+```js
+var Gpio = require('onoff').Gpio,
+    led = new Gpio(17, 'out'),
+    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
+
+button.watch(function(err, value) {
+    if (err) exit();
+    led.writeSync(value);
+});
+
+function exit() {
+    process.exit();
+}
+
+process.on('SIGINT', exit);
+```
+
+Step 3 - Unxport GPIOs with gpio-admin
+
+After the application has terminated, run the following commands to unexport
+GPIO #17 and #18:
+
+```bash
+gpio-admin unexport 17
+gpio-admin unexport 18
+```
+
+**Resolving superuser issues on the Pi with the WiringPi gpio utility**
+
+After the [WiringPi gpio utility](http://wiringpi.com/the-gpio-utility/)
+has been successfully installed, it can be used to export/unexport GPIOs and
+the application can be executed without superuser privileges. Let's assume that
+the application is the led/button example from above.
+
+Step 1 - Export GPIOs with gpio-admin
+
+Run the following commands to export GPIO #17 and #18:
+
+```bash
+gpio export 17 out
+gpio export 18 in
+```
+
+Step 2 - Run the application
+
+Now the application can be executed without superuser privileges. Note that
+unlike the initial led/button example, the applications exit function does
+not attempt to unexport the GPIOs when it terminates.
+
+```js
+var Gpio = require('onoff').Gpio,
+    led = new Gpio(17, 'out'),
+    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
+
+button.watch(function(err, value) {
+    if (err) exit();
+    led.writeSync(value);
+});
+
+function exit() {
+    process.exit();
+}
+
+process.on('SIGINT', exit);
+```
+
+Step 3 - Unxport GPIOs with gpio-admin
+
+After the application has terminated, run the following commands to unexport
+GPIO #17 and #18:
+
+```bash
+gpio unexport 17
+gpio unexport 18
+```
+
 ## Configuring pull-up and pull-down resistors
 
-As onoff plays well with quick2wire-gpio-admin, the gpio-admin utility can be
-used to configure pull-up and pull-down resistors on th Pi.
-
-TODO - This should also be possible with the WiringPi gpio utility, verify that
-this is actually the case.
+As onoff plays well with the quick2wire gpio-admin utility and the WiringPi
+gpio utility, either of these tools can be used to configure pull-up and
+pull-down resistors on th Pi.
 
 ## Additional Information
 
@@ -320,5 +327,4 @@ be followed so GPIO can vary from platform to platform. For example, onoff
 relies on sysfs files located at /sys/classes/gpio being available. However,
 these sysfs files for userspace GPIO are optional and may not be available on a
 particular platform.
-
 
