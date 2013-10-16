@@ -75,8 +75,8 @@ both the BeagleBone and the Raspberry Pi.
 ## API
 
 onoff provides a constructor function called Gpio which can be used to make
-Gpio objects corresponding to Linux GPIOs. Examples of its usage can be seen in
-the code below. The Gpio methods available are as follows:
+Gpio objects corresponding to Linux GPIOs. The Gpio methods available are as
+follows:
 
   * [Gpio](https://github.com/fivdi/onoff/blob/master/onoff.js#L9-L36) - Constructor
   * read(callback) - Read GPIO value asynchronously
@@ -161,7 +161,7 @@ Step 1 - Export GPIOs as superuser
 
 Create a simple program for exporting GPIOs and execute this program with
 superuser privileges. In addition to exporting the GPIOs, this program will
-automatically change the access permissions for the GPIOs value file giving
+automatically change the access permissions for the GPIO value files giving
 all users read and write access.
 
 ```js
@@ -174,9 +174,9 @@ Step 2 - The application can be run by a non-superuser
 
 After the program from step one has been executed by the superuser, the
 application itself can be executed by a non-superuser. The Gpio constructor
-will see that the GPIO has already been exported to userspace and will not
-attempt to export it again. The value of the GPIO can be modified as all
-users have read and write access to its value file. Note that unlike the
+will detect whether a GPIO has already been exported to userspace and will not
+attempt to export it again. The value of the GPIO can be accessed as all
+users have read and write access to the value file. Note that unlike the
 initial led/button example, the applications exit function does not attempt
 to unexport the GPIOs when it terminates.
 
@@ -268,7 +268,7 @@ has been successfully installed, it can be used to export/unexport GPIOs and
 the application can be executed without superuser privileges. Let's assume that
 the application is the led/button example from above.
 
-Step 1 - Export GPIOs with gpio-admin
+Step 1 - Export GPIOs with gpio
 
 Run the following commands to export GPIO #17 and #18:
 
@@ -300,7 +300,7 @@ function exit() {
 process.on('SIGINT', exit);
 ```
 
-Step 3 - Unxport GPIOs with gpio-admin
+Step 3 - Unxport GPIOs with gpio
 
 After the application has terminated, run the following commands to unexport
 GPIO #17 and #18:
@@ -312,9 +312,9 @@ gpio unexport 18
 
 ## Configuring pull-up and pull-down resistors
 
-As onoff plays well with the quick2wire gpio-admin utility and the WiringPi
-gpio utility, either of these tools can be used to configure pull-up and
-pull-down resistors on th Pi.
+As onoff plays well with the quick2wire gpio-admin and the WiringPi gpio
+utilities, either of these tools can be used to configure pull-up and pull-down
+resistors on th Pi.
 
 ## Additional Information
 
