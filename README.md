@@ -99,7 +99,9 @@ to userspace. For example, pin P1_11 on the Raspberry Pi P1 expansion header
 corresponds to GPIO #17 in Raspbian Linux. 17 is therefore the number to pass
 to the onoff Gpio constructor when using pin P1_11 on the P1 expansion header.
 
-## Synchronous API - Blink the LED on GPIO #17 for 5 seconds
+## Synchronous API
+
+Blink the LED on GPIO #17 for 5 seconds:
 
 ```js
 var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
@@ -120,7 +122,9 @@ setTimeout(function() {
 }, 5000);
 ```
 
-## Asynchronous API - Blink the LED on GPIO #17 20 times
+## Asynchronous API
+
+Blink the LED on GPIO #17 for 5 seconds:
 
 ```js
 var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
@@ -315,6 +319,31 @@ gpio unexport 18
 As onoff plays well with the quick2wire gpio-admin and the WiringPi gpio
 utilities, either of these tools can be used to configure pull-up and pull-down
 resistors on th Pi.
+
+## Benchmarks
+
+Three of the onoff tests are used to monitor performance:
+
+  * performance-async.js - determine max. no. of write ops per seconds
+  * performance-sync.js - determine max. no. of writeSync ops per second
+  * performance-interrupt.js - determine max. no. of interrupts per second
+
+The average for ten runs of these tests using onoff v0.2.3 are shown in the
+following tables.
+
+BeagleBone, 720MHz, Ångström v2012.12, Kernel 3.8.13:
+
+Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | ---: | ---: | ---:
+v0.11.7 | 6399 | 84334 | 5519
+v0.10.20 | 4925 | 45713 | 4561
+
+Raspberry Pi, 700Mhz, Raspbian, Kernel 3.6.11+:
+
+Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | ---: | ---: | ---:
+v0.11.07 | 3355 | 49651 | 2550
+v0.10.8 | 2772 | 31825 | 2297
 
 ## Additional Information
 
