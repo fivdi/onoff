@@ -149,6 +149,37 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
 })(20);
 ```
 
+## Configuring pull-up and pull-down resistors
+
+As onoff plays well with the quick2wire gpio-admin and the WiringPi gpio
+utilities, either of these tools can be used to configure pull-up and pull-down
+resistors on th Pi.
+
+## Benchmarks
+
+Three of the onoff tests are used to monitor performance:
+
+  * performance-async.js - determine max. no. of write ops per seconds
+  * performance-sync.js - determine max. no. of writeSync ops per second
+  * performance-interrupt.js - determine max. no. of interrupts per second
+
+The average for ten runs of these tests using onoff v0.2.3 are shown in the
+following tables.
+
+**BeagleBone, 720MHz, Ångström v2012.12, Kernel 3.8.13:**
+
+Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | ---: | ---: | ---:
+v0.11.7 | 6399 | 84334 | 5519
+v0.10.20 | 4925 | 45713 | 4561
+
+**Raspberry Pi, 700Mhz, Raspbian, Kernel 3.6.11+:**
+
+Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | ---: | ---: | ---:
+v0.11.07 | 3355 | 49651 | 2550
+v0.10.8 | 2772 | 31825 | 2297
+
 ## How to handle superuser issues
 
 In gereral, superuser privileges are required for exporting and using GPIOs.
@@ -313,37 +344,6 @@ GPIO #17 and #18:
 gpio unexport 17
 gpio unexport 18
 ```
-
-## Configuring pull-up and pull-down resistors
-
-As onoff plays well with the quick2wire gpio-admin and the WiringPi gpio
-utilities, either of these tools can be used to configure pull-up and pull-down
-resistors on th Pi.
-
-## Benchmarks
-
-Three of the onoff tests are used to monitor performance:
-
-  * performance-async.js - determine max. no. of write ops per seconds
-  * performance-sync.js - determine max. no. of writeSync ops per second
-  * performance-interrupt.js - determine max. no. of interrupts per second
-
-The average for ten runs of these tests using onoff v0.2.3 are shown in the
-following tables.
-
-BeagleBone, 720MHz, Ångström v2012.12, Kernel 3.8.13:
-
-Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
-:---: | ---: | ---: | ---:
-v0.11.7 | 6399 | 84334 | 5519
-v0.10.20 | 4925 | 45713 | 4561
-
-Raspberry Pi, 700Mhz, Raspbian, Kernel 3.6.11+:
-
-Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
-:---: | ---: | ---: | ---:
-v0.11.07 | 3355 | 49651 | 2550
-v0.10.8 | 2772 | 31825 | 2297
 
 ## Additional Information
 
