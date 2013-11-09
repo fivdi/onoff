@@ -163,7 +163,7 @@ Three of the onoff tests are used to monitor performance:
   * performance-sync.js - determine max. no. of writeSync ops per second
   * performance-interrupt.js - determine max. no. of interrupts per second
 
-The average for ten runs of these tests using onoff v0.2.3 are shown in the
+The average of ten runs of these tests using onoff v0.2.3 are shown in the
 following tables.
 
 **BeagleBone, 720MHz, Ångström v2012.12, Kernel 3.8.13:**
@@ -172,6 +172,12 @@ Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
 :---: | ---: | ---: | ---:
 v0.11.7 | 6399 | 84334 | 5519
 v0.10.20 | 4925 | 45713 | 4561
+
+**BeagleBone Black, 1GHz, Ångström v2012.12, Kernel 3.8.13:**
+
+Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | ---: | ---: | ---:
+v0.11.8 | 8446 | 100698 | 7323
 
 **Raspberry Pi, 700Mhz, Raspbian, Kernel 3.6.11+:**
 
