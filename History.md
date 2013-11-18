@@ -1,4 +1,6 @@
+0.3.0 - Nov 18 2013
 ===================
+  * Updated dependencies: epoll 0.0.8 -> 0.1.0
   * Removed persistentWatch option
 
 0.2.3 - Oct 14 2013
