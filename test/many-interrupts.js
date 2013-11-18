@@ -17,7 +17,6 @@ function interrupt(err, value) {
     assert(led.readSync() === value);
 
     if (rising + falling < 2000) {
-        led.watch(interrupt);
         toggleLedState();
     } else {
         assert(ledStateChanges === 2000);

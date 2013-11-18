@@ -1,3 +1,6 @@
+===================
+  * Removed persistentWatch option
+
 0.2.3 - Oct 14 2013
 ===================
 

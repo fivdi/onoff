@@ -1,14 +1,12 @@
 var Gpio = require('../onoff').Gpio,
     assert = require('assert'),
     button = new Gpio(/* 117 */ 18, 'in', 'rising', {
-        debounceTimeout : 250,
-        persistentWatch : true
+        debounceTimeout : 250
     }),
     count = 0;
 
 assert(button.direction() === 'in');
 assert(button.edge() === 'rising');
-assert(button.options().persistentWatch === true);
 assert(button.options().debounceTimeout === 250);
 
 console.info('Please press button attached to GPIO #18 5 times...');

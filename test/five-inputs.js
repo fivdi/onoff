@@ -20,8 +20,7 @@ function buttonPressed(err, value) {
 
 for (i = 0; i !== pins.length; i += 1) {
     buttons[i] = new Gpio(pins[i], 'in', 'rising', {
-        debounceTimeout : 250,
-        persistentWatch : true
+        debounceTimeout : 250
     });
 
     buttons[i].watch(buttonPressed.bind(buttons[i]));

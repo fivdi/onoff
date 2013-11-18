@@ -1,8 +1,8 @@
 var fs = require('fs'),
     Epoll = require('epoll').Epoll,
     gpioRootPath = '/sys/class/gpio/',
-    zero = new Buffer('0'), // Using zero and one rather than creating them 
-    one = new Buffer('1');  // on the fly when needed improves performance.
+    zero = new Buffer('0'),
+    one = new Buffer('1');
 
 exports.version = '0.2.3';
 
@@ -26,10 +26,6 @@ exports.version = '0.2.3';
  * [options: object] // Additional options. [optional]
  *
  * The options argument supports the following:
- * persistentWatch: boolean // Specifies whether or not interrupt watching
- *                          // for the GPIO is one-shot or persistent.
- *                          // Can be specified for GPIO inputs and outputs.
- *                          // The default value is false (one-shot).
  * debounceTimeout: number  // Can be used to software debounce a button or
  *                          // switch using a timeout. Specified in
  *                          // milliseconds. The default value is 0.
@@ -47,7 +43,6 @@ function Gpio(gpio, direction, edge, options) {
     this.gpio = gpio;
     this.gpioPath = gpioRootPath + 'gpio' + this.gpio + '/';
     this.opts = {};
-    this.opts.persistentWatch = options.persistentWatch || false;
     this.opts.debounceTimeout = options.debounceTimeout || 0;
     this.readBuffer = new Buffer(16);
     this.listeners = [];
@@ -139,9 +134,7 @@ Gpio.prototype.write = function(value, callback) {
  * value: number // 0 or 1
  */
 Gpio.prototype.writeSync = function(value) {
-    // Replacing a with b made ./test/performance-sync.js 3.5 times faster.
-    // var writeBuffer = new Buffer(value.toString()); // a
-    var writeBuffer = value === 1 ? one : zero;        // b
+    var writeBuffer = value === 1 ? one : zero;
     fs.writeSync(this.valueFd, writeBuffer, 0, writeBuffer.length, 0);
 };
 
@@ -167,7 +160,7 @@ Gpio.prototype.watch = function(callback) {
 
     if (this.listeners.length === 1) {
         events = Epoll.EPOLLPRI;
-        if (!this.opts.persistentWatch || this.opts.debounceTimeout > 0) {
+        if (this.opts.debounceTimeout > 0) {
             events |= Epoll.EPOLLONESHOT;
         }
         this.poller.add(this.valueFd, events);
@@ -204,7 +197,7 @@ function pollerEventHandler(err, fd, events) {
     var value = this.readSync(),
         callbacks = this.listeners.slice(0);
 
-    if (this.opts.persistentWatch && this.opts.debounceTimeout > 0) {
+    if (this.opts.debounceTimeout > 0) {
         setTimeout(function () {
             if (this.listeners.length > 0) {
                 // Read current value before polling to prevent unauthentic interrupts.
@@ -212,10 +205,6 @@ function pollerEventHandler(err, fd, events) {
                 this.poller.modify(this.valueFd, Epoll.EPOLLPRI | Epoll.EPOLLONESHOT);
             }
         }.bind(this), this.opts.debounceTimeout);
-    }
-
-    if (!this.opts.persistentWatch) {
-        this.unwatchAll();
     }
 
     callbacks.forEach(function (callback) {

@@ -21,12 +21,12 @@ function setup() {
 
     // Configure all led as interrupt generating outputs.
     for (i = 0; i !== gpioNrs.length; i += 1) {
-        leds[i] = new Gpio(gpioNrs[i], 'out', 'both', {
-            persistentWatch : true
-        });
+        leds[i] = new Gpio(gpioNrs[i], 'out', 'both');
+
         // Add an irqCount property to the leds Gpio.
         leds[i].irqCount = 0;
         leds[i].watch(ledStateChanged.bind(leds[i]));
+
         // Trigger first interrupt by toggling led state.
         leds[i].writeSync(leds[i].readSync() === 0 ? 1 : 0);
     }

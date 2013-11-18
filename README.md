@@ -18,7 +18,7 @@ should turn off. This can be acheived with the following code:
 ```js
 var Gpio = require('onoff').Gpio,
     led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
+    button = new Gpio(18, 'in', 'both');
 
 button.watch(function(err, value) {
     led.writeSync(value);
@@ -30,9 +30,7 @@ which is an output, and one called button for the momentary push button on
 GPIO #18 which is an input. In addition to specifying that the button is an
 input, the constructors optional third argument is used to specify that 'both'
 rising and falling interrupt edges should be configured for the button GPIO as
-both button presses and releases should be handled. Finally, the button needs
-to be told whether watchers are interested the first event that occurs or all
-events. Here persistentWatch is true so watchers are informed about all events.
+both button presses and releases should be handled.
 
 After everything has been setup correctly, the buttons watch method is used to
 specify a callback function to execute every time the button is pressed or
@@ -49,7 +47,7 @@ button Gpio objects are released by calling their unexport method.
 ```js
 var Gpio = require('onoff').Gpio,
     led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
+    button = new Gpio(18, 'in', 'both');
 
 button.watch(function(err, value) {
     if (err) exit();
@@ -224,7 +222,7 @@ to unexport the GPIOs when it terminates.
 ```js
 var Gpio = require('onoff').Gpio,
     led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
+    button = new Gpio(18, 'in', 'both');
 
 button.watch(function(err, value) {
     if (err) exit();
@@ -278,7 +276,7 @@ not attempt to unexport the GPIOs when it terminates.
 ```js
 var Gpio = require('onoff').Gpio,
     led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
+    button = new Gpio(18, 'in', 'both');
 
 button.watch(function(err, value) {
     if (err) exit();
@@ -327,7 +325,7 @@ not attempt to unexport the GPIOs when it terminates.
 ```js
 var Gpio = require('onoff').Gpio,
     led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both', {persistentWatch: true});
+    button = new Gpio(18, 'in', 'both');
 
 button.watch(function(err, value) {
     if (err) exit();

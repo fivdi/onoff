@@ -5,8 +5,6 @@ node configure-and-check-output
 node many-interrupts
 node performance-async
 node performance-sync
-sleep 1
 node wait-for-interrupt
-sleep 1
 node wait-for-many-interrupts
 
