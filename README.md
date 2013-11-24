@@ -178,28 +178,29 @@ Three of the onoff tests are used to monitor performance:
   * performance-sync.js - determine max. no. of writeSync ops per second
   * performance-interrupt.js - determine max. no. of interrupts per second
 
-The average of ten runs of these tests using onoff v0.2.3 are shown in the
-following tables.
+The average of ten runs of these tests using various versions of Node.js and
+onoff are shown in the following tables.
 
 **BeagleBone, 720MHz, Ångström v2012.12, Kernel 3.8.13:**
 
-Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
-:---: | ---: | ---: | ---:
-v0.11.7 | 6399 | 84334 | 5519
-v0.10.20 | 4925 | 45713 | 4561
+Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | :---: | ---: | ---: | ---:
+v0.11.7 | v0.2.3 | 6399 | 84334 | 5519
+v0.10.20 | v0.2.3 | 4925 | 45713 | 4561
 
 **BeagleBone Black, 1GHz, Ångström v2012.12, Kernel 3.8.13:**
 
-Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
-:---: | ---: | ---: | ---:
-v0.11.8 | 8446 | 100698 | 7323
+Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | :---: | ---: | ---: | ---:
+v0.11.9 | v0.3.0 | 8663 | 110219 | 7154
+v0.11.8 | v0.2.3 | 8446 | 100698 | 7323
 
 **Raspberry Pi, 700Mhz, Raspbian, Kernel 3.6.11+:**
 
-Node.js | write ops / sec | writeSync ops / sec | interrupts / sec
-:---: | ---: | ---: | ---:
-v0.11.07 | 3355 | 49651 | 2550
-v0.10.8 | 2772 | 31825 | 2297
+Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | :---: | ---: | ---: | ---:
+v0.11.7 | v0.2.3 | 3355 | 49651 | 2550
+v0.10.8 | v0.2.3 | 2772 | 31825 | 2297
 
 ## How to handle superuser issues
 
