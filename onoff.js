@@ -222,6 +222,16 @@ Gpio.prototype.direction = function() {
 };
 
 /**
+ * Writes GPIO direction.
+ *
+ * value: direction // 'in' or 'out
+ */
+Gpio.prototype.setDirection = function(direction) {
+    fs.writeFileSync(this.gpioPath + 'direction', direction);
+};
+
+
+/**
  * Read GPIO interrupt generating edge.
  *
  * Returns - string // 'none', 'rising', 'falling' or 'both'
