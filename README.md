@@ -103,8 +103,10 @@ follows:
     constructor determines which hardware interrupts are watcher for.
   * unwatch(callback) - Stop watching for hardware interrupts on the GPIO
   * unwatchAll() - Remove all watchers for the GPIO
-  * direction() - Read GPIO direction
-  * edge() - Read GPIO interrupt generating edge
+  * direction() - Get GPIO direction
+  * setDirection() - Set GPIO direction
+  * edge() - Get GPIO interrupt generating edge
+  * setEdge() - Set GPIO interrupt generating edge
   * options() - Get GPIO options
   * unexport() - Reverse the effect of exporting the GPIO to userspace
 

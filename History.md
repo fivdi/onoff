@@ -1,3 +1,9 @@
+0.3.1 - Mar 22 2014
+===================
+  * Added setDirection functionality [#19](https://github.com/fivdi/onoff/pull/19)
+  * Added setEdge functionality
+  * Updated dependencies: epoll 0.1.0 -> 0.1.2
+
 0.3.0 - Nov 18 2013
 ===================
   * Updated dependencies: epoll 0.0.8 -> 0.1.0

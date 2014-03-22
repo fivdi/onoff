@@ -4,7 +4,7 @@ var fs = require('fs'),
     zero = new Buffer('0'),
     one = new Buffer('1');
 
-exports.version = '0.3.0';
+exports.version = '0.3.1';
 
 /**
  * Constructor. Exports a GPIO to userspace.
@@ -213,7 +213,7 @@ function pollerEventHandler(err, fd, events) {
 }
 
 /**
- * Read GPIO direction.
+ * Get GPIO direction.
  *
  * Returns - string // 'in', or 'out'
  */
@@ -222,22 +222,38 @@ Gpio.prototype.direction = function() {
 };
 
 /**
- * Writes GPIO direction.
+ * Set GPIO direction.
  *
- * value: direction // 'in' or 'out
+ * direction: string // Specifies whether the GPIO should be configured as an
+ *                   // input or output. The valid values are: 'in', 'out',
+ *                   // 'high', and 'low'. 'high' and 'low' are variants of
+ *                   // 'out' that configure the GPIO as an output with an
+ *                   // initial level of high or low respectively.
  */
 Gpio.prototype.setDirection = function(direction) {
     fs.writeFileSync(this.gpioPath + 'direction', direction);
 };
 
-
 /**
- * Read GPIO interrupt generating edge.
+ * Get GPIO interrupt generating edge.
  *
  * Returns - string // 'none', 'rising', 'falling' or 'both'
  */
 Gpio.prototype.edge = function() {
     return fs.readFileSync(this.gpioPath + 'edge').toString().trim();
+};
+
+/**
+ * Set GPIO interrupt generating edge.
+ *
+ * edge: string // The interrupt generating edge for the GPIO. Can be
+ *              // specified for GPIO inputs and outputs. The edge
+ *              // specified determine what watchers watch for. The valid
+ *              // values are: 'none', 'rising', 'falling' or 'both'.
+ *              // The default value is 'none'. [optional]
+ */
+Gpio.prototype.setEdge = function(edge) {
+    fs.writeFileSync(this.gpioPath + 'edge', edge);
 };
 
 /**
