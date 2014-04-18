@@ -1,3 +1,8 @@
+0.3.2 - Apr 18 2014
+===================
+  * Documented BeagleBone Ångström prerequisites
+  * Updated dependencies: epoll 0.1.2 -> 0.1.4
+
 0.3.1 - Mar 22 2014
 ===================
   * Added setDirection functionality [#19](https://github.com/fivdi/onoff/pull/19)
