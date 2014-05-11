@@ -106,7 +106,7 @@ onoff provides a constructor function called Gpio which can be used to make
 Gpio objects corresponding to Linux GPIOs. The Gpio methods available are as
 follows:
 
-  * [Gpio](https://github.com/fivdi/onoff/blob/master/onoff.js#L9-L36) - Constructor
+  * [Gpio](https://github.com/fivdi/onoff/blob/master/onoff.js#L9-L32) - Constructor
   * read(callback) - Read GPIO value asynchronously
   * readSync() - Read GPIO value synchronously
   * write(value, callback) - Write GPIO value asynchronously
@@ -387,7 +387,7 @@ gpio unexport 18
 onoff has been tested on the BeagleBone (Ångström) and Raspberry Pi (Raspbian).
 The suitability of onoff for a particular Linux board is highly dependent on
 how GPIO interfaces are made available on that board. The
-[GPIO interfaces](http://www.kernel.org/doc/Documentation/gpio.txt)
+[GPIO interfaces](https://www.kernel.org/doc/Documentation/gpio/)
 documentation describes GPIO access conventions rather than standards that must
 be followed so GPIO can vary from platform to platform. For example, onoff
 relies on sysfs files located at /sys/classes/gpio being available. However,
