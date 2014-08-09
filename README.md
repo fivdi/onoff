@@ -97,8 +97,16 @@ process.on('SIGINT', exit);
 
 Internally onoff uses sysfs files located at /sys/class/gpio to access GPIOs
 and the [Node.js epoll module](https://github.com/fivdi/epoll) to detect
-hardware interrupts. It can detect several thousand interrupts per second on
-both the BeagleBone and the Raspberry Pi.
+hardware interrupts. The Linux GPIO sysfs interface for userspace is
+documented [here](https://www.kernel.org/doc/Documentation/gpio/sysfs.txt).
+It's a relatively simple interface which can be used to ask the Linux kernel
+to export control of a GPIO to userspace. After control of a GPIO has been
+exported to userspace, the GPIO can be configured as an input or output.
+Thereafter, the state of an input can be read, and the state of an output can
+be written. Some systems will also allow the state of a output to be read.
+The GPIO sysfs interface can also be used for interrupt detection. onoff can
+detect several thousand interrupts per second on both the BeagleBone and the
+Raspberry Pi.
 
 ## API
 
