@@ -2,6 +2,7 @@ Unpublished
 ===========
   * use strict mode
   * jslint improvements
+  * Updated dependencies: epoll 0.1.4 -> 0.1.10
 
 0.3.2 - Apr 18 2014
 ===================
