@@ -34,7 +34,6 @@
     "linux"
   ],
   "author": "fivdi",
-  "license": "MIT",
-  "gypfile": true
+  "license": "MIT"
 }
 
