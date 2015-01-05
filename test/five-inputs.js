@@ -1,7 +1,7 @@
 "use strict";
 
 var Gpio = require('../onoff').Gpio,
-    pins = [18, 22, 23, 24, 27],
+    pins = [4, 7, 8, 9, 10],
     buttons = [],
     presses = 0,
     i = 0;
@@ -28,5 +28,5 @@ for (i = 0; i !== pins.length; i += 1) {
     buttons[i].watch(buttonPressed.bind(buttons[i]));
 }
 
-console.info('Please press buttons attached to GPIO #18, #22, #23, #24, or #27...');
+console.info('Please press buttons attached to GPIO #4, #7, #8, #9, or #10...');
 

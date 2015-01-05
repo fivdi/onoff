@@ -2,7 +2,7 @@
 
 var assert = require('assert'),
     Gpio = require('../onoff').Gpio,
-    led = new Gpio(17, 'out', 'both'),
+    led = new Gpio(14, 'out', 'both'),
     ledStateChanges = 0,
     falling = 0,
     rising = 0;

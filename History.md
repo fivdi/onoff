@@ -2,7 +2,8 @@ Unpublished
 ===========
   * use strict mode
   * jslint improvements
-  * Updated dependencies: epoll 0.1.4 -> 0.1.10
+  * updated dependencies: epoll 0.1.4 -> 0.1.10
+  * new wiring for tests on pi
 
 0.3.2 - Apr 18 2014
 ===================

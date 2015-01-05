@@ -6,7 +6,7 @@
  */
 var Gpio = require('../onoff').Gpio,
     // gpioNrs = [36, 37, 38, 39, 44, 45, 46, 47], // BB.
-    gpioNrs = [11, 14, 15, 17, 22, 23, 24, 25], // Pi.
+    gpioNrs = [7, 8, 9, 10, 11, 14, 15, 25], // Pi.
     leds = [],
     grandIrqTotal = 0,
     iv;
