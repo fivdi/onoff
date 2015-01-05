@@ -1,5 +1,7 @@
+"use strict";
+
 var Gpio = require('../../onoff').Gpio,
-    led = new Gpio(/* 38 */ 17, 'out'),
+    led = new Gpio(17, 'out'),
     time = process.hrtime(),
     hertz,
     i;

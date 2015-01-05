@@ -1,3 +1,8 @@
+Unpublished
+===========
+  * use strict mode
+  * jslint improvements
+
 0.3.2 - Apr 18 2014
 ===================
   * Documented BeagleBone Ångström prerequisites

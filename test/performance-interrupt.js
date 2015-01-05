@@ -1,16 +1,31 @@
+"use strict";
+
 /*
  * Sets up eight GPIOs as interrupt generating outputs and allows them all to
  * interrupt as fast as they can.
  */
 var Gpio = require('../onoff').Gpio,
-    gpioNrs = [36, 37, 38, 39, 44, 45, 46, 47], // BB.
-    // gpioNrs = [11, 14, 15, 17, 22, 23, 24, 25], // Pi.
+    // gpioNrs = [36, 37, 38, 39, 44, 45, 46, 47], // BB.
+    gpioNrs = [11, 14, 15, 17, 22, 23, 24, 25], // Pi.
     leds = [],
     grandIrqTotal = 0,
     iv;
 
+function exit() {
+    var i;
+
+    for (i = 0; i !== leds.length; i += 1) {
+        leds[i].unexport();
+    }
+
+    clearInterval(iv);
+}
+
 function ledStateChanged(err, value) {
-    if (err) exit();
+    if (err) {
+        exit();
+    }
+
     this.irqCount += 1;
     // Trigger next interrupt by toggling led state.
     this.writeSync(value === 0 ? 1 : 0);
@@ -32,29 +47,19 @@ function setup() {
     }
 
     // Print info about interrupts once a second.
-    iv = setInterval(function() {
-        var i, subIrqTotal, message = '';
+    iv = setInterval(function () {
+        var j, subIrqTotal, message = '';
 
-        for (i = subIrqTotal= 0; i != leds.length; i += 1) {
-            message += ', ' + leds[i].irqCount;
-            subIrqTotal += leds[i].irqCount;
-            leds[i].irqCount = 0;
+        for (j = subIrqTotal= 0; j !== leds.length; j += 1) {
+            message += ', ' + leds[j].irqCount;
+            subIrqTotal += leds[j].irqCount;
+            leds[j].irqCount = 0;
         }
 
         grandIrqTotal += subIrqTotal;
         message = grandIrqTotal + ', '  + subIrqTotal + message;
         console.log(message);
     }, 1000);
-}
-
-function exit() {
-    var i;
-
-    for (i = 0; i != leds.length; i += 1) {
-        leds[i].unexport();
-    }
-
-    clearInterval(iv);
 }
 
 setup();

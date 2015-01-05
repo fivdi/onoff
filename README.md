@@ -114,7 +114,7 @@ onoff provides a constructor function called Gpio which can be used to make
 Gpio objects corresponding to Linux GPIOs. The Gpio methods available are as
 follows:
 
-  * [Gpio](https://github.com/fivdi/onoff/blob/master/onoff.js#L9-L32) - Constructor
+  * [Gpio](https://github.com/fivdi/onoff/blob/master/onoff.js#L11-L34) - Constructor
   * read(callback) - Read GPIO value asynchronously
   * readSync() - Read GPIO value synchronously
   * write(value, callback) - Write GPIO value asynchronously

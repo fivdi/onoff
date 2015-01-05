@@ -1,12 +1,22 @@
+"use strict";
+
 var assert = require('assert'),
     Gpio = require('../onoff').Gpio,
-    led = new Gpio(/* 38 */ 17, 'out', 'both'),
+    led = new Gpio(17, 'out', 'both'),
     ledStateChanges = 0,
     falling = 0,
     rising = 0;
 
+function toggleLedState() {
+    led.writeSync(led.readSync() === 1 ? 0 : 1);
+    ledStateChanges += 1;
+}
+
+
 function interrupt(err, value) {
-    if (err) throw err;
+    if (err) {
+        throw err;
+    }
 
     if (value === 1) {
         rising += 1;
@@ -28,11 +38,6 @@ function interrupt(err, value) {
 
         console.log('ok - ' + __filename);
     }
-}
-
-function toggleLedState(wait) {
-    led.writeSync(led.readSync() === 1 ? 0 : 1);
-    ledStateChanges += 1;        
 }
 
 led.watch(interrupt);

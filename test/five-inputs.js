@@ -1,3 +1,5 @@
+"use strict";
+
 var Gpio = require('../onoff').Gpio,
     pins = [18, 22, 23, 24, 27],
     buttons = [],
