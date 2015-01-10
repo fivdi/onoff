@@ -1,7 +1,7 @@
 ## onoff
 
 GPIO access and interrupt detection with Node.js on Linux boards such as the
-BeagleBone or Raspberry Pi.
+BeagleBone, BeagleBone Black, or Raspberry Pi.
 
 ## Installation
 
@@ -11,9 +11,12 @@ onoff requires Node.js v0.8.0 or higher.
 
 **BeagleBone Prerequisites**
 
-Before installing epoll on stock Ångström on the BeagleBone three Python
-modules need to be installed; python-compiler, python-misc, and
-python-multiprocessing. They can be installed with the following commands:
+There are no prerequisites for using onoff on the BeagleBone or BeagleBone
+Black, when Debian is being used.
+
+Before installing onoff on stock Ångström on the BeagleBone or BeagleBone
+Black, three Python modules need to be installed; python-compiler, python-misc,
+and python-multiprocessing. They can be installed with the following commands:
 
 ```bash
 $ opkg update
@@ -24,7 +27,19 @@ $ opkg install python-multiprocessing
 
 ## News & Updates
 
-### onoff v0.3.0 breaking persistentWatch change
+### onoff v1.0.0 - No more superuser issues with user pi on Raspbian
+
+User Pi on recent versions of Raspbian can access GPIOs without superuser
+privileges and the techniques for avoiding superuser issues described in
+section
+[How to handle superuser issues](https://github.com/fivdi/onoff#how-to-handle-superuser-issues)
+no longer need to be applied.
+
+One of the techniques for avoiding superuser issues on older versions of
+Raspbian was titled "Resolving superuser issues with onoff". This technique
+is no longer supported with onoff v1.0.0 or higher.
+
+### onoff v0.3.0 - Breaking persistentWatch change
 
 The persistentWatch option that was supported by onoff v0.1.2 through v0.2.3
 was removed with onoff v0.3.0. As of v0.3.0 watchers are always persistent.
@@ -227,69 +242,9 @@ v0.10.8 | v0.2.3 | 2772 | 31825 | 2297
 
 ## How to handle superuser issues
 
-In gereral, superuser privileges are required for exporting and using GPIOs.
-However, running all processes that access GPIOs as the superuser will be
-unacceptable for most. There are several ways to resolve this issue.
-
-**Resolving superuser issues with onoff**
-
-onoff has built in functionality which can be leveraged to resolve superuser
-issues. Let's assume that the application is the led/button example from
-above.
-
-Step 1 - Export GPIOs as superuser
-
-Create a simple program for exporting GPIOs and execute this program with
-superuser privileges. In addition to exporting the GPIOs, this program will
-automatically change the access permissions for the GPIO value files giving
-all users read and write access.
-
-```js
-var Gpio = require('onoff').Gpio,
-    led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both');
-```
-
-Step 2 - The application can be run by a non-superuser
-
-After the program from step one has been executed by the superuser, the
-application itself can be executed by a non-superuser. The Gpio constructor
-will detect whether a GPIO has already been exported to userspace and will not
-attempt to export it again. The value of the GPIO can be accessed as all
-users have read and write access to the value file. Note that unlike the
-initial led/button example, the applications exit function does not attempt
-to unexport the GPIOs when it terminates.
-
-```js
-var Gpio = require('onoff').Gpio,
-    led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both');
-
-button.watch(function(err, value) {
-    if (err) exit();
-    led.writeSync(value);
-});
-
-function exit() {
-    process.exit();
-}
-
-process.on('SIGINT', exit);
-```
-
-Step 3 - Unexport GPIOs as superuser
-
-After the application has terminated, a third program can be executed by the
-superuser to unexport the appropriate GPIOs.
-
-```js
-var Gpio = require('onoff').Gpio,
-    led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both');
-
-led.unexport();
-button.unexport();
-```
+User Pi on recent versions of Raspbian can access GPIOs without superuser
+privileges. On older versions of Raspbian the techniques described here can be
+used to avoid superuser issues.
 
 **Resolving superuser issues on the Pi with quick2wire-gpio-admin**
 
@@ -392,9 +347,10 @@ gpio unexport 18
 
 ## Additional Information
 
-onoff has been tested on the BeagleBone (Ångström) and Raspberry Pi (Raspbian).
-The suitability of onoff for a particular Linux board is highly dependent on
-how GPIO interfaces are made available on that board. The
+onoff has been tested on the BeagleBone, the BeagleBone Black (Ångström and
+Debian), and Raspberry Pi (Raspbian). The suitability of onoff for a
+particular Linux board is highly dependent on how GPIO interfaces are made
+available on that board. The
 [GPIO interfaces](https://www.kernel.org/doc/Documentation/gpio/)
 documentation describes GPIO access conventions rather than standards that must
 be followed so GPIO can vary from platform to platform. For example, onoff

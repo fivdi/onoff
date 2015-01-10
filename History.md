@@ -4,6 +4,7 @@ Unpublished
   * jslint improvements
   * updated dependencies: epoll 0.1.4 -> 0.1.10
   * new wiring for tests on pi
+  * GPIO access without superuser privileges on Raspbian
 
 0.3.2 - Apr 18 2014
 ===================

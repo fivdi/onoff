@@ -33,7 +33,13 @@ exports.version = '0.3.2';
  *                          // milliseconds. The default value is 0.
  */
 function Gpio(gpio, direction, edge, options) {
-    var valuePath;
+    var valuePath,
+      directionSet = false,
+      tries = 0;
+
+    if (!(this instanceof Gpio)) {
+       return new Gpio(gpio, direction, edge, options);
+    }
 
     if (typeof edge === 'object' && !options) {
         options = edge;
@@ -54,14 +60,28 @@ function Gpio(gpio, direction, edge, options) {
     if (!fs.existsSync(this.gpioPath)) {
         // The pin hasn't been exported yet so export it.
         fs.writeFileSync(gpioRootPath + 'export', this.gpio);
-        fs.writeFileSync(this.gpioPath + 'direction', direction);
+
+        // A hack to avoid the issue described here:
+        // https://github.com/raspberrypi/linux/issues/553
+        // I don't like this solution, but it enables compatibility with older
+        // versions of onoff, i.e., the Gpio constructor was and still is
+        // synchronous.
+        directionSet = false;
+        while (!directionSet) {
+          try {
+              tries += 1;
+              fs.writeFileSync(this.gpioPath + 'direction', direction);
+              directionSet = true;
+          } catch (e) {
+              if (tries === 10000) {
+                  throw e;
+              }
+          }
+        }
+
         if (edge) {
             fs.writeFileSync(this.gpioPath + 'edge', edge);
         }
-
-        // Allow all users to read and write the GPIO value file
-        // Octal literals are not allowed in strict mode so use 0x1b6 for 0666
-        fs.chmodSync(valuePath, 0x1b6);
     } else {
         // The pin has already been exported, perhaps by onoff itself, perhaps
         // by quick2wire gpio-admin on the Pi, perhaps by the WiringPi gpio
