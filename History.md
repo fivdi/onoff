@@ -1,5 +1,5 @@
-Unpublished
-===========
+1.0.0 - Jan 10 2015
+===================
   * use strict mode
   * jslint improvements
   * updated dependencies: epoll 0.1.4 -> 0.1.10
