@@ -357,7 +357,7 @@ Tested on the following platofrms:
 - BeagleBone Black
   - Ångström
   - Debian
-  - Ububtu
+  - Ubuntu
 
 The suitability of onoff for a particular Linux board is highly dependent on
 how GPIO interfaces are made available on that board. The
