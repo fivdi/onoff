@@ -347,7 +347,7 @@ gpio unexport 18
 
 ## Additional Information
 
-Tested on the following platofrms:
+Tested on the following platforms:
 
 - Raspberry Pi
   - Raspbian
