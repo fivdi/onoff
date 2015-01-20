@@ -1,13 +1,13 @@
 ## onoff
 
+**onoff is io.js and Node.js compatable**
+
 GPIO access and interrupt detection with Node.js on Linux boards such as the
 BeagleBone, BeagleBone Black, or Raspberry Pi.
 
 ## Installation
 
     $ [sudo] npm install onoff
-
-onoff requires Node.js v0.8.0 or higher.
 
 **BeagleBone Prerequisites**
 
@@ -347,10 +347,20 @@ gpio unexport 18
 
 ## Additional Information
 
-onoff has been tested on the BeagleBone, the BeagleBone Black (Ångström and
-Debian), and Raspberry Pi (Raspbian). The suitability of onoff for a
-particular Linux board is highly dependent on how GPIO interfaces are made
-available on that board. The
+Tested on the following platofrms:
+
+- Raspberry Pi
+  - Raspbian
+- BeagleBone
+  - Ångström
+  - Debian
+- BeagleBone Black
+  - Ångström
+  - Debian
+  - Ububtu
+
+The suitability of onoff for a particular Linux board is highly dependent on
+how GPIO interfaces are made available on that board. The
 [GPIO interfaces](https://www.kernel.org/doc/Documentation/gpio/)
 documentation describes GPIO access conventions rather than standards that must
 be followed so GPIO can vary from platform to platform. For example, onoff
