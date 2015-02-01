@@ -5,6 +5,12 @@
 GPIO access and interrupt detection with Node.js on Linux boards such as the
 BeagleBone, BeagleBone Black, or Raspberry Pi.
 
+## Adafruit Learning System
+
+For an introduction to onoff checkout
+[Node.js Embedded Development on the Raspberry Pi](https://learn.adafruit.com/node-embedded-development?view=all)
+at the Adafruit Learning System.
+
 ## Installation
 
     $ [sudo] npm install onoff
