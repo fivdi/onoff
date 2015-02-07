@@ -3,7 +3,7 @@
 **onoff is io.js and Node.js compatable**
 
 GPIO access and interrupt detection with Node.js on Linux boards such as the
-BeagleBone, BeagleBone Black, or Raspberry Pi.
+BeagleBone, BeagleBone Black, Raspberry Pi, or Raspberry Pi 2.
 
 ## Adafruit Learning System
 
