@@ -246,6 +246,12 @@ Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
 v0.11.7 | v0.2.3 | 3355 | 49651 | 2550
 v0.10.8 | v0.2.3 | 2772 | 31825 | 2297
 
+**Raspberry Pi 2, 900Mhz, Raspbian, Kernel 3.18.5-v7+:**
+
+Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | :---: | ---: | ---: | ---:
+v0.10.36 | v1.0.0 | 12010 | 98493 | [test blocked](https://github.com/raspberrypi/linux/issues/808)
+
 ## How to handle superuser issues
 
 User Pi on recent versions of Raspbian can access GPIOs without superuser
