@@ -1,69 +1,46 @@
 "use strict";
 
 /*
- * Sets up eight GPIOs as interrupt generating outputs and allows them all to
- * interrupt as fast as they can.
+ * In this test, GPIO #7 is wired to one end of a 1kΩ current limiting
+ * resistor and GPIO #8 is wired to the other end of the resistor. GPIO #7 is
+ * an interrupt generating input and GPIO #8 is an output.
+ * By toggling the state of the output an interrupt is generated.
+ * The output is toggled as often as possible to determine the maximum
+ * rate at which interrupts can be handled.
  */
 var Gpio = require('../onoff').Gpio,
-    // gpioNrs = [36, 37, 38, 39, 44, 45, 46, 47], // BB.
-    gpioNrs = [7, 8, 9, 10, 11, 14, 15, 25], // Pi.
-    leds = [],
-    grandIrqTotal = 0,
+    input = new Gpio(7, 'in', 'both'),
+    output = new Gpio(8, 'out'),
+    irqCount = 0,
     iv;
 
+// Exit handler
 function exit() {
-    var i;
-
-    for (i = 0; i !== leds.length; i += 1) {
-        leds[i].unexport();
-    }
+    input.unexport();
+    output.unexport();
 
     clearInterval(iv);
 }
+process.on('SIGINT', exit);
 
-function ledStateChanged(err, value) {
+// Interrupt handler
+input.watch(function (err, value) {
     if (err) {
         exit();
     }
 
-    this.irqCount += 1;
-    // Trigger next interrupt by toggling led state.
-    this.writeSync(value === 0 ? 1 : 0);
-}
+    irqCount += 1;
 
-function setup() {
-    var i;
+    // Trigger next interrupt by toggling output.
+    output.writeSync(value === 0 ? 1 : 0);
+});
 
-    // Configure all led as interrupt generating outputs.
-    for (i = 0; i !== gpioNrs.length; i += 1) {
-        leds[i] = new Gpio(gpioNrs[i], 'out', 'both');
+// Print number of interrupts once a second.
+iv = setInterval(function () {
+    console.log(irqCount);
+    irqCount = 0;
+}, 1000);
 
-        // Add an irqCount property to the leds Gpio.
-        leds[i].irqCount = 0;
-        leds[i].watch(ledStateChanged.bind(leds[i]));
-
-        // Trigger first interrupt by toggling led state.
-        leds[i].writeSync(leds[i].readSync() === 0 ? 1 : 0);
-    }
-
-    // Print info about interrupts once a second.
-    iv = setInterval(function () {
-        var j, subIrqTotal, message = '';
-
-        for (j = subIrqTotal= 0; j !== leds.length; j += 1) {
-            message += ', ' + leds[j].irqCount;
-            subIrqTotal += leds[j].irqCount;
-            leds[j].irqCount = 0;
-        }
-
-        grandIrqTotal += subIrqTotal;
-        message = grandIrqTotal + ', '  + subIrqTotal + message;
-        console.log(message);
-    }, 1000);
-}
-
-setup();
-
-// Call exit when ctrl-c hit.
-process.on('SIGINT', exit);
+// Trigger first interrupt by toggling output.
+output.writeSync(output.readSync() === 0 ? 1 : 0);
 

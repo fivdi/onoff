@@ -250,7 +250,7 @@ v0.10.8 | v0.2.3 | 2772 | 31825 | 2297
 
 Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
 :---: | :---: | ---: | ---: | ---:
-v0.10.36 | v1.0.0 | 12010 | 98493 | [test blocked](https://github.com/raspberrypi/linux/issues/808)
+v0.10.36 | v1.0.0 | 12010 | 98493 | 9803
 
 ## How to handle superuser issues
 

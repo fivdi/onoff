@@ -1,3 +1,7 @@
+Unpublished
+===========
+  * refactored hardware interrupt performance test
+
 1.0.0 - Jan 10 2015
 ===================
   * use strict mode
