@@ -248,6 +248,10 @@ v0.10.8 | v0.2.3 | 2772 | 31825 | 2297
 
 **Raspberry Pi 2, 900Mhz, Raspbian, Kernel 3.18.5-v7+:**
 
+io.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | :---: | ---: | ---: | ---:
+v1.2.0 | v1.0.0 | 13863 | 171501 | 9268
+
 Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
 :---: | :---: | ---: | ---: | ---:
 v0.10.36 | v1.0.0 | 12010 | 98493 | 9803
