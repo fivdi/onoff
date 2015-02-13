@@ -57,14 +57,14 @@ easy, simply remove the persistentWatch option.
 
 If you were explicitly setting persistentWatch to false, or letting it default
 to false, you'll need to re-work your code. If one-shot watchers are needed,
-the effect can be acheived by calling unwatch or unwatchAll in the watcher
+the effect can be achieved by calling unwatch or unwatchAll in the watcher
 callback the first time it's called.
 
 ## Usage
 
 Assume that there's an LED on GPIO #17 and a momentary push button on GPIO #18.
-When the button is pressed the LED should trun on, when it's released the LED
-should turn off. This can be acheived with the following code:
+When the button is pressed the LED should turn on, when it's released the LED
+should turn off. This can be achieved with the following code:
 
 ```js
 var Gpio = require('onoff').Gpio,
