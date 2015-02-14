@@ -267,7 +267,7 @@ v0.10.36 | v1.0.0 | 12010 | 98493 | 9803
 
 ## How to handle superuser issues
 
-User Pi on recent versions of Raspbian can access GPIOs without superuser
+User pi on recent versions of Raspbian can access GPIOs without superuser
 privileges. On older versions of Raspbian the techniques described here can be
 used to avoid superuser issues.
 
