@@ -36,10 +36,10 @@ $ opkg install python-multiprocessing
 ### onoff v1.0.0 - No more superuser issues with user pi on Raspbian
 
 User pi on recent versions of Raspbian can access GPIOs without superuser
-privileges and the techniques for avoiding superuser issues described in
-section
-[How to handle superuser issues](https://github.com/fivdi/onoff#how-to-handle-superuser-issues)
-no longer need to be applied.
+privileges and the techniques for avoiding superuser issues previously
+described in section "How to handle superuser issues" no longer need to be
+applied. Section "How to handle superuser issues" has since been removed from
+the documentation.
 
 One of the techniques for avoiding superuser issues on older versions of
 Raspbian was titled "Resolving superuser issues with onoff". This technique
@@ -264,121 +264,6 @@ v1.2.0 | v1.0.0 | 13863 | 171501 | 9268
 Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
 :---: | :---: | ---: | ---: | ---:
 v0.10.36 | v1.0.0 | 12010 | 98493 | 9803
-
-## How to handle superuser issues
-
-User pi on recent versions of Raspbian can access GPIOs without superuser
-privileges. On older versions of Raspbian the techniques described here can be
-used to avoid superuser issues.
-
-**Resolving superuser issues on the Pi with quick2wire-gpio-admin**
-
-After [quick2wire-gpio-admin](https://github.com/quick2wire/quick2wire-gpio-admin)
-has been successfully installed, the gpio-admin utility can be used to
-export/unexport GPIOs and the application can be executed without superuser
-privileges. Let's assume that the application is the led/button example from
-above.
-
-Step 1 - Export GPIOs with gpio-admin
-
-Run the following commands to export GPIO #14 and #4:
-
-```bash
-gpio-admin export 14
-gpio-admin export 4
-```
-
-Step 2 - Run the application
-
-Now the application can be executed without superuser privileges. Note that
-unlike the initial led/button example, the applications exit function does
-not attempt to unexport the GPIOs when it terminates.
-
-```js
-var Gpio = require('../onoff').Gpio,
-  led = new Gpio(14, 'out'),
-  button = new Gpio(4, 'in', 'both');
-
-function exit() {
-  led.unexport();
-  button.unexport();
-  process.exit();
-}
-
-button.watch(function (err, value) {
-  if (err) {
-    throw err;
-  }
-
-  led.writeSync(value);
-});
-
-process.on('SIGINT', exit);
-```
-
-Step 3 - Unxport GPIOs with gpio-admin
-
-After the application has terminated, run the following commands to unexport
-GPIO #14 and #4:
-
-```bash
-gpio-admin unexport 14
-gpio-admin unexport 4
-```
-
-**Resolving superuser issues on the Pi with the WiringPi gpio utility**
-
-After the [WiringPi gpio utility](http://wiringpi.com/the-gpio-utility/)
-has been successfully installed, it can be used to export/unexport GPIOs and
-the application can be executed without superuser privileges. Let's assume that
-the application is the led/button example from above.
-
-Step 1 - Export GPIOs with gpio
-
-Run the following commands to export GPIO #14 and #4:
-
-```bash
-gpio export 14 out
-gpio export 4 in
-```
-
-Step 2 - Run the application
-
-Now the application can be executed without superuser privileges. Note that
-unlike the initial led/button example, the applications exit function does
-not attempt to unexport the GPIOs when it terminates.
-
-```js
-var Gpio = require('../onoff').Gpio,
-  led = new Gpio(14, 'out'),
-  button = new Gpio(4, 'in', 'both');
-
-function exit() {
-  led.unexport();
-  button.unexport();
-  process.exit();
-}
-
-button.watch(function (err, value) {
-  if (err) {
-    throw err;
-  }
-
-  led.writeSync(value);
-});
-
-process.on('SIGINT', exit);
-```
-
-Step 3 - Unxport GPIOs with gpio
-
-After the application has terminated, run the following commands to unexport
-GPIO #14 and #4:
-
-```bash
-gpio unexport 14
-gpio unexport 4
-```
 
 ## Additional Information
 
