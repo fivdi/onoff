@@ -62,23 +62,23 @@ callback the first time it's called.
 
 ## Usage
 
-Assume that there's an LED on GPIO #17 and a momentary push button on GPIO #18.
+Assume that there's an LED on GPIO #14 and a momentary push button on GPIO #4.
 When the button is pressed the LED should turn on, when it's released the LED
 should turn off. This can be achieved with the following code:
 
 ```js
 var Gpio = require('onoff').Gpio,
-    led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both');
+    led = new Gpio(14, 'out'),
+    button = new Gpio(4, 'in', 'both');
 
 button.watch(function(err, value) {
     led.writeSync(value);
 });
 ```
 
-Here two Gpio objects are being created. One called led for the LED on GPIO #17
+Here two Gpio objects are being created. One called led for the LED on GPIO #14
 which is an output, and one called button for the momentary push button on
-GPIO #18 which is an input. In addition to specifying that the button is an
+GPIO #4 which is an input. In addition to specifying that the button is an
 input, the constructors optional third argument is used to specify that 'both'
 rising and falling interrupt edges should be configured for the button GPIO as
 both button presses and releases should be handled.
@@ -97,19 +97,22 @@ button Gpio objects are released by calling their unexport method.
 
 ```js
 var Gpio = require('onoff').Gpio,
-    led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both');
-
-button.watch(function(err, value) {
-    if (err) exit();
-    led.writeSync(value);
-});
+  led = new Gpio(14, 'out'),
+  button = new Gpio(4, 'in', 'both');
 
 function exit() {
-    led.unexport();
-    button.unexport();
-    process.exit();
+  led.unexport();
+  button.unexport();
+  process.exit();
 }
+
+button.watch(function (err, value) {
+  if (err) {
+    throw err;
+  }
+
+  led.writeSync(value);
+});
 
 process.on('SIGINT', exit);
 ```
@@ -154,58 +157,64 @@ follows:
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
 should be passed to the onoff Gpio constructor function when exporting GPIOs
-to userspace. For example, pin P1_11 on the Raspberry Pi P1 expansion header
-corresponds to GPIO #17 in Raspbian Linux. 17 is therefore the number to pass
-to the onoff Gpio constructor when using pin P1_11 on the P1 expansion header.
+to userspace. For example, pin 8 on the Raspberry Pi P1 expansion header
+corresponds to GPIO #14 in Raspbian Linux. 14 is therefore the number to pass
+to the onoff Gpio constructor when using pin 8 on the P1 expansion header.
 
 ## Synchronous API
 
-Blink the LED on GPIO #17 for 5 seconds:
+Blink the LED on GPIO #14 for 5 seconds:
 
 ```js
 var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
-    led = new Gpio(17, 'out'),    // Export GPIO #17 as an output.
-    iv;
+  led = new Gpio(14, 'out'),      // Export GPIO #14 as an output.
+  iv;
 
-// Toggle the state of the LED on GPIO #17 every 200ms.
+// Toggle the state of the LED on GPIO #14 every 200ms.
 // Here synchronous methods are used. Asynchronous methods are also available.
-iv = setInterval(function() {
-    led.writeSync(led.readSync() === 0 ? 1 : 0); // 1 = on, 0 = off :)
+iv = setInterval(function () {
+  led.writeSync(led.readSync() ^ 1); // 1 = on, 0 = off :)
 }, 200);
 
 // Stop blinking the LED and turn it off after 5 seconds.
-setTimeout(function() {
-    clearInterval(iv); // Stop blinking
-    led.writeSync(0);  // Turn LED off.
-    led.unexport();    // Unexport GPIO and free resources
+setTimeout(function () {
+  clearInterval(iv); // Stop blinking
+  led.writeSync(0);  // Turn LED off.
+  led.unexport();    // Unexport GPIO and free resources
 }, 5000);
 ```
 
 ## Asynchronous API
 
-Blink the LED on GPIO #17 for 5 seconds:
+Blink the LED on GPIO #14 for 5 seconds:
 
 ```js
 var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
-    led = new Gpio(17, 'out');    // Export GPIO #17 as an output.
+  led = new Gpio(14, 'out');      // Export GPIO #14 as an output.
 
-// Toggle the state of the LED on GPIO #17 every 200ms 'count' times.
+// Toggle the state of the LED on GPIO #14 every 200ms 'count' times.
 // Here asynchronous methods are used. Synchronous methods are also available.
 (function blink(count) {
-    if (count <= 0) return led.unexport();
+  if (count <= 0) {
+      return led.unexport();
+  }
 
-    led.read(function(err, value) {  // Asynchronous read.
-        if (err) throw err;
+  led.read(function (err, value) { // Asynchronous read.
+    if (err) {
+      throw err;
+    }
 
-        led.write(value === 0 ? 1 : 0, function(err) { // Asynchronous write.
-            if (err) throw err;
-        });
+    led.write(value ^ 1, function (err) { // Asynchronous write.
+      if (err) {
+        throw err;
+      }
     });
+  });
 
-    setTimeout(function() {
-        blink(count - 1);
-    }, 200);
-})(20);
+  setTimeout(function () {
+    blink(count - 1);
+  }, 200);
+}(20));
 ```
 
 ## Configuring pull-up and pull-down resistors
@@ -272,11 +281,11 @@ above.
 
 Step 1 - Export GPIOs with gpio-admin
 
-Run the following commands to export GPIO #17 and #18:
+Run the following commands to export GPIO #14 and #4:
 
 ```bash
-gpio-admin export 17
-gpio-admin export 18
+gpio-admin export 14
+gpio-admin export 4
 ```
 
 Step 2 - Run the application
@@ -286,18 +295,23 @@ unlike the initial led/button example, the applications exit function does
 not attempt to unexport the GPIOs when it terminates.
 
 ```js
-var Gpio = require('onoff').Gpio,
-    led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both');
-
-button.watch(function(err, value) {
-    if (err) exit();
-    led.writeSync(value);
-});
+var Gpio = require('../onoff').Gpio,
+  led = new Gpio(14, 'out'),
+  button = new Gpio(4, 'in', 'both');
 
 function exit() {
-    process.exit();
+  led.unexport();
+  button.unexport();
+  process.exit();
 }
+
+button.watch(function (err, value) {
+  if (err) {
+    throw err;
+  }
+
+  led.writeSync(value);
+});
 
 process.on('SIGINT', exit);
 ```
@@ -305,11 +319,11 @@ process.on('SIGINT', exit);
 Step 3 - Unxport GPIOs with gpio-admin
 
 After the application has terminated, run the following commands to unexport
-GPIO #17 and #18:
+GPIO #14 and #4:
 
 ```bash
-gpio-admin unexport 17
-gpio-admin unexport 18
+gpio-admin unexport 14
+gpio-admin unexport 4
 ```
 
 **Resolving superuser issues on the Pi with the WiringPi gpio utility**
@@ -321,11 +335,11 @@ the application is the led/button example from above.
 
 Step 1 - Export GPIOs with gpio
 
-Run the following commands to export GPIO #17 and #18:
+Run the following commands to export GPIO #14 and #4:
 
 ```bash
-gpio export 17 out
-gpio export 18 in
+gpio export 14 out
+gpio export 4 in
 ```
 
 Step 2 - Run the application
@@ -335,18 +349,23 @@ unlike the initial led/button example, the applications exit function does
 not attempt to unexport the GPIOs when it terminates.
 
 ```js
-var Gpio = require('onoff').Gpio,
-    led = new Gpio(17, 'out'),
-    button = new Gpio(18, 'in', 'both');
-
-button.watch(function(err, value) {
-    if (err) exit();
-    led.writeSync(value);
-});
+var Gpio = require('../onoff').Gpio,
+  led = new Gpio(14, 'out'),
+  button = new Gpio(4, 'in', 'both');
 
 function exit() {
-    process.exit();
+  led.unexport();
+  button.unexport();
+  process.exit();
 }
+
+button.watch(function (err, value) {
+  if (err) {
+    throw err;
+  }
+
+  led.writeSync(value);
+});
 
 process.on('SIGINT', exit);
 ```
@@ -354,11 +373,11 @@ process.on('SIGINT', exit);
 Step 3 - Unxport GPIOs with gpio
 
 After the application has terminated, run the following commands to unexport
-GPIO #17 and #18:
+GPIO #14 and #4:
 
 ```bash
-gpio unexport 17
-gpio unexport 18
+gpio unexport 14
+gpio unexport 4
 ```
 
 ## Additional Information
