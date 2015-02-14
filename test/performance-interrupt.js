@@ -9,36 +9,36 @@
  * rate at which interrupts can be handled.
  */
 var Gpio = require('../onoff').Gpio,
-    input = new Gpio(7, 'in', 'both'),
-    output = new Gpio(8, 'out'),
-    irqCount = 0,
-    iv;
+  input = new Gpio(7, 'in', 'both'),
+  output = new Gpio(8, 'out'),
+  irqCount = 0,
+  iv;
 
 // Exit handler
 function exit() {
-    input.unexport();
-    output.unexport();
+  input.unexport();
+  output.unexport();
 
-    clearInterval(iv);
+  clearInterval(iv);
 }
 process.on('SIGINT', exit);
 
 // Interrupt handler
 input.watch(function (err, value) {
-    if (err) {
-        exit();
-    }
+  if (err) {
+    exit();
+  }
 
-    irqCount += 1;
+  irqCount += 1;
 
-    // Trigger next interrupt by toggling output.
-    output.writeSync(value === 0 ? 1 : 0);
+  // Trigger next interrupt by toggling output.
+  output.writeSync(value === 0 ? 1 : 0);
 });
 
 // Print number of interrupts once a second.
 iv = setInterval(function () {
-    console.log(irqCount);
-    irqCount = 0;
+  console.log(irqCount);
+  irqCount = 0;
 }, 1000);
 
 // Trigger first interrupt by toggling output.

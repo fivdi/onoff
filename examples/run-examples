@@ -1,0 +1,6 @@
+#!/bin/sh
+node blink-led
+node blink-led-async
+node wait-for-interrupt
+node light-switch
+

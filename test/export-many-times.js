@@ -1,18 +1,17 @@
 "use strict";
 
 var Gpio = require('../onoff').Gpio,
-    led,
-    i;
+  led,
+  i;
 
 for (i = 1; i <= 1000000; i += 1) {
-    led = new Gpio(14, 'out'),
-    led.writeSync(led.readSync() ^ 1);
-    led.unexport();
-    if (i % 10 === 0) {
-        console.log(i);
-    }
+  led = new Gpio(14, 'out');
+  led.writeSync(led.readSync() ^ 1);
+  led.unexport();
+  if (i % 10 === 0) {
+    console.log(i);
+  }
 }
 
 console.log('ok - ' + __filename);
-
 

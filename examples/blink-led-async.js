@@ -7,7 +7,7 @@ var Gpio = require('../onoff').Gpio, // Constructor function for Gpio objects.
 // Here asynchronous methods are used. Synchronous methods are also available.
 (function blink(count) {
   if (count <= 0) {
-      return led.unexport();
+    return led.unexport();
   }
 
   led.read(function (err, value) { // Asynchronous read.

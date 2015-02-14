@@ -10,7 +10,7 @@ console.log('Please press the button on GPIO #4...');
 // pressed. 
 button.watch(function (err, value) {
   if (err) {
-      throw err;
+    throw err;
   }
 
   console.log('Button pressed!, its value was ' + value);

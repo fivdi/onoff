@@ -1,12 +1,32 @@
 "use strict";
 
 var fs = require('fs'),
-    Epoll = require('epoll').Epoll,
-    gpioRootPath = '/sys/class/gpio/',
-    zero = new Buffer('0'),
-    one = new Buffer('1');
+  Epoll = require('epoll').Epoll,
+  gpioRootPath = '/sys/class/gpio/';
+
+var ZERO = new Buffer('0'),
+  ONE = new Buffer('1');
 
 exports.version = '1.0.0';
+
+function pollerEventHandler(err, fd, events) {
+  var value = this.readSync(),
+    callbacks = this.listeners.slice(0);
+
+  if (this.opts.debounceTimeout > 0) {
+    setTimeout(function () {
+      if (this.listeners.length > 0) {
+        // Read current value before polling to prevent unauthentic interrupts.
+        this.readSync();
+        this.poller.modify(this.valueFd, Epoll.EPOLLPRI | Epoll.EPOLLONESHOT);
+      }
+    }.bind(this), this.opts.debounceTimeout);
+  }
+
+  callbacks.forEach(function (callback) {
+    callback(err, value);
+  });
+}
 
 /**
  * Constructor. Exports a GPIO to userspace.
@@ -33,86 +53,86 @@ exports.version = '1.0.0';
  *                          // milliseconds. The default value is 0.
  */
 function Gpio(gpio, direction, edge, options) {
-    var valuePath,
-      directionSet = false,
-      tries = 0;
+  var valuePath,
+    directionSet = false,
+    tries = 0;
 
-    if (!(this instanceof Gpio)) {
-       return new Gpio(gpio, direction, edge, options);
+  if (!(this instanceof Gpio)) {
+    return new Gpio(gpio, direction, edge, options);
+  }
+
+  if (typeof edge === 'object' && !options) {
+    options = edge;
+    edge = undefined;
+  }
+
+  options = options || {};
+
+  this.gpio = gpio;
+  this.gpioPath = gpioRootPath + 'gpio' + this.gpio + '/';
+  this.opts = {};
+  this.opts.debounceTimeout = options.debounceTimeout || 0;
+  this.readBuffer = new Buffer(16);
+  this.listeners = [];
+
+  valuePath = this.gpioPath + 'value';
+
+  if (!fs.existsSync(this.gpioPath)) {
+    // The pin hasn't been exported yet so export it.
+    fs.writeFileSync(gpioRootPath + 'export', this.gpio);
+
+    // A hack to avoid the issue described here:
+    // https://github.com/raspberrypi/linux/issues/553
+    // I don't like this solution, but it enables compatibility with older
+    // versions of onoff, i.e., the Gpio constructor was and still is
+    // synchronous.
+    directionSet = false;
+    while (!directionSet) {
+      try {
+        tries += 1;
+        fs.writeFileSync(this.gpioPath + 'direction', direction);
+        directionSet = true;
+      } catch (e) {
+        if (tries === 10000) {
+          throw e;
+        }
+      }
     }
 
-    if (typeof edge === 'object' && !options) {
-        options = edge;
-        edge = undefined;
+    if (edge) {
+      fs.writeFileSync(this.gpioPath + 'edge', edge);
     }
-
-    options = options || {};
-
-    this.gpio = gpio;
-    this.gpioPath = gpioRootPath + 'gpio' + this.gpio + '/';
-    this.opts = {};
-    this.opts.debounceTimeout = options.debounceTimeout || 0;
-    this.readBuffer = new Buffer(16);
-    this.listeners = [];
-
-    valuePath = this.gpioPath + 'value';
-
-    if (!fs.existsSync(this.gpioPath)) {
-        // The pin hasn't been exported yet so export it.
-        fs.writeFileSync(gpioRootPath + 'export', this.gpio);
-
-        // A hack to avoid the issue described here:
-        // https://github.com/raspberrypi/linux/issues/553
-        // I don't like this solution, but it enables compatibility with older
-        // versions of onoff, i.e., the Gpio constructor was and still is
-        // synchronous.
-        directionSet = false;
-        while (!directionSet) {
-          try {
-              tries += 1;
-              fs.writeFileSync(this.gpioPath + 'direction', direction);
-              directionSet = true;
-          } catch (e) {
-              if (tries === 10000) {
-                  throw e;
-              }
-          }
-        }
-
-        if (edge) {
-            fs.writeFileSync(this.gpioPath + 'edge', edge);
-        }
-    } else {
-        // The pin has already been exported, perhaps by onoff itself, perhaps
-        // by quick2wire gpio-admin on the Pi, perhaps by the WiringPi gpio
-        // utility on the Pi, or perhaps by something else. In any case, an
-        // attempt is made to set the direction and edge to the requested
-        // values here. If quick2wire gpio-admin was used for the export, the
-        // user should have access to both direction and edge files. This is
-        // important as gpio-admin sets niether direction nor edge. If the
-        // WiringPi gpio utility was used, the user should have access to edge
-        // file, but not the direction file. This is also ok as the WiringPi
-        // gpio utility can set both direction and edge. If there are any
-        // errors while attempting to perform the modifications, just keep on
-        // truckin'.
-        try {
-            fs.writeFileSync(this.gpioPath + 'direction', direction);
-        } catch (ignore) {
-        }
-        try {
-            if (edge) {
-                fs.writeFileSync(this.gpioPath + 'edge', edge);
-            }
-        } catch (ignore) {
-        }
+  } else {
+    // The pin has already been exported, perhaps by onoff itself, perhaps
+    // by quick2wire gpio-admin on the Pi, perhaps by the WiringPi gpio
+    // utility on the Pi, or perhaps by something else. In any case, an
+    // attempt is made to set the direction and edge to the requested
+    // values here. If quick2wire gpio-admin was used for the export, the
+    // user should have access to both direction and edge files. This is
+    // important as gpio-admin sets niether direction nor edge. If the
+    // WiringPi gpio utility was used, the user should have access to edge
+    // file, but not the direction file. This is also ok as the WiringPi
+    // gpio utility can set both direction and edge. If there are any
+    // errors while attempting to perform the modifications, just keep on
+    // truckin'.
+    try {
+      fs.writeFileSync(this.gpioPath + 'direction', direction);
+    } catch (ignore) {
     }
+    try {
+      if (edge) {
+        fs.writeFileSync(this.gpioPath + 'edge', edge);
+      }
+    } catch (ignore) {
+    }
+  }
 
-    this.valueFd = fs.openSync(valuePath, 'r+'); // Cache fd for performance.
+  this.valueFd = fs.openSync(valuePath, 'r+'); // Cache fd for performance.
 
-    // Read current value before polling to prevent unauthentic interrupts.
-    this.readSync();
+  // Read current value before polling to prevent unauthentic interrupts.
+  this.readSync();
 
-    this.poller = new Epoll(pollerEventHandler.bind(this));
+  this.poller = new Epoll(pollerEventHandler.bind(this));
 }
 exports.Gpio = Gpio;
 
@@ -122,15 +142,15 @@ exports.Gpio = Gpio;
  * [callback: (err: error, value: number) => {}] // Optional callback
  */
 Gpio.prototype.read = function (callback) {
-    fs.read(this.valueFd, this.readBuffer, 0, 1, 0, function (err, bytes, buf) {
-        if (typeof callback === 'function') {
-            if (err) {
-                return callback(err);
-            }
+  fs.read(this.valueFd, this.readBuffer, 0, 1, 0, function (err, bytes, buf) {
+    if (typeof callback === 'function') {
+      if (err) {
+        return callback(err);
+      }
 
-            callback(null, buf[0] === one[0] ? 1 : 0);
-        }
-    });
+      callback(null, buf[0] === ONE[0] ? 1 : 0);
+    }
+  });
 };
 
 /**
@@ -139,8 +159,8 @@ Gpio.prototype.read = function (callback) {
  * Returns - number // 0 or 1
  */
 Gpio.prototype.readSync = function () {
-    fs.readSync(this.valueFd, this.readBuffer, 0, 1, 0);
-    return this.readBuffer[0] === one[0] ? 1 : 0;
+  fs.readSync(this.valueFd, this.readBuffer, 0, 1, 0);
+  return this.readBuffer[0] === ONE[0] ? 1 : 0;
 };
 
 /**
@@ -150,8 +170,8 @@ Gpio.prototype.readSync = function () {
  * [callback: (err: error) => {}] // Optional callback
  */
 Gpio.prototype.write = function (value, callback) {
-    var writeBuffer = value === 1 ? one : zero;
-    fs.write(this.valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
+  var writeBuffer = value === 1 ? ONE : ZERO;
+  fs.write(this.valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
 };
 
 /**
@@ -160,8 +180,8 @@ Gpio.prototype.write = function (value, callback) {
  * value: number // 0 or 1
  */
 Gpio.prototype.writeSync = function (value) {
-    var writeBuffer = value === 1 ? one : zero;
-    fs.writeSync(this.valueFd, writeBuffer, 0, writeBuffer.length, 0);
+  var writeBuffer = value === 1 ? ONE : ZERO;
+  fs.writeSync(this.valueFd, writeBuffer, 0, writeBuffer.length, 0);
 };
 
 /**
@@ -180,63 +200,44 @@ Gpio.prototype.writeSync = function (value) {
  * callback: (err: error, value: number) => {}
  */
 Gpio.prototype.watch = function (callback) {
-    var events;
+  var events;
 
-    this.listeners.push(callback);
+  this.listeners.push(callback);
 
-    if (this.listeners.length === 1) {
-        events = Epoll.EPOLLPRI;
-        if (this.opts.debounceTimeout > 0) {
-            events |= Epoll.EPOLLONESHOT;
-        }
-        this.poller.add(this.valueFd, events);
+  if (this.listeners.length === 1) {
+    events = Epoll.EPOLLPRI;
+    if (this.opts.debounceTimeout > 0) {
+      events |= Epoll.EPOLLONESHOT;
     }
+    this.poller.add(this.valueFd, events);
+  }
 };
 
 /**
  * Stop watching for hardware interrupts on the GPIO.
  */
 Gpio.prototype.unwatch = function (callback) {
-    if (this.listeners.length > 0) {
-        if (typeof callback !== 'function') {
-            this.listeners = [];
-        } else {
-            this.listeners = this.listeners.filter(function (listener) {
-                return callback !== listener;
-            });
-        }
-
-        if (this.listeners.length === 0) {
-            this.poller.remove(this.valueFd);
-        }
+  if (this.listeners.length > 0) {
+    if (typeof callback !== 'function') {
+      this.listeners = [];
+    } else {
+      this.listeners = this.listeners.filter(function (listener) {
+        return callback !== listener;
+      });
     }
+
+    if (this.listeners.length === 0) {
+      this.poller.remove(this.valueFd);
+    }
+  }
 };
 
 /**
  * Remove all watchers for the GPIO.
  */
 Gpio.prototype.unwatchAll = function () {
-    this.unwatch();
+  this.unwatch();
 };
-
-function pollerEventHandler(err, fd, events) {
-    var value = this.readSync(),
-        callbacks = this.listeners.slice(0);
-
-    if (this.opts.debounceTimeout > 0) {
-        setTimeout(function () {
-            if (this.listeners.length > 0) {
-                // Read current value before polling to prevent unauthentic interrupts.
-                this.readSync();
-                this.poller.modify(this.valueFd, Epoll.EPOLLPRI | Epoll.EPOLLONESHOT);
-            }
-        }.bind(this), this.opts.debounceTimeout);
-    }
-
-    callbacks.forEach(function (callback) {
-        callback(err, value);
-    });
-}
 
 /**
  * Get GPIO direction.
@@ -244,7 +245,7 @@ function pollerEventHandler(err, fd, events) {
  * Returns - string // 'in', or 'out'
  */
 Gpio.prototype.direction = function () {
-    return fs.readFileSync(this.gpioPath + 'direction').toString().trim();
+  return fs.readFileSync(this.gpioPath + 'direction').toString().trim();
 };
 
 /**
@@ -257,7 +258,7 @@ Gpio.prototype.direction = function () {
  *                   // initial level of high or low respectively.
  */
 Gpio.prototype.setDirection = function (direction) {
-    fs.writeFileSync(this.gpioPath + 'direction', direction);
+  fs.writeFileSync(this.gpioPath + 'direction', direction);
 };
 
 /**
@@ -266,7 +267,7 @@ Gpio.prototype.setDirection = function (direction) {
  * Returns - string // 'none', 'rising', 'falling' or 'both'
  */
 Gpio.prototype.edge = function () {
-    return fs.readFileSync(this.gpioPath + 'edge').toString().trim();
+  return fs.readFileSync(this.gpioPath + 'edge').toString().trim();
 };
 
 /**
@@ -279,7 +280,7 @@ Gpio.prototype.edge = function () {
  *              // The default value is 'none'. [optional]
  */
 Gpio.prototype.setEdge = function (edge) {
-    fs.writeFileSync(this.gpioPath + 'edge', edge);
+  fs.writeFileSync(this.gpioPath + 'edge', edge);
 };
 
 /**
@@ -288,7 +289,7 @@ Gpio.prototype.setEdge = function (edge) {
  * Returns - object // Must not be modified
  */
 Gpio.prototype.options = function () {
-    return this.opts;
+  return this.opts;
 };
 
 /**
@@ -296,8 +297,8 @@ Gpio.prototype.options = function () {
  * should not be used after calling this method.
  */
 Gpio.prototype.unexport = function () {
-    this.unwatchAll();
-    fs.closeSync(this.valueFd);
-    fs.writeFileSync(gpioRootPath + 'unexport', this.gpio);
+  this.unwatchAll();
+  fs.closeSync(this.valueFd);
+  fs.writeFileSync(gpioRootPath + 'unexport', this.gpio);
 };
 
