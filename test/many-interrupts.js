@@ -2,14 +2,15 @@
 
 var assert = require('assert'),
     Gpio = require('../onoff').Gpio,
-    led = new Gpio(14, 'out', 'both'),
-    ledStateChanges = 0,
+    input = new Gpio(7, 'in', 'both'),
+    output = new Gpio(8, 'out'),
+    toggleCount = 0,
     falling = 0,
     rising = 0;
 
-function toggleLedState() {
-    led.writeSync(led.readSync() === 1 ? 0 : 1);
-    ledStateChanges += 1;
+function toggleOutput() {
+    output.writeSync(output.readSync() === 1 ? 0 : 1);
+    toggleCount += 1;
 }
 
 
@@ -24,22 +25,23 @@ function interrupt(err, value) {
         falling += 1;
     }
 
-    assert(led.readSync() === value);
+    assert(output.readSync() === value);
 
     if (rising + falling < 2000) {
-        toggleLedState();
+        toggleOutput();
     } else {
-        assert(ledStateChanges === 2000);
+        assert(toggleCount === 2000);
         assert(rising === falling);
-        assert(rising + falling === ledStateChanges);
+        assert(rising + falling === toggleCount);
 
-        led.writeSync(0);
-        led.unexport();
+        input.unexport();
+        output.writeSync(0);
+        output.unexport();
 
         console.log('ok - ' + __filename);
     }
 }
 
-led.watch(interrupt);
-toggleLedState();
+input.watch(interrupt);
+toggleOutput();
 
