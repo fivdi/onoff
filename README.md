@@ -365,7 +365,9 @@ gpio unexport 18
 
 Tested on the following platforms:
 
-- Raspberry Pi
+- Raspberry Pi 1
+  - Raspbian
+- Raspberry Pi 2
   - Raspbian
 - BeagleBone
   - Ångström
