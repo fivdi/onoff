@@ -1,6 +1,7 @@
 Unpublished
 ===========
-  * refactored hardware interrupt performance test
+  * refactored tests to avoid relying in interrupt generating outputs as linux 3.13 no longer supports them
+  * new wiring for tests and examples
 
 1.0.0 - Jan 10 2015
 ===================
