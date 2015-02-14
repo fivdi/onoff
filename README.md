@@ -68,11 +68,11 @@ should turn off. This can be achieved with the following code:
 
 ```js
 var Gpio = require('onoff').Gpio,
-    led = new Gpio(14, 'out'),
-    button = new Gpio(4, 'in', 'both');
+  led = new Gpio(14, 'out'),
+  button = new Gpio(4, 'in', 'both');
 
 button.watch(function(err, value) {
-    led.writeSync(value);
+  led.writeSync(value);
 });
 ```
 
