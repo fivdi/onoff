@@ -9,10 +9,9 @@ var assert = require('assert'),
     rising = 0;
 
 function toggleOutput() {
-    output.writeSync(output.readSync() === 1 ? 0 : 1);
+    output.writeSync(output.readSync() ^ 1);
     toggleCount += 1;
 }
-
 
 function interrupt(err, value) {
     if (err) {
