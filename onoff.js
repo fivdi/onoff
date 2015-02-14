@@ -1,10 +1,10 @@
 "use strict";
 
 var fs = require('fs'),
-  Epoll = require('epoll').Epoll,
-  gpioRootPath = '/sys/class/gpio/';
+  Epoll = require('epoll').Epoll;
 
-var ZERO = new Buffer('0'),
+var GPIO_ROOT_PATH = '/sys/class/gpio/',
+  ZERO = new Buffer('0'),
   ONE = new Buffer('1');
 
 exports.version = '1.0.0';
@@ -69,7 +69,7 @@ function Gpio(gpio, direction, edge, options) {
   options = options || {};
 
   this.gpio = gpio;
-  this.gpioPath = gpioRootPath + 'gpio' + this.gpio + '/';
+  this.gpioPath = GPIO_ROOT_PATH + 'gpio' + this.gpio + '/';
   this.opts = {};
   this.opts.debounceTimeout = options.debounceTimeout || 0;
   this.readBuffer = new Buffer(16);
@@ -79,7 +79,7 @@ function Gpio(gpio, direction, edge, options) {
 
   if (!fs.existsSync(this.gpioPath)) {
     // The pin hasn't been exported yet so export it.
-    fs.writeFileSync(gpioRootPath + 'export', this.gpio);
+    fs.writeFileSync(GPIO_ROOT_PATH + 'export', this.gpio);
 
     // A hack to avoid the issue described here:
     // https://github.com/raspberrypi/linux/issues/553
@@ -299,6 +299,6 @@ Gpio.prototype.options = function () {
 Gpio.prototype.unexport = function () {
   this.unwatchAll();
   fs.closeSync(this.valueFd);
-  fs.writeFileSync(gpioRootPath + 'unexport', this.gpio);
+  fs.writeFileSync(GPIO_ROOT_PATH + 'unexport', this.gpio);
 };
 
