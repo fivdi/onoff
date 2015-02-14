@@ -35,7 +35,7 @@ $ opkg install python-multiprocessing
 
 ### onoff v1.0.0 - No more superuser issues with user pi on Raspbian
 
-User Pi on recent versions of Raspbian can access GPIOs without superuser
+User pi on recent versions of Raspbian can access GPIOs without superuser
 privileges and the techniques for avoiding superuser issues described in
 section
 [How to handle superuser issues](https://github.com/fivdi/onoff#how-to-handle-superuser-issues)

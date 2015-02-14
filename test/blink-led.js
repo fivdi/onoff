@@ -2,16 +2,15 @@
 
 var Gpio = require('../onoff').Gpio,
     led = new Gpio(14, 'out'),
-    nextLedState = 0,
     iv;
 
 iv = setInterval(function () {
-    led.writeSync(nextLedState);
-    nextLedState = nextLedState === 1 ? 0 : 1;
+    led.writeSync(led.readSync() ^ 1);
 }, 100);
 
 setTimeout(function () {
     clearInterval(iv);
+
     led.writeSync(0);
     led.unexport();
 
