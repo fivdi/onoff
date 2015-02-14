@@ -15,21 +15,8 @@ at the Adafruit Learning System.
 
     $ [sudo] npm install onoff
 
-**BeagleBone Prerequisites**
-
-There are no prerequisites for using onoff on the BeagleBone or BeagleBone
-Black, when Debian is being used.
-
-Before installing onoff on stock Ångström on the BeagleBone or BeagleBone
-Black, three Python modules need to be installed; python-compiler, python-misc,
-and python-multiprocessing. They can be installed with the following commands:
-
-```bash
-$ opkg update
-$ opkg install python-compiler
-$ opkg install python-misc
-$ opkg install python-multiprocessing
-```
+If you're using Ångström on the BeagleBone or BeagleBone Black see
+[BeagleBone Ångström Prerequisites](https://github.com/fivdi/onoff/wiki/BeagleBone-%C3%85ngstr%C3%B6m-Prerequisites)
 
 ## News & Updates
 
