@@ -5,12 +5,6 @@
 GPIO access and interrupt detection with Node.js on Linux boards such as the
 BeagleBone, BeagleBone Black, Raspberry Pi, or Raspberry Pi 2.
 
-## Adafruit Learning System
-
-For an introduction to onoff checkout
-[Node.js Embedded Development on the Raspberry Pi](https://learn.adafruit.com/node-embedded-development?view=all)
-at the Adafruit Learning System.
-
 ## Installation
 
     $ [sudo] npm install onoff
@@ -34,6 +28,12 @@ is no longer supported with onoff v1.0.0 or higher.
 
 For old news and updates see the
 [News & Updates Archive](https://github.com/fivdi/onoff/wiki/News-&-Updates-Archive)
+
+## Adafruit Learning System
+
+For an introduction to onoff checkout
+[Node.js Embedded Development on the Raspberry Pi](https://learn.adafruit.com/node-embedded-development?view=all)
+at the Adafruit Learning System.
 
 ## Usage
 
@@ -192,11 +192,12 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
 }(20));
 ```
 
-## Configuring pull-up and pull-down resistors
+## Configuring pullup and pulldown resistors
 
-As onoff plays well with the quick2wire gpio-admin and the WiringPi gpio
-utilities, either of these tools can be used to configure pull-up and pull-down
-resistors on th Pi.
+Pullup and pulldown resistors for GPIOs can be configured with device tree
+overlays. The Wiki page
+[Enabling Pullup and Pulldown Resistors on The Raspberry Pi](https://github.com/fivdi/onoff/wiki/Enabling-Pullup-and-Pulldown-Resistors-on-The-Raspberry-Pi)
+describes how this can be acheived on the Raspberry Pi.
 
 ## Benchmarks
 
