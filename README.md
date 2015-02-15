@@ -32,20 +32,8 @@ One of the techniques for avoiding superuser issues on older versions of
 Raspbian was titled "Resolving superuser issues with onoff". This technique
 is no longer supported with onoff v1.0.0 or higher.
 
-### onoff v0.3.0 - Breaking persistentWatch change
-
-The persistentWatch option that was supported by onoff v0.1.2 through v0.2.3
-was removed with onoff v0.3.0. As of v0.3.0 watchers are always persistent.
-Note that this is a breaking change as the persistentWatch option defaulted
-to false which resulted in one-shot watchers.
-
-If you were explicitly setting persistentWatch to true, the migration step is
-easy, simply remove the persistentWatch option.
-
-If you were explicitly setting persistentWatch to false, or letting it default
-to false, you'll need to re-work your code. If one-shot watchers are needed,
-the effect can be achieved by calling unwatch or unwatchAll in the watcher
-callback the first time it's called.
+For old news and updates see the
+[News & Updates Archive](https://github.com/fivdi/onoff/wiki/News-&-Updates-Archive)
 
 ## Usage
 
