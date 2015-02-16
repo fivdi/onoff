@@ -37,7 +37,7 @@ at the Adafruit Learning System.
 
 Assume that there's an LED on GPIO #14 and a momentary push button on GPIO #4.
 
-<img src="https://github.com/fivdi/onoff/raw/master/example/light-switch.png">
+<img src="https://raw.githubusercontent.com/fivdi/onoff/master/examples/light-switch.png">
 
 When the button is pressed the LED should turn on, when it's released the LED
 should turn off. This can be achieved with the following code:
