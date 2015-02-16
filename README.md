@@ -1,9 +1,7 @@
-## onoff
+## onoff 
 
-**onoff is io.js and Node.js compatable**
-
-GPIO access and interrupt detection with Node.js on Linux boards such as the
-BeagleBone, BeagleBone Black, Raspberry Pi, or Raspberry Pi 2.
+GPIO access and interrupt detection with **io.js** or **Node.js** on Linux
+boards like the BeagleBone, BeagleBone Black, Raspberry Pi, or Raspberry Pi 2.
 
 ## Installation
 
@@ -95,9 +93,9 @@ process.on('SIGINT', exit);
 ## How does it work?
 
 Internally onoff uses sysfs files located at /sys/class/gpio to access GPIOs
-and the [Node.js epoll module](https://github.com/fivdi/epoll) to detect
-hardware interrupts. The Linux GPIO sysfs interface for userspace is
-documented [here](https://www.kernel.org/doc/Documentation/gpio/sysfs.txt).
+and the [epoll module](https://github.com/fivdi/epoll) to detect hardware
+interrupts. The Linux GPIO sysfs interface for userspace is documented
+[here](https://www.kernel.org/doc/Documentation/gpio/sysfs.txt).
 It's a relatively simple interface which can be used to ask the Linux kernel
 to export control of a GPIO to userspace. After control of a GPIO has been
 exported to userspace, the GPIO can be configured as an input or output.
@@ -207,8 +205,8 @@ Three of the onoff tests are used to monitor performance:
   * performance-sync.js - determine max. no. of writeSync ops per second
   * performance-interrupt.js - determine max. no. of interrupts per second
 
-The average of ten runs of these tests using various versions of Node.js and
-onoff are shown in the following tables.
+The average of ten runs of these tests using various versions of io.js,
+Node.js, and onoff are shown in the following tables.
 
 **BeagleBone, 720MHz, Ångström v2012.12, Kernel 3.8.13:**
 
