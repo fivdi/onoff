@@ -187,7 +187,7 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
   setTimeout(function () {
     blink(count - 1);
   }, 200);
-}(20));
+}(25));
 ```
 
 ## Configuring pullup and pulldown resistors
