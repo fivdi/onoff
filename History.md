@@ -1,5 +1,5 @@
-Unpublished
-===========
+1.0.2 - Feb 18 2015
+===================
   * documentation improved
 
 1.0.1 - Feb 15 2015
