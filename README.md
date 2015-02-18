@@ -112,19 +112,19 @@ Raspberry Pi.
 
 ### Class Gpio
 
-  * [Gpio(gpio, direction[, edge]) - Constructor]()
-  * [read([callback]) - Read GPIO value asynchronously]()
-  * [readSync() - Read GPIO value synchronously]()
-  * [write(value, callback) - Write GPIO value asynchronously]()
-  * [writeSync(value) - Write GPIO value synchronously]()
-  * [watch(callback) - Watch for hardware interrupts on the GPIO]()
-  * [unwatch([callback]) - Stop watching for hardware interrupts on the GPIO]()
-  * [unwatchAll() - Remove all watchers for the GPIO]()
-  * [direction() - Get GPIO direction]()
-  * [setDirection(direction) - Set GPIO direction]()
-  * [edge() - Get GPIO interrupt generating edge]()
-  * [setEdge(edge) - Set GPIO interrupt generating edge]()
-  * [unexport() - Reverse the effect of exporting the GPIO to userspace]()
+  * [Gpio(gpio, direction[, edge]) - Constructor](https://github.com/fivdi/onoff#gpiogpio-direction-edge)
+  * [read([callback]) - Read GPIO value asynchronously](https://github.com/fivdi/onoff#readcallback)
+  * [readSync() - Read GPIO value synchronously](https://github.com/fivdi/onoff#readsync)
+  * [write(value[, callback]) - Write GPIO value asynchronously](https://github.com/fivdi/onoff#writevalue-callback)
+  * [writeSync(value) - Write GPIO value synchronously](https://github.com/fivdi/onoff#writesyncvalue)
+  * [watch(callback) - Watch for hardware interrupts on the GPIO](https://github.com/fivdi/onoff#watchcallback)
+  * [unwatch([callback]) - Stop watching for hardware interrupts on the GPIO](https://github.com/fivdi/onoff#unwatchcallback)
+  * [unwatchAll() - Remove all watchers for the GPIO](https://github.com/fivdi/onoff#unwatchall)
+  * [direction() - Get GPIO direction](https://github.com/fivdi/onoff#direction)
+  * [setDirection(direction) - Set GPIO direction](https://github.com/fivdi/onoff#setdirectiondirection)
+  * [edge() - Get GPIO interrupt generating edge](https://github.com/fivdi/onoff#edge)
+  * [setEdge(edge) - Set GPIO interrupt generating edge](https://github.com/fivdi/onoff#setedgeedge)
+  * [unexport() - Reverse the effect of exporting the GPIO to userspace](https://github.com/fivdi/onoff#unexport)
 
 ##### Gpio(gpio, direction[, edge])
 Returns a new Gpio object that can be used to access a GPIO.
