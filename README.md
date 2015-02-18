@@ -1,4 +1,4 @@
-## onoff 
+# onoff 
 
 GPIO access and interrupt detection with **io.js** or **Node.js** on Linux
 boards like the BeagleBone, BeagleBone Black, Raspberry Pi, or Raspberry Pi 2.
@@ -110,32 +110,101 @@ Raspberry Pi.
 
 ## API
 
-onoff provides a constructor function called Gpio which can be used to make
-Gpio objects corresponding to Linux GPIOs. The Gpio methods available are as
-follows:
+### Class Gpio
 
-  * [Gpio](https://github.com/fivdi/onoff/blob/master/onoff.js#L31-L54) - Constructor
-  * read(callback) - Read GPIO value asynchronously
-  * readSync() - Read GPIO value synchronously
-  * write(value, callback) - Write GPIO value asynchronously
-  * writeSync(value) - Write GPIO value synchronously
-  * watch(callback) - Watch for hardware interrupts on the GPIO. Inputs and
-    outputs can be watched. The edge argument that was passed to the
-    constructor determines which hardware interrupts are watcher for.
-  * unwatch(callback) - Stop watching for hardware interrupts on the GPIO
-  * unwatchAll() - Remove all watchers for the GPIO
-  * direction() - Get GPIO direction
-  * setDirection() - Set GPIO direction
-  * edge() - Get GPIO interrupt generating edge
-  * setEdge() - Set GPIO interrupt generating edge
-  * options() - Get GPIO options
-  * unexport() - Reverse the effect of exporting the GPIO to userspace
+  * [Gpio(gpio, direction[, edge]) - Constructor]()
+  * [read([callback]) - Read GPIO value asynchronously]()
+  * [readSync() - Read GPIO value synchronously]()
+  * [write(value, callback) - Write GPIO value asynchronously]()
+  * [writeSync(value) - Write GPIO value synchronously]()
+  * [watch(callback) - Watch for hardware interrupts on the GPIO]()
+  * [unwatch([callback]) - Stop watching for hardware interrupts on the GPIO]()
+  * [unwatchAll() - Remove all watchers for the GPIO]()
+  * [direction() - Get GPIO direction]()
+  * [setDirection(direction) - Set GPIO direction]()
+  * [edge() - Get GPIO interrupt generating edge]()
+  * [setEdge(edge) - Set GPIO interrupt generating edge]()
+  * [unexport() - Reverse the effect of exporting the GPIO to userspace]()
+
+##### Gpio(gpio, direction[, edge])
+Returns a new Gpio object that can be used to access a GPIO.
+- gpio - An unsigned integer specifying the GPIO number.
+- direction - A string specifying whether the GPIO should be configured as an
+input or output. The valid values are: 'in', 'out', 'high', and 'low'. 'high'
+and 'low' are variants of 'out' that configure the GPIO as an output with an
+initial level of high or low respectively.
+- [edge] - An optional string specifying the interrupt generating edge or
+edges for the GPIO. The valid values are: 'none', 'rising', 'falling' or
+'both'. The default value is 'none' indicating that the GPIO does not generate
+interrupts. On Linux kernels prior to 3.13 it was possible for both inputs
+and outputs to generate interrupts. The 3.13 kernel dropped support for
+interrupt generating outputs, irrespective of whether the underlying hardware
+supports them or not.
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
 should be passed to the onoff Gpio constructor function when exporting GPIOs
 to userspace. For example, pin 8 on the Raspberry Pi P1 expansion header
 corresponds to GPIO #14 in Raspbian Linux. 14 is therefore the number to pass
 to the onoff Gpio constructor when using pin 8 on the P1 expansion header.
+
+##### read([callback])
+Read GPIO value asynchronously.
+- [callback] - An optional completion callback that gets two arguments (err,
+value), where err is reserved for an error object and value is the number 0
+or 1 and represents the state of the GPIO.
+
+##### readSync()
+Read GPIO value synchronously. Returns the number 0 or 1 to represent the
+state of the GPIO.
+
+##### write(value[, callback])
+Write GPIO value asynchronously.
+- value - The number 0 or 1.
+- [callback] - An optional completion callback that gets one argument (err),
+where err is reserved for an error object.
+
+##### writeSync(value)
+Write GPIO value synchronously.
+- value - The number 0 or 1.
+
+##### watch(callback)
+Watch for hardware interrupts on the GPIO. The edge argument that was passed
+to the constructor determines which hardware interrupts to watcher for.
+- callback - A callback that gets two arguments (err, value), where err is
+reserved for an error object and value is the number 0 or 1 and represents the
+state of the GPIO.
+
+##### unwatch([callback])
+Stop watching for hardware interrupts on the GPIO. If callback is specified,
+only that particular callback is removed. Otherwise all callbacks are removed.
+- [callback] - The callback to remove.
+
+##### unwatchAll()
+Remove all hardware interrupt watchers for the GPIO.
+
+##### direction()
+Returns the string 'in' or 'out' indicating whether the GPIO is an input or
+output.
+
+##### setDirection(direction)
+Set GPIO direction.
+- direction - A string specifying whether the GPIO should be configured as an
+input or output. The valid values are 'in' and 'out'.
+
+##### edge()
+Returns the string 'none', 'falling', 'rising', or 'both' indicating the
+interrupt generating edge or edges for the GPIO.
+
+##### setEdge(edge)
+Set GPIO interrupt generating edge
+- edge - A string specifying the interrupt generating edge or edges for the
+GPIO. The valid values are: 'none', 'rising', 'falling' or 'both'. On Linux
+kernels prior to 3.13 it was possible for both inputs and outputs to generate
+interrupts. The 3.13 kernel dropped support for interrupt generating outputs,
+irrespective of whether the underlying hardware supports them or not.
+
+##### unexport()
+Reverse the effect of exporting the GPIO to userspace
 
 ## Synchronous API
 

@@ -1,3 +1,7 @@
+Unpublished
+===========
+  * documentation improved
+
 1.0.1 - Feb 15 2015
 ===================
   * refactored tests to avoid relying in interrupt generating outputs as linux 3.13 and above no longer supports them
