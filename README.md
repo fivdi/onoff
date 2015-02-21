@@ -5,12 +5,18 @@ boards like the BeagleBone, BeagleBone Black, Raspberry Pi, or Raspberry Pi 2.
 
 ## Installation
 
-    $ [sudo] npm install onoff
+    $ npm install onoff
 
 If you're using Ångström on the BeagleBone or BeagleBone Black see
 [BeagleBone Ångström Prerequisites](https://github.com/fivdi/onoff/wiki/BeagleBone-%C3%85ngstr%C3%B6m-Prerequisites)
 
 ## News & Updates
+
+### Newsflash
+
+The mechanisms that enable user pi on Raspbian to access GPIOs with out
+superuser privileges are broken in the 2015-01-31 release of Raspbian.
+With the 2015-02-16 release they have been fixed.
 
 ### onoff v1.0.0 - No more superuser issues with user pi on Raspbian
 
