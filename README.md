@@ -175,7 +175,7 @@ Write GPIO value synchronously.
 
 ##### watch(callback)
 Watch for hardware interrupts on the GPIO. The edge argument that was passed
-to the constructor determines which hardware interrupts to watcher for.
+to the constructor determines which hardware interrupts to watch for.
 - callback - A callback that gets two arguments (err, value), where err is
 reserved for an error object and value is the number 0 or 1 and represents the
 state of the GPIO.
