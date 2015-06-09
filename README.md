@@ -270,6 +270,12 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
 
 ## Configuring pullup and pulldown resistors
 
+On the Raspberry Pi, most GPIOs have either their pull-up or pull-down resistor
+activated by default. The defaults can be seen in Table 6-31 on pages 102 and
+103 of the
+[BCM2835 ARM Peripherals](http://www.farnell.com/datasheets/1521578.pdf)
+documentation.
+
 Pullup and pulldown resistors for GPIOs can be configured with device tree
 overlays. The Wiki page
 [Enabling Pullup and Pulldown Resistors on The Raspberry Pi](https://github.com/fivdi/onoff/wiki/Enabling-Pullup-and-Pulldown-Resistors-on-The-Raspberry-Pi)
