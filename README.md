@@ -303,33 +303,33 @@ Node.js, and onoff are shown in the following tables.
 
 **Raspberry Pi 2, 900Mhz, Raspbian:**
 
-node | onoff | kernel | write ops / sec | writeSync ops / sec | interrupts / sec
+node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v2.3.0 | v1.0.2 | Kernel 3.18.11-v7+ | 8896 | 111716 | 6067
-v2.0.2 | v1.0.2 | Kernel 3.18.11-v7+ | 8964 | 116785 | 5958
-v1.2.0 | v1.0.0 | Kernel 3.18.5-v7+ | 13863 | 171501 | 9268
-v0.10.36 | v1.0.0 | Kernel 3.18.5-v7+ | 12010 | 98493 | 9803
+v2.3.0 | v1.0.2 | 3.18.11-v7+ | 8896 | 111716 | 6067
+v2.0.2 | v1.0.2 | 3.18.11-v7+ | 8964 | 116785 | 5958
+v1.2.0 | v1.0.0 | 3.18.5-v7+ | 13863 | 171501 | 9268
+v0.10.36 | v1.0.0 | 3.18.5-v7+ | 12010 | 98493 | 9803
 
 **Raspberry Pi, 700Mhz, Raspbian:**
 
-Node.js | onoff | kernel | write ops / sec | writeSync ops / sec | interrupts / sec
+Node.js | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v0.11.7 | v0.2.3 | Kernel 3.6.11+ | 3355 | 49651 | 2550
-v0.10.8 | v0.2.3 | Kernel 3.6.11+ | 2772 | 31825 | 2297
+v0.11.7 | v0.2.3 | 3.6.11+ | 3355 | 49651 | 2550
+v0.10.8 | v0.2.3 | 3.6.11+ | 2772 | 31825 | 2297
 
 **BeagleBone Black, 1GHz, Ångström v2012.12:**
 
-Node.js | onoff | kernel | write ops / sec | writeSync ops / sec | interrupts / sec
+Node.js | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v0.11.9 | v0.3.0 | Kernel 3.8.13 | 8663 | 110219 | 7154
-v0.11.8 | v0.2.3 | Kernel 3.8.13 | 8446 | 100698 | 7323
+v0.11.9 | v0.3.0 | 3.8.13 | 8663 | 110219 | 7154
+v0.11.8 | v0.2.3 | 3.8.13 | 8446 | 100698 | 7323
 
 **BeagleBone, 720MHz, Ångström v2012.12:**
 
-Node.js | onoff | kernel | write ops / sec | writeSync ops / sec | interrupts / sec
+Node.js | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v0.11.7 | v0.2.3 | Kernel 3.8.13 | 6399 | 84334 | 5519
-v0.10.20 | v0.2.3 | Kernel 3.8.13 | 4925 | 45713 | 4561
+v0.11.7 | v0.2.3 | 3.8.13 | 6399 | 84334 | 5519
+v0.10.20 | v0.2.3 | 3.8.13 | 4925 | 45713 | 4561
 
 ## Additional Information
 
