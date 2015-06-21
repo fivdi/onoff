@@ -301,36 +301,35 @@ Three of the onoff tests are used to monitor performance:
 The average of ten runs of these tests using various versions of io.js,
 Node.js, and onoff are shown in the following tables.
 
-**BeagleBone, 720MHz, Ångström v2012.12, Kernel 3.8.13:**
+**Raspberry Pi 2, 900Mhz, Raspbian:**
 
-Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
-:---: | :---: | ---: | ---: | ---:
-v0.11.7 | v0.2.3 | 6399 | 84334 | 5519
-v0.10.20 | v0.2.3 | 4925 | 45713 | 4561
+node | onoff | kernel | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | :---: | :---: | ---: | ---: | ---:
+v2.3.0 | v1.0.2 | Kernel 3.18.11-v7+ | 8896 | 111716 | 6067
+v2.0.2 | v1.0.2 | Kernel 3.18.11-v7+ | 8964 | 116785 | 5958
+v1.2.0 | v1.0.0 | Kernel 3.18.5-v7+ | 13863 | 171501 | 9268
+v0.10.36 | v1.0.0 | Kernel 3.18.5-v7+ | 12010 | 98493 | 9803
 
-**BeagleBone Black, 1GHz, Ångström v2012.12, Kernel 3.8.13:**
+**Raspberry Pi, 700Mhz, Raspbian:**
 
-Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
-:---: | :---: | ---: | ---: | ---:
-v0.11.9 | v0.3.0 | 8663 | 110219 | 7154
-v0.11.8 | v0.2.3 | 8446 | 100698 | 7323
+Node.js | onoff | kernel | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | :---: | :---: | ---: | ---: | ---:
+v0.11.7 | v0.2.3 | Kernel 3.6.11+ | 3355 | 49651 | 2550
+v0.10.8 | v0.2.3 | Kernel 3.6.11+ | 2772 | 31825 | 2297
 
-**Raspberry Pi, 700Mhz, Raspbian, Kernel 3.6.11+:**
+**BeagleBone Black, 1GHz, Ångström v2012.12:**
 
-Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
-:---: | :---: | ---: | ---: | ---:
-v0.11.7 | v0.2.3 | 3355 | 49651 | 2550
-v0.10.8 | v0.2.3 | 2772 | 31825 | 2297
+Node.js | onoff | kernel | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | :---: | :---: | ---: | ---: | ---:
+v0.11.9 | v0.3.0 | Kernel 3.8.13 | 8663 | 110219 | 7154
+v0.11.8 | v0.2.3 | Kernel 3.8.13 | 8446 | 100698 | 7323
 
-**Raspberry Pi 2, 900Mhz, Raspbian, Kernel 3.18.5-v7+:**
+**BeagleBone, 720MHz, Ångström v2012.12:**
 
-io.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
-:---: | :---: | ---: | ---: | ---:
-v1.2.0 | v1.0.0 | 13863 | 171501 | 9268
-
-Node.js | onoff | write ops / sec | writeSync ops / sec | interrupts / sec
-:---: | :---: | ---: | ---: | ---:
-v0.10.36 | v1.0.0 | 12010 | 98493 | 9803
+Node.js | onoff | kernel | write ops / sec | writeSync ops / sec | interrupts / sec
+:---: | :---: | :---: | ---: | ---: | ---:
+v0.11.7 | v0.2.3 | Kernel 3.8.13 | 6399 | 84334 | 5519
+v0.10.20 | v0.2.3 | Kernel 3.8.13 | 4925 | 45713 | 4561
 
 ## Additional Information
 
