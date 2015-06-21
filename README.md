@@ -312,21 +312,21 @@ v0.10.36 | v1.0.0 | 3.18.5-v7+ | 12010 | 98493 | 9803
 
 **Raspberry Pi, 700Mhz, Raspbian:**
 
-Node.js | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
+node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
 v0.11.7 | v0.2.3 | 3.6.11+ | 3355 | 49651 | 2550
 v0.10.8 | v0.2.3 | 3.6.11+ | 2772 | 31825 | 2297
 
 **BeagleBone Black, 1GHz, Ångström v2012.12:**
 
-Node.js | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
+node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
 v0.11.9 | v0.3.0 | 3.8.13 | 8663 | 110219 | 7154
 v0.11.8 | v0.2.3 | 3.8.13 | 8446 | 100698 | 7323
 
 **BeagleBone, 720MHz, Ångström v2012.12:**
 
-Node.js | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
+node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
 v0.11.7 | v0.2.3 | 3.8.13 | 6399 | 84334 | 5519
 v0.10.20 | v0.2.3 | 3.8.13 | 4925 | 45713 | 4561
