@@ -39,15 +39,6 @@ For an introduction to onoff checkout
 [Node.js Embedded Development on the Raspberry Pi](https://learn.adafruit.com/node-embedded-development?view=all)
 at the Adafruit Learning System.
 
-**Important:** The article at the Adafruit Learning System was published in
-December 2014. At the time, it was necessary to use a tool like GPIO Admin
-to enable user pi on Raspbian to access GPIO pins without superuser privileges.
-This is no longer the case with up to date versions of Raspbian and user pi
-can now automatically access GPIO pins without superuser privileges and without
-the GPIO Admin tool. In fact, the GPIO Admin tool has been abandoned, no longer
-functions correctly on up to date Raspbian installations, and should therefore
-no longer be used.
-
 ## Usage
 
 Assume that there's an LED on GPIO #14 and a momentary push button on GPIO #4.
