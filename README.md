@@ -7,8 +7,8 @@ boards like the BeagleBone, BeagleBone Black, Raspberry Pi, or Raspberry Pi 2.
 
     $ npm install onoff
 
-If you're using Ångström on the BeagleBone or BeagleBone Black see
-[BeagleBone Ångström Prerequisites](https://github.com/fivdi/onoff/wiki/BeagleBone-%C3%85ngstr%C3%B6m-Prerequisites)
+If you're having issues installing onoff on the BeagleBone Black see
+[Installing onoff on the BeagleBone Black](https://github.com/fivdi/onoff/wiki/Installing-onoff-on-the-BeagleBone-Black)
 
 ## News & Updates
 
