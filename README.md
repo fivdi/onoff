@@ -7,8 +7,13 @@ boards like the BeagleBone, BeagleBone Black, Raspberry Pi, or Raspberry Pi 2.
 
     $ npm install onoff
 
-If you're having issues installing onoff on the BeagleBone Black see
-[Installing onoff on the BeagleBone Black](https://github.com/fivdi/onoff/wiki/Installing-onoff-on-the-BeagleBone-Black)
+If you're using io.js v3 or Node.js v4 and seeing lots of compile errors
+when installing onoff, it's very likely that gcc/g++ 4.8 are not installed. See
+[Node.js v4 and native addons](https://github.com/fivdi/onoff/wiki/Node.js-v4-and-native-addons)
+for details.
+
+If you're having issues installing onoff with Node.js v0.10.29 on the BeagleBone Black see
+[Installing onoff on the BeagleBone Black](https://github.com/fivdi/onoff/wiki/Installing-onoff-on-the-BeagleBone-Black).
 
 ## News & Updates
 
