@@ -2,7 +2,7 @@
 
 var Gpio = require('../onoff').Gpio,
   assert = require('assert'),
-  output = new Gpio(14, 'out');
+  output = new Gpio(17, 'out');
 
 assert(output.direction() === 'out');
 

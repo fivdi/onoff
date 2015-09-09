@@ -5,7 +5,7 @@ var Gpio = require('../onoff').Gpio,
   i;
 
 for (i = 1; i <= 1000000; i += 1) {
-  led = new Gpio(14, 'out');
+  led = new Gpio(17, 'out');
   led.writeSync(led.readSync() ^ 1);
   led.unexport();
   if (i % 10 === 0) {

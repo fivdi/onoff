@@ -1,7 +1,7 @@
 "use strict";
 
 var Gpio = require('../onoff').Gpio,
-  led = new Gpio(14, 'out'),
+  led = new Gpio(17, 'out'),
   iv;
 
 iv = setInterval(function () {
