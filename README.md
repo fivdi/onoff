@@ -18,11 +18,14 @@ see [Node.js v0.10.29 and native addons on the BeagleBone Black](https://github.
 
 ## News & Updates
 
-### Newsflash
+### Newsflash - September 10th 2015
 
-The mechanisms that enable user pi on Raspbian to access GPIOs with out
-superuser privileges are broken in the 2015-01-31 release of Raspbian.
-With the 2015-02-16 release they have been fixed.
+The mechanisms that enable user pi on Raspbian to access GPIOs without
+superuser privileges function correctly in the 2015-05-05 release of Raspbian.
+However, if Raspbian is upgraded with `sudo apt-get update` and
+`sudo apt-get upgrade`, these mechanisms will break. This is a known
+[Raspbian issue](https://github.com/raspberrypi/linux/issues/1117). The issue
+also describes how to work around the problem.
 
 ### onoff v1.0.0 - No more superuser issues with user pi on Raspbian
 
