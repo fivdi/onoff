@@ -1,5 +1,5 @@
-Unpublished
-===========
+1.0.3 - Oct 10 2015
+===================
   * documentation improved
   * epoll v0.1.16
 
