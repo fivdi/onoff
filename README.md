@@ -22,8 +22,8 @@ see [Node.js v0.10.29 and native addons on the BeagleBone Black](https://github.
 ### Newsflash - September 10th 2015
 
 The mechanisms that enable user pi on Raspbian to access GPIOs without
-superuser privileges function correctly in the 2015-05-05 release of Raspbian.
-However, if Raspbian is upgraded with `sudo apt-get update` and
+superuser privileges function correctly in the 2015-05-05 release of Raspbian
+Wheezy. However, if Raspbian Wheezy is upgraded with `sudo apt-get update` and
 `sudo apt-get upgrade`, these mechanisms will break. This is a known
 [Raspbian issue](https://github.com/raspberrypi/linux/issues/1117). The issue
 also describes how to work around the problem.
