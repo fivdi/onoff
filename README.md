@@ -19,26 +19,15 @@ see [Node.js v0.10.29 and native addons on the BeagleBone Black](https://github.
 
 ## News & Updates
 
-### Newsflash - September 10th 2015
+### Newsflash - November 2nd 2015
 
 The mechanisms that enable user pi on Raspbian to access GPIOs without
 superuser privileges function correctly in the 2015-05-05 release of Raspbian
 Wheezy. However, if Raspbian Wheezy is upgraded with `sudo apt-get update` and
 `sudo apt-get upgrade`, these mechanisms will break. This is a known
 [Raspbian issue](https://github.com/raspberrypi/linux/issues/1117). The issue
-also describes how to work around the problem.
-
-### onoff v1.0.0 - No more superuser issues with user pi on Raspbian
-
-User pi on recent versions of Raspbian can access GPIOs without superuser
-privileges and the techniques for avoiding superuser issues previously
-described in section "How to handle superuser issues" no longer need to be
-applied. Section "How to handle superuser issues" has since been removed from
-the documentation.
-
-One of the techniques for avoiding superuser issues on older versions of
-Raspbian was titled "Resolving superuser issues with onoff". This technique
-is no longer supported with onoff v1.0.0 or higher.
+also describes how to work around the problem. Note that this is only an issue
+on Raspbian Wheezy. On Raspbian Jessie the mechanisms function correctly.
 
 For old news and updates see the
 [News & Updates Archive](https://github.com/fivdi/onoff/wiki/News-&-Updates-Archive)
