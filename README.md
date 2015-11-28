@@ -25,9 +25,9 @@ The mechanisms that enable user pi on Raspbian to access GPIOs without
 superuser privileges function correctly in the 2015-05-05 release of Raspbian
 Wheezy. However, if Raspbian Wheezy is upgraded with `sudo apt-get update` and
 `sudo apt-get upgrade`, these mechanisms will break. This is a known
-[Raspbian issue](https://github.com/raspberrypi/linux/issues/1117). The issue
-also describes how to work around the problem. Note that this is only an issue
-on Raspbian Wheezy. On Raspbian Jessie the mechanisms function correctly.
+[Raspbian Wheezy issue](https://github.com/raspberrypi/linux/issues/1117). The
+issue also describes how to work around the problem. Note that this is only an
+issue on Raspbian Wheezy. On Raspbian Jessie the mechanisms function correctly.
 
 For old news and updates see the
 [News & Updates Archive](https://github.com/fivdi/onoff/wiki/News-&-Updates-Archive)
@@ -177,7 +177,9 @@ Watch for hardware interrupts on the GPIO. The edge argument that was passed
 to the constructor determines which hardware interrupts to watch for.
 - callback - A callback that gets two arguments (err, value), where err is
 reserved for an error object and value is the number 0 or 1 and represents the
-state of the GPIO.
+state of the GPIO. The value can also be used to determine whether the
+interrupt occurred on a rising or falling edge. A value of 0 implies a falling
+edge interrupt and a value of 1 implies a rising edge interrupt.
 
 ##### unwatch([callback])
 Stop watching for hardware interrupts on the GPIO. If callback is specified,
