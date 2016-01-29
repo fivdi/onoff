@@ -1,3 +1,8 @@
+Unpublished
+===========
+  * documentation improved
+  * epoll v0.1.17
+
 1.0.3 - Oct 10 2015
 ===================
   * documentation improved
