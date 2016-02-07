@@ -319,6 +319,7 @@ Node.js, and onoff are shown in the following tables.
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
+v5.5.0 | v1.0.4 | 4.1.13-v7+ | 12875 | 160655 | 9204
 v4.0.0 | v1.0.2 | 4.1.6-v7+ | 12536 | 138193 | 8375
 v2.3.0 | v1.0.2 | 3.18.11-v7+ | 8896 | 111716 | 6067
 v2.0.2 | v1.0.2 | 3.18.11-v7+ | 8964 | 116785 | 5958
