@@ -1,3 +1,7 @@
+Unpublished
+===========
+  * documentation improved
+
 1.0.4 - Jan 29 2016
 ===================
   * documentation improved

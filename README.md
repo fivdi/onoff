@@ -136,7 +136,6 @@ Raspberry Pi.
   * [unexport() - Reverse the effect of exporting the GPIO to userspace](https://github.com/fivdi/onoff#unexport)
 
 ##### Gpio(gpio, direction[, edge])
-Returns a new Gpio object that can be used to access a GPIO.
 - gpio - An unsigned integer specifying the GPIO number.
 - direction - A string specifying whether the GPIO should be configured as an
 input or output. The valid values are: 'in', 'out', 'high', and 'low'. 'high'
@@ -150,6 +149,8 @@ and outputs to generate interrupts. The 3.13 kernel dropped support for
 interrupt generating outputs, irrespective of whether the underlying hardware
 supports them or not.
 
+Returns a new Gpio object that can be used to access a GPIO.
+
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
 should be passed to the onoff Gpio constructor function when exporting GPIOs
 to userspace. For example, pin 8 on the Raspberry Pi P1 expansion header
@@ -157,38 +158,53 @@ corresponds to GPIO #14 in Raspbian Linux. 14 is therefore the number to pass
 to the onoff Gpio constructor when using pin 8 on the P1 expansion header.
 
 ##### read([callback])
-Read GPIO value asynchronously.
 - [callback] - An optional completion callback that gets two arguments (err,
 value), where err is reserved for an error object and value is the number 0
 or 1 and represents the state of the GPIO.
+
+Read GPIO value asynchronously.
+
+Note that most systems support readback of GPIOs configured as outputs. The
+read method can therefore be called for any GPIO, irrespective of whether it
+was configured as an input or an output. The Raspberry Pi and BeagleBone are
+examples of such systems.
 
 ##### readSync()
 Read GPIO value synchronously. Returns the number 0 or 1 to represent the
 state of the GPIO.
 
+Note that most systems support readback of GPIOs configured as outputs. The
+readSync method can therefore be called for any GPIO, irrespective of whether
+it was configured as an input or an output. The Raspberry Pi and BeagleBone
+are examples of such systems.
+
 ##### write(value[, callback])
-Write GPIO value asynchronously.
 - value - The number 0 or 1.
 - [callback] - An optional completion callback that gets one argument (err),
 where err is reserved for an error object.
 
+Write GPIO value asynchronously.
+
 ##### writeSync(value)
-Write GPIO value synchronously.
 - value - The number 0 or 1.
 
+Write GPIO value synchronously.
+
 ##### watch(callback)
-Watch for hardware interrupts on the GPIO. The edge argument that was passed
-to the constructor determines which hardware interrupts to watch for.
 - callback - A callback that gets two arguments (err, value), where err is
 reserved for an error object and value is the number 0 or 1 and represents the
 state of the GPIO. The value can also be used to determine whether the
 interrupt occurred on a rising or falling edge. A value of 0 implies a falling
 edge interrupt and a value of 1 implies a rising edge interrupt.
 
+Watch for hardware interrupts on the GPIO. The edge argument that was passed
+to the constructor determines which hardware interrupts to watch for.
+
 ##### unwatch([callback])
+- [callback] - The callback to remove.
+
 Stop watching for hardware interrupts on the GPIO. If callback is specified,
 only that particular callback is removed. Otherwise all callbacks are removed.
-- [callback] - The callback to remove.
 
 ##### unwatchAll()
 Remove all hardware interrupt watchers for the GPIO.
@@ -198,21 +214,23 @@ Returns the string 'in' or 'out' indicating whether the GPIO is an input or
 output.
 
 ##### setDirection(direction)
-Set GPIO direction.
 - direction - A string specifying whether the GPIO should be configured as an
 input or output. The valid values are 'in' and 'out'.
+
+Set GPIO direction.
 
 ##### edge()
 Returns the string 'none', 'falling', 'rising', or 'both' indicating the
 interrupt generating edge or edges for the GPIO.
 
 ##### setEdge(edge)
-Set GPIO interrupt generating edge
 - edge - A string specifying the interrupt generating edge or edges for the
 GPIO. The valid values are: 'none', 'rising', 'falling' or 'both'. On Linux
 kernels prior to 3.13 it was possible for both inputs and outputs to generate
 interrupts. The 3.13 kernel dropped support for interrupt generating outputs,
 irrespective of whether the underlying hardware supports them or not.
+
+Set GPIO interrupt generating edge
 
 ##### unexport()
 Reverse the effect of exporting the GPIO to userspace
