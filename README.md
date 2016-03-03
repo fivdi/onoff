@@ -315,6 +315,12 @@ Three of the onoff tests are used to monitor performance:
 The average of ten runs of these tests using various versions of io.js,
 Node.js, and onoff are shown in the following tables.
 
+**Raspberry Pi 3, 1.2Ghz, Raspbian:**
+
+node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
+:---: | :---: | :---: | ---: | ---: | ---:
+v5.7.0 | v1.0.4 | 4.1.18-v7+ | 27015 | 294496 | 19262
+
 **Raspberry Pi 2, 900Mhz, Raspbian:**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
