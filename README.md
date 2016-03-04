@@ -1,15 +1,15 @@
 # onoff 
 
-GPIO access and interrupt detection with **io.js** or **Node.js** on Linux
-boards like the BeagleBone, BeagleBone Black, Raspberry Pi, or Raspberry Pi 2.
+GPIO access and interrupt detection with **Node.js** on Linux boards like the
+Raspberry Pi Zero, 1, 2, or 3, BeagleBone, or BeagleBone Black.
 
 ## Installation
 
     $ npm install onoff
 
-If you're using io.js v3 or Node.js v4 or higher and seeing lots of compile
-errors when installing onoff, it's very likely that gcc/g++ 4.8 or higher are
-not installed. See
+If you're using Node.js v4 or higher and seeing lots of compile errors when
+installing onoff, it's very likely that gcc/g++ 4.8 or higher are not
+installed. See
 [Node.js v4 and native addons](https://github.com/fivdi/onoff/wiki/Node.js-v4-and-native-addons)
 for details.
 
@@ -361,6 +361,8 @@ Tested on the following platforms:
 - Raspberry Pi 1
   - Raspbian
 - Raspberry Pi 2
+  - Raspbian
+- Raspberry Pi 3
   - Raspbian
 - BeagleBone
   - Ångström
