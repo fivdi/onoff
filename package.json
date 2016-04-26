@@ -37,5 +37,6 @@
   "license": "MIT",
   "devDependencies": {
     "mocha": "^2.4.5",
+    "mock-fs": "^3.8.0"
   }
 }
