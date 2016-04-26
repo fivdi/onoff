@@ -34,6 +34,8 @@
     "linux"
   ],
   "author": "fivdi",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^2.4.5",
+  }
 }
-
