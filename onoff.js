@@ -209,6 +209,7 @@ Gpio.prototype.watch = function (callback) {
     if (this.opts.debounceTimeout > 0) {
       events |= Epoll.EPOLLONESHOT;
     }
+
     this.poller.add(this.valueFd, events);
   }
 };
@@ -301,4 +302,3 @@ Gpio.prototype.unexport = function () {
   fs.closeSync(this.valueFd);
   fs.writeFileSync(GPIO_ROOT_PATH + 'unexport', this.gpio);
 };
-
