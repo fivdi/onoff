@@ -1,5 +1,5 @@
-Unpublished
-===========
+1.1.0 - May 04 2016
+===================
   * activeLow option
   * documentation improved
 
