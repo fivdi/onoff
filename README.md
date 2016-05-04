@@ -121,7 +121,7 @@ Raspberry Pi.
 
 ### Class Gpio
 
-  * [Gpio(gpio, direction [, edge] [, options]) - Constructor](https://github.com/fivdi/onoff#gpiogpio-direction-edge-options)
+  * [Gpio(gpio, direction [, edge] [, options]) - Constructor](https://github.com/fivdi/onoff#gpiogpio-direction--edge--options)
   * [read([callback]) - Read GPIO value asynchronously](https://github.com/fivdi/onoff#readcallback)
   * [readSync() - Read GPIO value synchronously](https://github.com/fivdi/onoff#readsync)
   * [write(value[, callback]) - Write GPIO value asynchronously](https://github.com/fivdi/onoff#writevalue-callback)
