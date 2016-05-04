@@ -1,5 +1,6 @@
 #!/bin/sh
 node blink-led
+node configure-and-check-active-low
 node configure-and-check-input
 node configure-and-check-output
 node many-interrupts

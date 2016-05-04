@@ -51,6 +51,12 @@ function pollerEventHandler(err, fd, events) {
  * debounceTimeout: number  // Can be used to software debounce a button or
  *                          // switch using a timeout. Specified in
  *                          // milliseconds. The default value is 0.
+ * activeLow: boolean       // Specifies whether the value read from or written
+ *                          // to the GPIO should be inverted. The interrupt
+ *                          // generating edge for the GPIO also follow this
+ *                          // this setting. The valid values for activeLow are
+ *                          // true and false. Setting activeLow to true
+ *                          // inverts. The default value is false.
  */
 function Gpio(gpio, direction, edge, options) {
   var valuePath,
@@ -102,6 +108,10 @@ function Gpio(gpio, direction, edge, options) {
     if (edge) {
       fs.writeFileSync(this.gpioPath + 'edge', edge);
     }
+
+    if (!!options.activeLow) {
+      fs.writeFileSync(this.gpioPath + 'active_low', ONE);
+    }
   } else {
     // The pin has already been exported, perhaps by onoff itself, perhaps
     // by quick2wire gpio-admin on the Pi, perhaps by the WiringPi gpio
@@ -122,6 +132,12 @@ function Gpio(gpio, direction, edge, options) {
     try {
       if (edge) {
         fs.writeFileSync(this.gpioPath + 'edge', edge);
+      }
+      try {
+        fs.writeFileSync(this.gpioPath + 'active_low',
+          !!options.activeLow ? ONE : ZERO
+        );
+      } catch (ignore) {
       }
     } catch (ignore) {
     }
@@ -277,10 +293,33 @@ Gpio.prototype.edge = function () {
  *              // specified for GPIO inputs and outputs. The edge
  *              // specified determine what watchers watch for. The valid
  *              // values are: 'none', 'rising', 'falling' or 'both'.
- *              // The default value is 'none'. [optional]
  */
 Gpio.prototype.setEdge = function (edge) {
   fs.writeFileSync(this.gpioPath + 'edge', edge);
+};
+
+/**
+ * Get GPIO activeLow setting.
+ *
+ * Returns - boolean
+ */
+Gpio.prototype.activeLow = function () {
+  return fs.readFileSync(
+    this.gpioPath + 'active_low')[0] === ONE[0] ? true : false;
+};
+
+/**
+ * Set GPIO activeLow setting.
+ *
+ * invert: boolean // Specifies whether the value read from or written
+ *                 // to the GPIO should be inverted. The interrupt
+ *                 // generating edge for the GPIO also follow this
+ *                 // this setting. The valid values for activeLow are
+ *                 // true and false. Setting activeLow to true
+ *                 // inverts.
+ */
+Gpio.prototype.setActiveLow = function (invert) {
+  fs.writeFileSync(this.gpioPath + 'active_low', !!invert ? ONE : ZERO);
 };
 
 /**

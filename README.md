@@ -121,7 +121,7 @@ Raspberry Pi.
 
 ### Class Gpio
 
-  * [Gpio(gpio, direction[, edge]) - Constructor](https://github.com/fivdi/onoff#gpiogpio-direction-edge)
+  * [Gpio(gpio, direction [, edge] [, options]) - Constructor](https://github.com/fivdi/onoff#gpiogpio-direction-edge-options)
   * [read([callback]) - Read GPIO value asynchronously](https://github.com/fivdi/onoff#readcallback)
   * [readSync() - Read GPIO value synchronously](https://github.com/fivdi/onoff#readsync)
   * [write(value[, callback]) - Write GPIO value asynchronously](https://github.com/fivdi/onoff#writevalue-callback)
@@ -133,9 +133,11 @@ Raspberry Pi.
   * [setDirection(direction) - Set GPIO direction](https://github.com/fivdi/onoff#setdirectiondirection)
   * [edge() - Get GPIO interrupt generating edge](https://github.com/fivdi/onoff#edge)
   * [setEdge(edge) - Set GPIO interrupt generating edge](https://github.com/fivdi/onoff#setedgeedge)
+  * [activeLow() - Get GPIO activeLow setting](https://github.com/fivdi/onoff#activelow)
+  * [setActiveLow(invert) - Set GPIO activeLow setting](https://github.com/fivdi/onoff#setactivelowinvert)
   * [unexport() - Reverse the effect of exporting the GPIO to userspace](https://github.com/fivdi/onoff#unexport)
 
-##### Gpio(gpio, direction[, edge])
+##### Gpio(gpio, direction [, edge] [, options])
 - gpio - An unsigned integer specifying the GPIO number.
 - direction - A string specifying whether the GPIO should be configured as an
 input or output. The valid values are: 'in', 'out', 'high', and 'low'. 'high'
@@ -148,8 +150,15 @@ interrupts. On Linux kernels prior to 3.13 it was possible for both inputs
 and outputs to generate interrupts. The 3.13 kernel dropped support for
 interrupt generating outputs, irrespective of whether the underlying hardware
 supports them or not.
+- [options] - An optional options object.
 
 Returns a new Gpio object that can be used to access a GPIO.
+
+The following options are supported:
+- activeLow - A boolean value specifying whether the value read from or written
+to the GPIO should be inverted. The interrupt generating edge for the GPIO also
+follow this this setting. The valid values for activeLow are true and false.
+Setting activeLow to true inverts. Optional, the default value is false.
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
 should be passed to the onoff Gpio constructor function when exporting GPIOs
@@ -230,7 +239,19 @@ kernels prior to 3.13 it was possible for both inputs and outputs to generate
 interrupts. The 3.13 kernel dropped support for interrupt generating outputs,
 irrespective of whether the underlying hardware supports them or not.
 
-Set GPIO interrupt generating edge
+Set GPIO interrupt generating edge.
+
+##### activeLow()
+Returns true or false indicating whether or not the value read from or written
+to the GPIO is inverted.
+
+##### setActiveLow(invert)
+- invert - A boolean value specifying whether the value read from or written
+to the GPIO should be inverted. The interrupt generating edge for the GPIO also
+follow this this setting. The valid values for invert are true and false.
+Setting activeLow to true inverts. Optional, the default value is false.
+
+Set GPIO activeLow setting.
 
 ##### unexport()
 Reverse the effect of exporting the GPIO to userspace
