@@ -51,12 +51,12 @@ function pollerEventHandler(err, fd, events) {
  * debounceTimeout: number  // Can be used to software debounce a button or
  *                          // switch using a timeout. Specified in
  *                          // milliseconds. The default value is 0.
- * activeLow: boolean       // Specifies whether the value read from or written
- *                          // to the GPIO should be inverted. The interrupt
- *                          // generating edge for the GPIO also follow this
- *                          // this setting. The valid values for activeLow are
- *                          // true and false. Setting activeLow to true
- *                          // inverts. The default value is false.
+ * activeLow: boolean       // Specifies whether the values read from or
+ *                          // written to the GPIO should be inverted. The
+ *                          // interrupt generating edge for the GPIO also
+ *                          // follow this this setting. The valid values for
+ *                          // activeLow are true and false. Setting activeLow
+ *                          // to true inverts. The default value is false.
  */
 function Gpio(gpio, direction, edge, options) {
   var valuePath,
@@ -311,12 +311,12 @@ Gpio.prototype.activeLow = function () {
 /**
  * Set GPIO activeLow setting.
  *
- * invert: boolean // Specifies whether the value read from or written
- *                 // to the GPIO should be inverted. The interrupt
- *                 // generating edge for the GPIO also follow this
- *                 // this setting. The valid values for activeLow are
- *                 // true and false. Setting activeLow to true
- *                 // inverts.
+ * invert: boolean // Specifies whether the values read from or
+ *                 // written to the GPIO should be inverted. The
+ *                 // interrupt generating edge for the GPIO also
+ *                 // follow this this setting. The valid values for
+ *                 // activeLow are true and false. Setting activeLow
+ *                 // to true inverts. The default value is false.
  */
 Gpio.prototype.setActiveLow = function (invert) {
   fs.writeFileSync(this.gpioPath + 'active_low', !!invert ? ONE : ZERO);

@@ -155,10 +155,11 @@ supports them or not.
 Returns a new Gpio object that can be used to access a GPIO.
 
 The following options are supported:
-- activeLow - A boolean value specifying whether the value read from or written
-to the GPIO should be inverted. The interrupt generating edge for the GPIO also
-follow this this setting. The valid values for activeLow are true and false.
-Setting activeLow to true inverts. Optional, the default value is false.
+- activeLow - A boolean value specifying whether the values read from or
+written to the GPIO should be inverted. The interrupt generating edge for the
+GPIO also follow this this setting. The valid values for activeLow are true
+and false. Setting activeLow to true inverts. Optional, the default value is
+false.
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
 should be passed to the onoff Gpio constructor function when exporting GPIOs
@@ -242,11 +243,11 @@ irrespective of whether the underlying hardware supports them or not.
 Set GPIO interrupt generating edge.
 
 ##### activeLow()
-Returns true or false indicating whether or not the value read from or written
-to the GPIO is inverted.
+Returns true or false indicating whether or not the values read from or written
+to the GPIO are inverted.
 
 ##### setActiveLow(invert)
-- invert - A boolean value specifying whether the value read from or written
+- invert - A boolean value specifying whether the values read from or written
 to the GPIO should be inverted. The interrupt generating edge for the GPIO also
 follow this this setting. The valid values for invert are true and false.
 Setting activeLow to true inverts. Optional, the default value is false.
