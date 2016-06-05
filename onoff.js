@@ -338,6 +338,11 @@ Gpio.prototype.options = function () {
 Gpio.prototype.unexport = function () {
   this.unwatchAll();
   fs.closeSync(this.valueFd);
-  fs.writeFileSync(GPIO_ROOT_PATH + 'unexport', this.gpio);
+  try {
+    fs.writeFileSync(GPIO_ROOT_PATH + 'unexport', this.gpio);
+  } catch (ignore) {
+    // Flow of control always arrives here when cape_universal is enabled on
+    // the bbb.
+  }
 };
 

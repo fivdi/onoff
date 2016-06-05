@@ -1,3 +1,7 @@
+Unpublished
+===========
+  * avoid exceptions when cape_universal is enabled on the bbb [#50](https://github.com/fivdi/onoff/issues/50)
+
 1.1.0 - May 04 2016
 ===================
   * activeLow option
