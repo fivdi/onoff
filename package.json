@@ -1,6 +1,6 @@
 {
   "name": "onoff",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "GPIO access and interrupt detection with JavaScript",
   "main": "onoff.js",
   "directories": {
@@ -18,7 +18,7 @@
     "node": ">=0.8.0"
   },
   "dependencies": {
-    "epoll": "~0.1.17"
+    "epoll": "~0.1.19"
   },
   "keywords": [
     "gpio",
