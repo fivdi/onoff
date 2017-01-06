@@ -21,21 +21,6 @@ If you're using Node.js v0.10.29 on the BeagleBone Black and seeing a compile
 error saying that `‘REPLACE_INVALID_UTF8’ is not a member of ‘v8::String’`
 see [Node.js v0.10.29 and native addons on the BeagleBone Black](https://github.com/fivdi/onoff/wiki/Node.js-v0.10.29-and-native-addons-on-the-BeagleBone-Black).
 
-## News & Updates
-
-### Newsflash - November 2nd 2015
-
-The mechanisms that enable user pi on Raspbian to access GPIOs without
-superuser privileges function correctly in the 2015-05-05 release of Raspbian
-Wheezy. However, if Raspbian Wheezy is upgraded with `sudo apt-get update` and
-`sudo apt-get upgrade`, these mechanisms will break. This is a known
-[Raspbian Wheezy issue](https://github.com/raspberrypi/linux/issues/1117). The
-issue also describes how to work around the problem. Note that this is only an
-issue on Raspbian Wheezy. On Raspbian Jessie the mechanisms function correctly.
-
-For old news and updates see the
-[News & Updates Archive](https://github.com/fivdi/onoff/wiki/News-&-Updates-Archive)
-
 ## Adafruit Learning System
 
 For an introduction to onoff checkout
