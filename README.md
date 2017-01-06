@@ -365,7 +365,7 @@ Tested on the following platforms:
 
 - Raspberry Pi 1, 2 and 3
   - Raspbian
-- C.H.I.P
+- C.H.I.P.
   - Debian
 - BeagleBone and BeagleBone Black
   - Debian
