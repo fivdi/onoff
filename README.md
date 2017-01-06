@@ -21,12 +21,6 @@ If you're using Node.js v0.10.29 on the BeagleBone Black and seeing a compile
 error saying that `‘REPLACE_INVALID_UTF8’ is not a member of ‘v8::String’`
 see [Node.js v0.10.29 and native addons on the BeagleBone Black](https://github.com/fivdi/onoff/wiki/Node.js-v0.10.29-and-native-addons-on-the-BeagleBone-Black).
 
-## Adafruit Learning System
-
-For an introduction to onoff checkout
-[Node.js Embedded Development on the Raspberry Pi](https://learn.adafruit.com/node-embedded-development?view=all)
-at the Adafruit Learning System.
-
 ## Usage
 
 Assume that there's an LED on GPIO #14 and a momentary push button on GPIO #4.
@@ -359,23 +353,22 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 v0.11.7 | v0.2.3 | 3.8.13 | 6399 | 84334 | 5519
 v0.10.20 | v0.2.3 | 3.8.13 | 4925 | 45713 | 4561
 
+## Adafruit Learning System
+
+For an introduction to onoff checkout
+[Node.js Embedded Development on the Raspberry Pi](https://learn.adafruit.com/node-embedded-development?view=all)
+at the Adafruit Learning System.
+
 ## Additional Information
 
 Tested on the following platforms:
 
-- Raspberry Pi 1
+- Raspberry Pi 1, 2 and 3
   - Raspbian
-- Raspberry Pi 2
-  - Raspbian
-- Raspberry Pi 3
-  - Raspbian
-- BeagleBone
-  - Ångström
+- C.H.I.P
   - Debian
-- BeagleBone Black
-  - Ångström
+- BeagleBone and BeagleBone Black
   - Debian
-  - Ubuntu
 
 The suitability of onoff for a particular Linux board is highly dependent on
 how GPIO interfaces are made available on that board. The
