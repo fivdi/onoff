@@ -15,7 +15,7 @@
     "url": "https://github.com/fivdi/onoff.git"
   },
   "engines": {
-    "node": ">=0.8.0"
+    "node": ">=0.10.0"
   },
   "dependencies": {
     "epoll": "~0.1.19"
