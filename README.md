@@ -119,7 +119,7 @@ Raspberry Pi.
 input or output. The valid values are: 'in', 'out', 'high', and 'low'. If 'out'
 is specified the GPIO will be configured as an output and the value of the GPIO
 will be set to 0. 'high' and 'low' are variants of 'out' that configure the
-GPIO as an output with an initial level of high or low respectively.
+GPIO as an output with an initial level of 1 or 0 respectively.
 - [edge] - An optional string specifying the interrupt generating edge or
 edges for a GPIO input. The valid values are: 'none', 'rising', 'falling' or
 'both'. The default value is 'none' indicating that the GPIO does not generate
