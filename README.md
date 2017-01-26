@@ -116,9 +116,10 @@ Raspberry Pi.
 ##### Gpio(gpio, direction [, edge] [, options])
 - gpio - An unsigned integer specifying the GPIO number.
 - direction - A string specifying whether the GPIO should be configured as an
-input or output. The valid values are: 'in', 'out', 'high', and 'low'. 'high'
-and 'low' are variants of 'out' that configure the GPIO as an output with an
-initial level of high or low respectively.
+input or output. The valid values are: 'in', 'out', 'high', and 'low'. If 'out'
+is specified the GPIO will be configured as an output and the value of the GPIO
+will be set to 0. 'high' and 'low' are variants of 'out' that configure the
+GPIO as an output with an initial level of high or low respectively.
 - [edge] - An optional string specifying the interrupt generating edge or
 edges for a GPIO input. The valid values are: 'none', 'rising', 'falling' or
 'both'. The default value is 'none' indicating that the GPIO does not generate
