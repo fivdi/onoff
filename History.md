@@ -1,5 +1,5 @@
-Unpublished
-===========
+1.1.2 - Feb 12 2017
+===================
   * documentation improved
   * upgrade to epoll v0.1.21
 
