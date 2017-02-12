@@ -1,3 +1,8 @@
+Unpublished
+===========
+  * documentation improved
+  * upgrade to epoll v0.1.21
+
 1.1.1 - Jun 05 2016
 ===================
   * avoid exceptions when cape_universal is enabled on the bbb [#50](https://github.com/fivdi/onoff/issues/50)

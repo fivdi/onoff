@@ -18,7 +18,7 @@
     "node": ">=0.10.0"
   },
   "dependencies": {
-    "epoll": "~0.1.19"
+    "epoll": "~0.1.21"
   },
   "keywords": [
     "gpio",
