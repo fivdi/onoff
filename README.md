@@ -232,7 +232,8 @@ Setting activeLow to true inverts. Optional, the default value is false.
 Set GPIO activeLow setting.
 
 ##### unexport()
-Reverse the effect of exporting the GPIO to userspace
+Reverse the effect of exporting the GPIO to userspace. A Gpio object should not
+be used after calling its unexport method.
 
 ## Synchronous API
 
