@@ -5,6 +5,13 @@ Raspberry Pi, C.H.I.P. or BeagleBone.
 
 onoff supports Node.js versions 0.10, 0.12, 4, 5, 6, 7 and 8.
 
+##### Related Packages
+
+  * [pigpio](https://github.com/fivdi/pigpio) - Fast GPIO, PWM, servo control, state change notification and interrupt handling on the Raspberry Pi
+  * [i2c-bus](https://github.com/fivdi/i2c-bus) - I2C serial bus access
+  * [spi-device](https://github.com/fivdi/spi-device) - SPI serial bus access
+  * [mcp-spi-adc](https://github.com/fivdi/mcp-spi-adc) - Analog to digital conversion with the MCP3002/4/8, MCP3202/4/8 and MCP3304
+
 ## Installation
 
     $ npm install onoff
@@ -83,7 +90,7 @@ process.on('SIGINT', function () {
 ## How does it work?
 
 Internally onoff uses sysfs files located at /sys/class/gpio to access GPIOs
-and the [epoll module](https://github.com/fivdi/epoll) to detect hardware
+and the [epoll package](https://github.com/fivdi/epoll) to detect hardware
 interrupts. The Linux GPIO sysfs interface for userspace is documented
 [here](https://www.kernel.org/doc/Documentation/gpio/sysfs.txt).
 It's a relatively simple interface which can be used to ask the Linux kernel
