@@ -1,5 +1,5 @@
-Unpublished
-===========
+1.1.3 - Jun 18 2017
+===================
   * upgrade to epoll v0.1.22
   * document related packages
 
