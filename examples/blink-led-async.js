@@ -1,9 +1,9 @@
 "use strict";
 
 var Gpio = require('../onoff').Gpio, // Constructor function for Gpio objects.
-  led = new Gpio(14, 'out');         // Export GPIO #14 as an output.
+  led = new Gpio(17, 'out');         // Export GPIO #17 as an output.
 
-// Toggle the state of the LED on GPIO #14 every 200ms 'count' times.
+// Toggle the state of the LED on GPIO #17 every 200ms 'count' times.
 // Here asynchronous methods are used. Synchronous methods are also available.
 (function blink(count) {
   if (count <= 0) {

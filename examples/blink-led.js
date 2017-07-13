@@ -1,10 +1,10 @@
 "use strict";
 
 var Gpio = require('../onoff').Gpio, // Constructor function for Gpio objects.
-  led = new Gpio(14, 'out'),         // Export GPIO #14 as an output.
+  led = new Gpio(17, 'out'),         // Export GPIO #17 as an output.
   iv;
 
-// Toggle the state of the LED on GPIO #14 every 200ms.
+// Toggle the state of the LED on GPIO #17 every 200ms.
 // Here synchronous methods are used. Asynchronous methods are also available.
 iv = setInterval(function () {
   led.writeSync(led.readSync() ^ 1); // 1 = on, 0 = off :)
