@@ -311,7 +311,7 @@ documentation.
 Pullup and pulldown resistors for GPIOs can be configured with device tree
 overlays. The Wiki page
 [Enabling Pullup and Pulldown Resistors on The Raspberry Pi](https://github.com/fivdi/onoff/wiki/Enabling-Pullup-and-Pulldown-Resistors-on-The-Raspberry-Pi)
-describes how this can be acheived on the Raspberry Pi.
+describes how this can be achieved on the Raspberry Pi.
 
 ## Benchmarks
 
