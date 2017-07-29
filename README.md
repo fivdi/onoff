@@ -321,14 +321,17 @@ Three of the onoff tests are used to monitor performance:
   * performance-sync.js - determine max. no. of writeSync ops per second
   * performance-interrupt.js - determine max. no. of interrupts per second
 
-The average of ten runs of these tests using various versions of io.js,
-Node.js, and onoff are shown in the following tables.
+The average of ten runs of these tests using various versions of Node.js
+and onoff are shown in the following tables.
 
 **Raspberry Pi 3, 1.2Ghz, Raspbian:**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v5.7.0 | v1.0.4 | 4.1.18-v7+ | 27015 | 294496 | 19262
+v8.2.1 | v1.1.4 | 4.9.35-v7+ | 27345 | 318771 | 20094
+v6.11.1 | v1.1.4 | 4.9.35-v7+ | 26010 | 280180 | 19050
+v4.8.4 | v1.1.4 | 4.9.35-v7+ | 27674 | 328949 | 18326
+v0.10.29 | v1.1.4 | 4.9.35-v7+ | 23021 | 188573 | 19352
 
 **Raspberry Pi 2, 900Mhz, Raspbian:**
 
@@ -337,9 +340,6 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 v6.0.0 | v1.1.0 | 4.1.18-v7+ | 12333 | 165667 | 9803
 v5.5.0 | v1.0.4 | 4.1.13-v7+ | 12875 | 160655 | 9204
 v4.0.0 | v1.0.2 | 4.1.6-v7+ | 12536 | 138193 | 8375
-v2.3.0 | v1.0.2 | 3.18.11-v7+ | 8896 | 111716 | 6067
-v2.0.2 | v1.0.2 | 3.18.11-v7+ | 8964 | 116785 | 5958
-v1.2.0 | v1.0.0 | 3.18.5-v7+ | 13863 | 171501 | 9268
 v0.10.36 | v1.0.0 | 3.18.5-v7+ | 12010 | 98493 | 9803
 
 **Raspberry Pi, 700Mhz, Raspbian:**
