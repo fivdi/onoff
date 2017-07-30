@@ -5,12 +5,16 @@ Raspberry Pi, C.H.I.P. or BeagleBone.
 
 onoff supports Node.js versions 0.10, 0.12, 4, 5, 6, 7 and 8.
 
-##### Related Packages
+## Contents
 
-  * [pigpio](https://github.com/fivdi/pigpio) - Fast GPIO, PWM, servo control, state change notification and interrupt handling on the Raspberry Pi
-  * [i2c-bus](https://github.com/fivdi/i2c-bus) - I2C serial bus access
-  * [spi-device](https://github.com/fivdi/spi-device) - SPI serial bus access
-  * [mcp-spi-adc](https://github.com/fivdi/mcp-spi-adc) - Analog to digital conversion with the MCP3002/4/8, MCP3202/4/8 and MCP3304
+ * [Installation](https://github.com/fivdi/onoff#installation)
+ * [Usage](https://github.com/fivdi/onoff#usage)
+ * [How does onoff work?](https://github.com/fivdi/onoff#how-does-onoff-work)
+ * [API](https://github.com/fivdi/onoff#api)
+ * [Configuring pullup and pulldown resistors](https://github.com/fivdi/onoff#configuring-pullup-and-pulldown-resistors)
+ * [Benchmarks](https://github.com/fivdi/onoff#benchmarks)
+ * [Related packages](https://github.com/fivdi/onoff#related-packages)
+ * [Additional Information](https://github.com/fivdi/onoff#additional-information)
 
 ## Installation
 
@@ -87,7 +91,7 @@ process.on('SIGINT', function () {
 });
 ```
 
-## How does it work?
+## How does onoff work?
 
 Internally onoff uses sysfs files located at /sys/class/gpio to access GPIOs
 and the [epoll package](https://github.com/fivdi/epoll) to detect hardware
@@ -244,7 +248,7 @@ Set GPIO activeLow setting.
 Reverse the effect of exporting the GPIO to userspace. A Gpio object should not
 be used after calling its unexport method.
 
-## Synchronous API
+### Synchronous API
 
 Blink the LED on GPIO #17 for 5 seconds:
 
@@ -267,7 +271,7 @@ setTimeout(function () {
 }, 5000);
 ```
 
-## Asynchronous API
+### Asynchronous API
 
 Blink the LED on GPIO #17 for 5 seconds:
 
@@ -365,11 +369,12 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 v0.11.7 | v0.2.3 | 3.8.13 | 6399 | 84334 | 5519
 v0.10.20 | v0.2.3 | 3.8.13 | 4925 | 45713 | 4561
 
-## Adafruit Learning System
+## Related Packages
 
-For an introduction to onoff checkout
-[Node.js Embedded Development on the Raspberry Pi](https://learn.adafruit.com/node-embedded-development?view=all)
-at the Adafruit Learning System.
+  * [pigpio](https://github.com/fivdi/pigpio) - Fast GPIO, PWM, servo control, state change notification and interrupt handling on the Raspberry Pi
+  * [i2c-bus](https://github.com/fivdi/i2c-bus) - I2C serial bus access
+  * [spi-device](https://github.com/fivdi/spi-device) - SPI serial bus access
+  * [mcp-spi-adc](https://github.com/fivdi/mcp-spi-adc) - Analog to digital conversion with the MCP3002/4/8, MCP3202/4/8 and MCP3304
 
 ## Additional Information
 
@@ -390,4 +395,8 @@ be followed so GPIO can vary from platform to platform. For example, onoff
 relies on sysfs files located at /sys/classes/gpio being available. However,
 these sysfs files for userspace GPIO are optional and may not be available on a
 particular platform.
+
+For an introduction to onoff checkout
+[Node.js Embedded Development on the Raspberry Pi](https://learn.adafruit.com/node-embedded-development?view=all)
+at the Adafruit Learning System.
 
