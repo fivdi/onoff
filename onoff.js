@@ -59,10 +59,6 @@ function pollerEventHandler(err, fd, events) {
  *                          // to true inverts. The default value is false.
  */
 function Gpio(gpio, direction, edge, options) {
-  var valuePath,
-    directionSet = false,
-    tries = 0;
-
   if (!(this instanceof Gpio)) {
     return new Gpio(gpio, direction, edge, options);
   }
@@ -81,8 +77,6 @@ function Gpio(gpio, direction, edge, options) {
   this.readBuffer = new Buffer(16);
   this.listeners = [];
 
-  valuePath = this.gpioPath + 'value';
-
   if (!fs.existsSync(this.gpioPath)) {
     // The pin hasn't been exported yet so export it.
     fs.writeFileSync(GPIO_ROOT_PATH + 'export', this.gpio);
@@ -92,18 +86,29 @@ function Gpio(gpio, direction, edge, options) {
     // I don't like this solution, but it enables compatibility with older
     // versions of onoff, i.e., the Gpio constructor was and still is
     // synchronous.
-    directionSet = false;
-    while (!directionSet) {
-      try {
-        tries += 1;
-        fs.writeFileSync(this.gpioPath + 'direction', direction);
-        directionSet = true;
-      } catch (e) {
-        if (tries === 10000) {
-          throw e;
+    [this.gpioPath + 'direction',
+     this.gpioPath + 'edge',
+     this.gpioPath + 'active_low',
+     this.gpioPath + 'value',
+    ].forEach(function (path) {
+      var tries = 0,
+        fd;
+
+      while (true) {
+        try {
+          tries += 1;
+          fd = fs.openSync(path, 'r+');
+          fs.closeSync(fd);
+          break;
+        } catch (e) {
+          if (tries === 10000) {
+            throw e;
+          }
         }
       }
-    }
+    });
+
+    fs.writeFileSync(this.gpioPath + 'direction', direction);
 
     if (edge) {
       fs.writeFileSync(this.gpioPath + 'edge', edge);
@@ -143,7 +148,8 @@ function Gpio(gpio, direction, edge, options) {
     }
   }
 
-  this.valueFd = fs.openSync(valuePath, 'r+'); // Cache fd for performance.
+  // Cache fd for performance.
+  this.valueFd = fs.openSync(this.gpioPath + 'value', 'r+');
 
   // Read current value before polling to prevent unauthentic interrupts.
   this.readSync();
