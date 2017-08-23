@@ -34,6 +34,13 @@ If you're using Node.js v0.10.29 on the BeagleBone Black and seeing a compile
 error saying that `‘REPLACE_INVALID_UTF8’ is not a member of ‘v8::String’`
 see [Node.js v0.10.29 and native addons on the BeagleBone Black](https://github.com/fivdi/onoff/wiki/Node.js-v0.10.29-and-native-addons-on-the-BeagleBone-Black).
 
+If upon `npm install` command you get a continuous stream of `WARN EACCESS` messages complaining about `attempting to reinstall using temporary dev dir "....../node_modules/onoff/node_modules/epoll/.node-gyp"`, it's a well known issue with the `node-gyp` dependency that's well documented here: https://github.com/nodejs/node-gyp/issues/454
+
+The workaround is to use the `--unsafe-perm` param in the install command:
+
+    $ npm install --unsafe-perm onoff
+
+
 ## Usage
 
 Assume that there's an LED on GPIO #17 and a momentary push button on GPIO #4.
