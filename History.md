@@ -1,3 +1,8 @@
+1.1.7 - Aug 26 2017
+===================
+
+  * only check permissions for edge file if edge specified [#77](https://github.com/fivdi/onoff/issues/77)
+
 1.1.5 - Jul 30 2017
 ===================
 
