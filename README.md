@@ -141,7 +141,8 @@ edges for a GPIO input. The valid values are: 'none', 'rising', 'falling' or
 interrupts. On Linux kernels prior to 3.13 it was possible for both inputs
 and outputs to generate interrupts. The 3.13 kernel dropped support for
 interrupt generating outputs, irrespective of whether the underlying hardware
-supports them or not.
+supports them or not. Whether or not interrupts are supported is GPIO specific.
+If interrupts are not supported the edge argument should not be specified.
 - [options] - An optional options object.
 
 Returns a new Gpio object that can be used to access a GPIO.
@@ -223,7 +224,9 @@ Set GPIO direction.
 
 ##### edge()
 Returns the string 'none', 'falling', 'rising', or 'both' indicating the
-interrupt generating edge or edges for the GPIO.
+interrupt generating edge or edges for the GPIO. Whether or not interrupts are
+supported is GPIO specific. If interrupts are not supported the edge method
+should not be used.
 
 ##### setEdge(edge)
 - edge - A string specifying the interrupt generating edge or edges for the
@@ -231,6 +234,8 @@ GPIO. The valid values are: 'none', 'rising', 'falling' or 'both'. On Linux
 kernels prior to 3.13 it was possible for both inputs and outputs to generate
 interrupts. The 3.13 kernel dropped support for interrupt generating outputs,
 irrespective of whether the underlying hardware supports them or not.
+Whether or not interrupts are supported is GPIO specific. If interrupts are
+not supported the setEdge method should not be used.
 
 Set GPIO interrupt generating edge.
 

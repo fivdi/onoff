@@ -59,6 +59,8 @@ function pollerEventHandler(err, fd, events) {
  *                          // to true inverts. The default value is false.
  */
 function Gpio(gpio, direction, edge, options) {
+  var permissionRequiredPaths;
+
   if (!(this instanceof Gpio)) {
     return new Gpio(gpio, direction, edge, options);
   }
@@ -86,11 +88,17 @@ function Gpio(gpio, direction, edge, options) {
     // I don't like this solution, but it enables compatibility with older
     // versions of onoff, i.e., the Gpio constructor was and still is
     // synchronous.
-    [this.gpioPath + 'direction',
-     this.gpioPath + 'edge',
+    permissionRequiredPaths = [
+     this.gpioPath + 'direction',
      this.gpioPath + 'active_low',
      this.gpioPath + 'value',
-    ].forEach(function (path) {
+    ];
+
+    if (edge) {
+      permissionRequiredPaths.push(this.gpioPath + 'edge');
+    }
+
+    permissionRequiredPaths.forEach(function (path) {
       var tries = 0,
         fd;
 
