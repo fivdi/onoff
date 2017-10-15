@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * update dependencies (epoll v1.0.0)
+
 1.1.7 - Aug 26 2017
 ===================
 
