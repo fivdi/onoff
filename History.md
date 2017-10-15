@@ -1,5 +1,5 @@
-Unpublished
-===========
+1.1.8 - Oct 15 2017
+===================
 
   * update dependencies (epoll v1.0.0)
 
