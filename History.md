@@ -2,6 +2,7 @@ Unpublished
 ===========
 
   * document node 9 support
+  * update BeagleBone performance numbers
 
 1.1.8 - Oct 15 2017
 ===================

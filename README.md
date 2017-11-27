@@ -369,12 +369,14 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 v0.11.9 | v0.3.0 | 3.8.13 | 8663 | 110219 | 7154
 v0.11.8 | v0.2.3 | 3.8.13 | 8446 | 100698 | 7323
 
-**BeagleBone, 720MHz, Ångström v2012.12:**
+**BeagleBone, 720MHz, Debian 9.2:**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v0.11.7 | v0.2.3 | 3.8.13 | 6399 | 84334 | 5519
-v0.10.20 | v0.2.3 | 3.8.13 | 4925 | 45713 | 4561
+v9.2.0 | v1.1.8 | 4.4.91-ti-r133 | 5348 | 74305 | 4870
+v8.2.1 | v1.1.8 | 4.4.91-ti-r133 | 5703 | 82007 | 4871
+v6.11.4 | v1.1.8 | 4.4.91-ti-r133 | 5534 | 72223 | 4247
+v4.8.4 | v1.1.8 | 4.4.91-ti-r133 | 6020 | 81516 | 3786
 
 ## Related Packages
 
