@@ -10,10 +10,10 @@ onoff supports Node.js versions 0.10, 0.12, 4, 5, 6, 7, 8 and 9.
  * [Installation](https://github.com/fivdi/onoff#installation)
  * [Usage](https://github.com/fivdi/onoff#usage)
  * [API](https://github.com/fivdi/onoff#api)
- * [How does onoff work?](https://github.com/fivdi/onoff#how-does-onoff-work)
- * [Configuring pullup and pulldown resistors](https://github.com/fivdi/onoff#configuring-pullup-and-pulldown-resistors)
+ * [How Does onoff Work?](https://github.com/fivdi/onoff#how-does-onoff-work)
+ * [Configuring Pullup and Pulldown Resistors](https://github.com/fivdi/onoff#configuring-pullup-and-pulldown-resistors)
  * [Benchmarks](https://github.com/fivdi/onoff#benchmarks)
- * [Related packages](https://github.com/fivdi/onoff#related-packages)
+ * [Related Packages](https://github.com/fivdi/onoff#related-packages)
  * [Additional Information](https://github.com/fivdi/onoff#additional-information)
 
 ## Installation
@@ -283,7 +283,7 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
 }(25));
 ```
 
-## How does onoff work?
+## How Does onoff Work?
 
 Internally onoff uses sysfs files located at /sys/class/gpio to access GPIOs
 and the [epoll package](https://github.com/fivdi/epoll) to detect hardware
@@ -298,7 +298,7 @@ The GPIO sysfs interface can also be used for interrupt detection. onoff can
 detect several thousand interrupts per second on both the BeagleBone and the
 Raspberry Pi.
 
-## Configuring pullup and pulldown resistors
+## Configuring Pullup and Pulldown Resistors
 
 On the Raspberry Pi, most GPIOs have either their pull-up or pull-down resistor
 activated by default. The defaults can be seen in Table 6-31 on pages 102 and
