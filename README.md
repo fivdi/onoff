@@ -394,7 +394,7 @@ Tested on the following platforms:
   - Raspbian
 - C.H.I.P.
   - Debian
-- BeagleBone and BeagleBone Black
+- BeagleBone, BeagleBone Black and PocketBeagle
   - Debian
 
 The suitability of onoff for a particular Linux board is highly dependent on
