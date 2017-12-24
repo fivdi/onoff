@@ -367,6 +367,9 @@ v4.8.4 | v1.1.8 | 4.4.91-ti-r133 | 6020 | 81516 | 3786
 
 ## Related Packages
 
+Here are a few links to other hardware specific Node.js packages that may be
+of interest.
+
   * [pigpio](https://github.com/fivdi/pigpio) - Fast GPIO, PWM, servo control, state change notification and interrupt handling on the Raspberry Pi
   * [i2c-bus](https://github.com/fivdi/i2c-bus) - I2C serial bus access
   * [spi-device](https://github.com/fivdi/spi-device) - SPI serial bus access
@@ -374,7 +377,7 @@ v4.8.4 | v1.1.8 | 4.4.91-ti-r133 | 6020 | 81516 | 3786
 
 ## Additional Information
 
-Tested on the following platforms:
+onoff was tested on the following platforms:
 
 - Raspberry Pi 1, 2 and 3
   - Raspbian
