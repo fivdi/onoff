@@ -157,9 +157,9 @@ false.
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
 should be passed to the onoff Gpio constructor function when exporting GPIOs
-to userspace. For example, pin 8 on the Raspberry Pi P1 expansion header
+to userspace. For example, pin 11 on the Raspberry Pi expansion header
 corresponds to GPIO17 in Raspbian Linux. 17 is therefore the number to pass
-to the onoff Gpio constructor when using pin 8 on the P1 expansion header.
+to the onoff Gpio constructor when using pin 11 on the expansion header.
 
 ##### read([callback])
 - [callback] - An optional completion callback that gets two arguments (err,
