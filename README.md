@@ -1,4 +1,4 @@
-# onoff - An [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome-nodejs#hardware) Node.js package
+# onoff [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome-nodejs#hardware)
 
 GPIO access and interrupt detection with **Node.js** on Linux boards like the
 Raspberry Pi, C.H.I.P. or BeagleBone.
