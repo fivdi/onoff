@@ -217,7 +217,9 @@ Gpio.prototype.writeSync = function (value) {
 /**
  * Watch for hardware interrupts on the GPIO. Inputs and outputs can be
  * watched. The edge argument that was passed to the constructor determines
- * which hardware interrupts are watcher for.
+ * which hardware interrupts are watcher for. The 3.13 kernel dropped support
+ * for interrupt generating outputs, irrespective of whether the underlying
+ * hardware supports them or not.
  *
  * Note that the value passed to the callback does not represent the value of
  * the GPIO the instant the interrupt occured, it represents the value of the
