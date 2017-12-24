@@ -351,7 +351,7 @@ v6.11.1 | v1.1.4 | 4.9.35+ | 2565 | 23111 | 1709
 v4.8.4 | v1.1.4 | 4.9.35+ | 2806 | 33847 | 1590
 v0.10.29 | v1.1.4 | 4.9.35+ | 2468 | 24837 | 1955
 
-**BeagleBone Black, 1GHz, Ångström v2012.12:**
+**BeagleBone Black, 1GHz, Debian 9.2:**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
