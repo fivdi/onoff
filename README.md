@@ -9,8 +9,8 @@ onoff supports Node.js versions 0.10, 0.12, 4, 5, 6, 7, 8 and 9.
 
  * [Installation](https://github.com/fivdi/onoff#installation)
  * [Usage](https://github.com/fivdi/onoff#usage)
- * [How does onoff work?](https://github.com/fivdi/onoff#how-does-onoff-work)
  * [API](https://github.com/fivdi/onoff#api)
+ * [How does onoff work?](https://github.com/fivdi/onoff#how-does-onoff-work)
  * [Configuring pullup and pulldown resistors](https://github.com/fivdi/onoff#configuring-pullup-and-pulldown-resistors)
  * [Benchmarks](https://github.com/fivdi/onoff#benchmarks)
  * [Related packages](https://github.com/fivdi/onoff#related-packages)
@@ -79,21 +79,6 @@ process.on('SIGINT', function () {
   button.unexport();
 });
 ```
-
-## How does onoff work?
-
-Internally onoff uses sysfs files located at /sys/class/gpio to access GPIOs
-and the [epoll package](https://github.com/fivdi/epoll) to detect hardware
-interrupts. The Linux GPIO sysfs interface for userspace is documented
-[here](https://www.kernel.org/doc/Documentation/gpio/sysfs.txt).
-It's a relatively simple interface which can be used to ask the Linux kernel
-to export control of a GPIO to userspace. After control of a GPIO has been
-exported to userspace, the GPIO can be configured as an input or output.
-Thereafter, the state of an input can be read, and the state of an output can
-be written. Some systems will also allow the state of a output to be read.
-The GPIO sysfs interface can also be used for interrupt detection. onoff can
-detect several thousand interrupts per second on both the BeagleBone and the
-Raspberry Pi.
 
 ## API
 
@@ -297,6 +282,21 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
   }, 200);
 }(25));
 ```
+
+## How does onoff work?
+
+Internally onoff uses sysfs files located at /sys/class/gpio to access GPIOs
+and the [epoll package](https://github.com/fivdi/epoll) to detect hardware
+interrupts. The Linux GPIO sysfs interface for userspace is documented
+[here](https://www.kernel.org/doc/Documentation/gpio/sysfs.txt).
+It's a relatively simple interface which can be used to ask the Linux kernel
+to export control of a GPIO to userspace. After control of a GPIO has been
+exported to userspace, the GPIO can be configured as an input or output.
+Thereafter, the state of an input can be read, and the state of an output can
+be written. Some systems will also allow the state of a output to be read.
+The GPIO sysfs interface can also be used for interrupt detection. onoff can
+detect several thousand interrupts per second on both the BeagleBone and the
+Raspberry Pi.
 
 ## Configuring pullup and pulldown resistors
 
