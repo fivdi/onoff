@@ -1,13 +1,9 @@
-# onoff 
+# onoff - An [![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome-nodejs#hardware) Node.js package
 
 GPIO access and interrupt detection with **Node.js** on Linux boards like the
 Raspberry Pi, C.H.I.P. or BeagleBone.
 
 onoff supports Node.js versions 0.10, 0.12, 4, 5, 6, 7, 8 and 9.
-
-onoff is an
-[![Awesome](https://cdn.rawgit.com/sindresorhus/awesome/d7305f38d29fed78fa85652e3a63e154dd8e8829/media/badge.svg)](https://github.com/sindresorhus/awesome-nodejs#hardware)
-Node.js package.
 
 ## Contents
 
