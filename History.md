@@ -5,6 +5,7 @@ Unpublished
   * update BeagleBone performance numbers
   * many documentation improvements
   * update BeagleBone Black performance numbers
+  * update dependencies
 
 1.1.8 - Oct 15 2017
 ===================
