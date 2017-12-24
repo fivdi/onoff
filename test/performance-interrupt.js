@@ -1,12 +1,11 @@
 "use strict";
 
 /*
- * In this test, GPIO #7 is wired to one end of a 1kΩ current limiting
- * resistor and GPIO #8 is wired to the other end of the resistor. GPIO #7 is
- * an interrupt generating input and GPIO #8 is an output.
- * By toggling the state of the output an interrupt is generated.
- * The output is toggled as often as possible to determine the maximum
- * rate at which interrupts can be handled.
+ * In this test, GPIO7 is wired to one end of a 1kΩ current limiting resistor
+ * and GPIO8 is wired to the other end of the resistor. GPIO7 is an interrupt
+ * generating input and GPIO8 is an output. By toggling the state of the
+ * output an interrupt is generated. The output is toggled as often as
+ * possible to determine the maximum rate at which interrupts can be handled.
  */
 var Gpio = require('../onoff').Gpio,
   input = new Gpio(7, 'in', 'both'),

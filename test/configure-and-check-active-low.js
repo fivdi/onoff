@@ -1,8 +1,8 @@
 "use strict";
 
 /*
- * In this test, GPIO #7 is wired to one end of a 1kΩ current limiting
- * resistor and GPIO #8 is wired to the other end of the resistor.
+ * In this test, GPIO7 is wired to one end of a 1kΩ current limiting
+ * resistor and GPIO8 is wired to the other end of the resistor.
  */
 var Gpio = require('../onoff').Gpio,
   assert = require('assert'),
