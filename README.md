@@ -38,7 +38,8 @@ see [Node.js v0.10.29 and native addons on the BeagleBone Black](https://github.
 
 ## Usage
 
-Assume that there's an LED on GPIO17 and a momentary push button on GPIO4.
+Assume that there's an LED connected to GPIO17 and a momentary push button
+connected to GPIO4.
 
 <img src="https://raw.githubusercontent.com/fivdi/onoff/master/examples/light-switch.png">
 
@@ -55,12 +56,12 @@ button.watch(function(err, value) {
 });
 ```
 
-Here two Gpio objects are being created. One called led for the LED on GPIO17
-which is an output, and one called button for the momentary push button on
-GPIO4 which is an input. In addition to specifying that the button is an
-input, the constructors optional third argument is used to specify that 'both'
-rising and falling interrupt edges should be configured for the button GPIO as
-both button presses and releases should be handled.
+Here two Gpio objects are being created. One called led for the LED connected
+to GPIO17 which is an output, and one called button for the momentary push
+button connected to GPIO4 which is an input. In addition to specifying that
+the button is an input, the constructors optional third argument is used to
+specify that 'both' rising and falling interrupt edges should be configured
+for the button GPIO as both button presses and releases should be handled.
 
 After everything has been setup correctly, the buttons watch method is used to
 specify a callback function to execute every time the button is pressed or
@@ -257,14 +258,14 @@ be used after calling its unexport method.
 
 ### Synchronous API
 
-Blink the LED on GPIO17 for 5 seconds:
+Blink the LED connected to GPIO17 for 5 seconds:
 
 ```js
 var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
   led = new Gpio(17, 'out'),      // Export GPIO17 as an output.
   iv;
 
-// Toggle the state of the LED on GPIO17 every 200ms.
+// Toggle the state of the LED connected to GPIO17 every 200ms.
 // Here synchronous methods are used. Asynchronous methods are also available.
 iv = setInterval(function () {
   led.writeSync(led.readSync() ^ 1); // 1 = on, 0 = off :)
@@ -280,13 +281,13 @@ setTimeout(function () {
 
 ### Asynchronous API
 
-Blink the LED on GPIO17 for 5 seconds:
+Blink the LED connected to GPIO17 for 5 seconds:
 
 ```js
 var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
   led = new Gpio(17, 'out');      // Export GPIO17 as an output.
 
-// Toggle the state of the LED on GPIO17 every 200ms 'count' times.
+// Toggle the state of the LED connected to GPIO17 every 200ms 'count' times.
 // Here asynchronous methods are used. Synchronous methods are also available.
 (function blink(count) {
   if (count <= 0) {

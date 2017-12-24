@@ -11,7 +11,7 @@ assert(button.direction() === 'in');
 assert(button.edge() === 'rising');
 assert(button.options().debounceTimeout === 250);
 
-console.info('Please press button attached to GPIO4 5 times...');
+console.info('Please press button connected to GPIO4 5 times...');
 
 button.watch(function (err, value) {
   if (err) {

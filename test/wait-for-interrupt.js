@@ -7,7 +7,7 @@ var Gpio = require('../onoff').Gpio,
 assert(button.direction() === 'in');
 assert(button.edge() === 'both');
 
-console.info('Please press button attached to GPIO #4...');
+console.info('Please press button connected to GPIO #4...');
 
 button.watch(function (err, value) {
   if (err) {
