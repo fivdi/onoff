@@ -9,14 +9,14 @@ onoff supports Node.js versions 0.10, 0.12, 4, 5, 6, 7, 8 and 9.
 
 ## Contents
 
- * [Installation](https://github.com/fivdi/onoff#installation)
- * [Usage](https://github.com/fivdi/onoff#usage)
- * [API](https://github.com/fivdi/onoff#api)
- * [How Does onoff Work?](https://github.com/fivdi/onoff#how-does-onoff-work)
- * [Configuring Pullup and Pulldown Resistors](https://github.com/fivdi/onoff#configuring-pullup-and-pulldown-resistors)
- * [Benchmarks](https://github.com/fivdi/onoff#benchmarks)
- * [Related Packages](https://github.com/fivdi/onoff#related-packages)
- * [Additional Information](https://github.com/fivdi/onoff#additional-information)
+ * [Installation](#installation)
+ * [Usage](#usage)
+ * [API](#api)
+ * [How Does onoff Work?](#how-does-onoff-work)
+ * [Configuring Pullup and Pulldown Resistors](#configuring-pullup-and-pulldown-resistors)
+ * [Benchmarks](#benchmarks)
+ * [Related Packages](#related-packages)
+ * [Additional Information](#additional-information)
 
 ## Installation
 
@@ -86,21 +86,21 @@ process.on('SIGINT', function () {
 
 ### Class Gpio
 
-  * [Gpio(gpio, direction [, edge] [, options]) - Constructor](https://github.com/fivdi/onoff#gpiogpio-direction--edge--options)
-  * [read([callback]) - Read GPIO value asynchronously](https://github.com/fivdi/onoff#readcallback)
-  * [readSync() - Read GPIO value synchronously](https://github.com/fivdi/onoff#readsync)
-  * [write(value[, callback]) - Write GPIO value asynchronously](https://github.com/fivdi/onoff#writevalue-callback)
-  * [writeSync(value) - Write GPIO value synchronously](https://github.com/fivdi/onoff#writesyncvalue)
-  * [watch(callback) - Watch for hardware interrupts on the GPIO](https://github.com/fivdi/onoff#watchcallback)
-  * [unwatch([callback]) - Stop watching for hardware interrupts on the GPIO](https://github.com/fivdi/onoff#unwatchcallback)
-  * [unwatchAll() - Remove all watchers for the GPIO](https://github.com/fivdi/onoff#unwatchall)
-  * [direction() - Get GPIO direction](https://github.com/fivdi/onoff#direction)
-  * [setDirection(direction) - Set GPIO direction](https://github.com/fivdi/onoff#setdirectiondirection)
-  * [edge() - Get GPIO interrupt generating edge](https://github.com/fivdi/onoff#edge)
-  * [setEdge(edge) - Set GPIO interrupt generating edge](https://github.com/fivdi/onoff#setedgeedge)
-  * [activeLow() - Get GPIO activeLow setting](https://github.com/fivdi/onoff#activelow)
-  * [setActiveLow(invert) - Set GPIO activeLow setting](https://github.com/fivdi/onoff#setactivelowinvert)
-  * [unexport() - Reverse the effect of exporting the GPIO to userspace](https://github.com/fivdi/onoff#unexport)
+  * [Gpio(gpio, direction [, edge] [, options]) - Constructor](#gpiogpio-direction--edge--options)
+  * [read([callback]) - Read GPIO value asynchronously](#readcallback)
+  * [readSync() - Read GPIO value synchronously](#readsync)
+  * [write(value[, callback]) - Write GPIO value asynchronously](#writevalue-callback)
+  * [writeSync(value) - Write GPIO value synchronously](#writesyncvalue)
+  * [watch(callback) - Watch for hardware interrupts on the GPIO](#watchcallback)
+  * [unwatch([callback]) - Stop watching for hardware interrupts on the GPIO](#unwatchcallback)
+  * [unwatchAll() - Remove all watchers for the GPIO](#unwatchall)
+  * [direction() - Get GPIO direction](#direction)
+  * [setDirection(direction) - Set GPIO direction](#setdirectiondirection)
+  * [edge() - Get GPIO interrupt generating edge](#edge)
+  * [setEdge(edge) - Set GPIO interrupt generating edge](#setedgeedge)
+  * [activeLow() - Get GPIO activeLow setting](#activelow)
+  * [setActiveLow(invert) - Set GPIO activeLow setting](#setactivelowinvert)
+  * [unexport() - Reverse the effect of exporting the GPIO to userspace](#unexport)
 
 ##### Gpio(gpio, direction [, edge] [, options])
 - gpio - An unsigned integer specifying the GPIO number.
