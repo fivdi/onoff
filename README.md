@@ -119,7 +119,8 @@ supports them or not. Whether or not interrupts are supported is GPIO specific.
 If interrupts are not supported the edge argument should not be specified.
 - [options] - An optional options object.
 
-Returns a new Gpio object that can be used to access a GPIO.
+Configures the GPIO based on the passed parameters and returns a new Gpio
+object that can be used to access the GPIO.
 
 The following options are supported:
 - activeLow - A boolean value specifying whether the values read from or
