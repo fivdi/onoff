@@ -7,8 +7,6 @@ var GPIO_ROOT_PATH = '/sys/class/gpio/',
   ZERO = new Buffer('0'),
   ONE = new Buffer('1');
 
-exports.version = '1.1.9';
-
 function pollerEventHandler(err, fd, events) {
   var value = this.readSync(),
     callbacks = this.listeners.slice(0);
