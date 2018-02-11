@@ -7,7 +7,6 @@
 // the sysfs edge file for an output GPIO results in an
 // "EIO: i/o error, write"
 
-
 var Gpio = require('../onoff').Gpio,
   assert = require('assert');
 

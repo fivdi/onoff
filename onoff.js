@@ -87,9 +87,9 @@ function Gpio(gpio, direction, edge, options) {
     // versions of onoff, i.e., the Gpio constructor was and still is
     // synchronous.
     permissionRequiredPaths = [
-     this.gpioPath + 'direction',
-     this.gpioPath + 'active_low',
-     this.gpioPath + 'value',
+      this.gpioPath + 'direction',
+      this.gpioPath + 'active_low',
+      this.gpioPath + 'value',
     ];
 
     if (edge) {
