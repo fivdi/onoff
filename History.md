@@ -1,7 +1,7 @@
-Unpublished
-===========
+1.2.0 - Feb 11 2018
+===================
 
-  * ignore edge paratmeter when instantiating a Gpio for an output
+  * ignore edge argument when instantiating a Gpio for an output
 
 1.1.9 - Dec 24 2017
 ===================
