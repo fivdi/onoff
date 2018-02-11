@@ -110,16 +110,14 @@ is specified the GPIO will be configured as an output and the value of the GPIO
 will be set to 0. 'high' and 'low' are variants of 'out' that configure the
 GPIO as an output with an initial level of 1 or 0 respectively.
 - [edge] - An optional string specifying the interrupt generating edge or
-edges for a GPIO input. The valid values are: 'none', 'rising', 'falling' or
-'both'. The default value is 'none' indicating that the GPIO does not generate
-interrupts. On Linux kernels prior to 3.13 it was possible for both inputs
-and outputs to generate interrupts. The 3.13 kernel dropped support for
-interrupt generating outputs, irrespective of whether the underlying hardware
-supports them or not. Whether or not interrupts are supported is GPIO specific.
-If interrupts are not supported the edge argument should not be specified.
+edges for an input GPIO. The valid values are: 'none', 'rising', 'falling' or
+'both'. The default value is 'none' indicating that the GPIO will not generate
+interrupts. Whether or not interrupts are supported by an input GPIO is GPIO
+specific. If interrupts are not supported by a GPIO the edge argument should
+not be specified. The edge argument is ignored for output GPIOs.
 - [options] - An optional options object.
 
-Configures the GPIO based on the passed parameters and returns a new Gpio
+Configures the GPIO based on the passed arguments and returns a new Gpio
 object that can be used to access the GPIO.
 
 The following options are supported:
@@ -200,17 +198,16 @@ Set GPIO direction.
 ##### edge()
 Returns the string 'none', 'falling', 'rising', or 'both' indicating the
 interrupt generating edge or edges for the GPIO. Whether or not interrupts are
-supported is GPIO specific. If interrupts are not supported the edge method
-should not be used.
+supported by an input GPIO is GPIO specific. If interrupts are not supported
+the edge method should not be used. Interrupts are not supported by output
+GPIOs.
 
 ##### setEdge(edge)
-- edge - A string specifying the interrupt generating edge or edges for the
-GPIO. The valid values are: 'none', 'rising', 'falling' or 'both'. On Linux
-kernels prior to 3.13 it was possible for both inputs and outputs to generate
-interrupts. The 3.13 kernel dropped support for interrupt generating outputs,
-irrespective of whether the underlying hardware supports them or not.
-Whether or not interrupts are supported is GPIO specific. If interrupts are
-not supported the setEdge method should not be used.
+- edge - A string specifying the interrupt generating edge or edges for an
+input GPIO. The valid values are: 'none', 'rising', 'falling' or 'both'.
+Whether or not interrupts are supported by an input GPIO is GPIO specific. If
+interrupts are not supported the setEdge method should not be used. Interrupts
+are not supported by output GPIOs.
 
 Set GPIO interrupt generating edge.
 

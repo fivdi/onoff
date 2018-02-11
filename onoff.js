@@ -92,7 +92,7 @@ function Gpio(gpio, direction, edge, options) {
       this.gpioPath + 'value',
     ];
 
-    if (edge) {
+    if (edge && direction === 'in') {
       permissionRequiredPaths.push(this.gpioPath + 'edge');
     }
 
@@ -116,7 +116,7 @@ function Gpio(gpio, direction, edge, options) {
 
     fs.writeFileSync(this.gpioPath + 'direction', direction);
 
-    if (edge) {
+    if (edge && direction === 'in') {
       fs.writeFileSync(this.gpioPath + 'edge', edge);
     }
 
@@ -141,7 +141,7 @@ function Gpio(gpio, direction, edge, options) {
     } catch (ignore) {
     }
     try {
-      if (edge) {
+      if (edge && direction === 'in') {
         fs.writeFileSync(this.gpioPath + 'edge', edge);
       }
       try {

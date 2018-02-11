@@ -21,10 +21,16 @@ function ensureGpio17Unexported(cb) {
 }
 
 ensureGpio17Unexported(function () {
+  var led;
+
   assert.doesNotThrow(
-    () => {new Gpio(17, 'out', 'both');},
+    function () {
+      led = new Gpio(17, 'out', 'both');
+    },
     'can\'t instantiate a Gpio for an output with edge option specified'
   );
+
+  led.unexport();
 
   console.log('ok - ' + __filename);
 });

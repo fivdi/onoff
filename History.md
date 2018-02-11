@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * ignore edge paratmeter when instantiating a Gpio for an output
+
 1.1.9 - Dec 24 2017
 ===================
 
