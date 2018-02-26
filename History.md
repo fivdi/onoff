@@ -2,6 +2,7 @@ Unpublished
 ===========
 
   * update dependencies (epoll v2.0.0)
+  * drop support for node.js v0.10, v0.12, v5 and v7
 
 1.2.0 - Feb 11 2018
 ===================
