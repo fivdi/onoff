@@ -300,16 +300,33 @@ Raspberry Pi.
 
 ## Configuring Pullup and Pulldown Resistors
 
-On the Raspberry Pi, most GPIOs have either their pull-up or pull-down resistor
+As mentioned in section [How Does onoff Work](#how-does-onoff-work) the sysfs
+interface is used to access GPIOs. This interface doesn't offer support for
+configuring pullup and pulldown resistors on GPIOs.
+
+There are however many platform specific mechanisms for configuring pullup and
+pulldown resistors that are compatible with onoff. onoff itself doesn't use
+these mechanisms as one of the goals of onoff is to be platform independent.
+
+Here we'll take a look at two mechanisms available on the Raspberry Pi for
+configuring pullup and pulldown resistors.
+
+On the Raspberry Pi, most GPIOs have either their pullup or pulldown resistor
 activated by default. The defaults can be seen in Table 6-31 on pages 102 and
 103 of the
 [BCM2835 ARM Peripherals](http://www.farnell.com/datasheets/1521578.pdf)
 documentation.
 
-Pullup and pulldown resistors for GPIOs can be configured with device tree
-overlays. The Wiki page
+The first mechanism which is relatively new was announced on March 22, 2018.
+The latest Raspberry Pi firmware has a new `gpio` command which can be used in
+`/boot/config.txt` to configure pullup and pulldown resistors. Further
+information is available at
+[New "gpio" config command](https://www.raspberrypi.org/forums/viewtopic.php?f=117&t=208748).
+
+The second mechanism which has been available for quite some time is based on
+device tree overlays. The Wiki page
 [Enabling Pullup and Pulldown Resistors on The Raspberry Pi](https://github.com/fivdi/onoff/wiki/Enabling-Pullup-and-Pulldown-Resistors-on-The-Raspberry-Pi)
-describes how this can be achieved on the Raspberry Pi.
+describes this mechanism in more detail.
 
 ## Benchmarks
 
