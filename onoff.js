@@ -1,16 +1,14 @@
 "use strict";
 
-var fs = require('fs'),
-  debounce = require('lodash.debounce'),
-  Epoll = require('epoll').Epoll;
+const fs = require('fs');
+const debounce = require('lodash.debounce');
+const Epoll = require('epoll').Epoll;
 
-var GPIO_ROOT_PATH = '/sys/class/gpio/',
-  ZERO = new Buffer('0'),
-  ONE = new Buffer('1');
+const GPIO_ROOT_PATH = '/sys/class/gpio/';
+const ZERO = new Buffer('0');
+const ONE = new Buffer('1');
 
 function Gpio(gpio, direction, edge, options) {
-  var permissionRequiredPaths;
-
   if (!(this instanceof Gpio)) {
     return new Gpio(gpio, direction, edge, options);
   }
@@ -38,7 +36,7 @@ function Gpio(gpio, direction, edge, options) {
     // I don't like this solution, but it enables compatibility with older
     // versions of onoff, i.e., the Gpio constructor was and still is
     // synchronous.
-    permissionRequiredPaths = [
+    let permissionRequiredPaths = [
       this.gpioPath + 'direction',
       this.gpioPath + 'active_low',
       this.gpioPath + 'value',
@@ -48,8 +46,8 @@ function Gpio(gpio, direction, edge, options) {
       permissionRequiredPaths.push(this.gpioPath + 'edge');
     }
 
-    permissionRequiredPaths.forEach(function (path) {
-      var tries = 0,
+    permissionRequiredPaths.forEach((path) => {
+      let tries = 0,
         fd;
 
       while (true) {
@@ -115,7 +113,7 @@ function Gpio(gpio, direction, edge, options) {
 
       if ((value === 0 && this.fallingEnabled) ||
           (value === 1 && this.risingEnabled)) {
-        this.listeners.slice(0).forEach(function (callback) {
+        this.listeners.slice(0).forEach((callback) => {
           callback(err, value);
         });
       }
@@ -142,7 +140,7 @@ function Gpio(gpio, direction, edge, options) {
 exports.Gpio = Gpio;
 
 Gpio.prototype.read = function (callback) {
-  fs.read(this.valueFd, this.readBuffer, 0, 1, 0, function (err, bytes, buf) {
+  fs.read(this.valueFd, this.readBuffer, 0, 1, 0, (err, bytes, buf) => {
     if (typeof callback === 'function') {
       if (err) {
         return callback(err);
@@ -159,12 +157,12 @@ Gpio.prototype.readSync = function () {
 };
 
 Gpio.prototype.write = function (value, callback) {
-  var writeBuffer = value === 1 ? ONE : ZERO;
+  const writeBuffer = value === 1 ? ONE : ZERO;
   fs.write(this.valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
 };
 
 Gpio.prototype.writeSync = function (value) {
-  var writeBuffer = value === 1 ? ONE : ZERO;
+  const writeBuffer = value === 1 ? ONE : ZERO;
   fs.writeSync(this.valueFd, writeBuffer, 0, writeBuffer.length, 0);
 };
 
@@ -181,7 +179,7 @@ Gpio.prototype.unwatch = function (callback) {
     if (typeof callback !== 'function') {
       this.listeners = [];
     } else {
-      this.listeners = this.listeners.filter(function (listener) {
+      this.listeners = this.listeners.filter((listener) => {
         return callback !== listener;
       });
     }

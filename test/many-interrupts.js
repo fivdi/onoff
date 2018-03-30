@@ -1,12 +1,13 @@
 "use strict";
 
-var assert = require('assert'),
-  Gpio = require('../onoff').Gpio,
-  input = new Gpio(7, 'in', 'both'),
-  output = new Gpio(8, 'out'),
-  toggleCount = 0,
-  falling = 0,
-  rising = 0;
+const assert = require('assert');
+const Gpio = require('../onoff').Gpio;
+const input = new Gpio(7, 'in', 'both');
+const output = new Gpio(8, 'out');
+
+let toggleCount = 0;
+let falling = 0;
+let rising = 0;
 
 function toggleOutput() {
   output.writeSync(output.readSync() ^ 1);

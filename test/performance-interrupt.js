@@ -7,11 +7,12 @@
  * of the output an interrupt is generated. The output is toggled as often as
  * possible to determine the maximum rate at which interrupts can be handled.
  */
-var Gpio = require('../onoff').Gpio,
-  input = new Gpio(7, 'in', 'both'),
-  output = new Gpio(8, 'out'),
-  irqCount = 0,
-  iv;
+const Gpio = require('../onoff').Gpio;
+const input = new Gpio(7, 'in', 'both');
+const output = new Gpio(8, 'out');
+
+let irqCount = 0;
+let iv;
 
 // Exit handler
 function exit() {
@@ -23,7 +24,7 @@ function exit() {
 process.on('SIGINT', exit);
 
 // Interrupt handler
-input.watch(function (err, value) {
+input.watch((err, value) => {
   if (err) {
     exit();
   }
@@ -35,7 +36,7 @@ input.watch(function (err, value) {
 });
 
 // Print number of interrupts once a second.
-iv = setInterval(function () {
+iv = setInterval(() => {
   console.log(irqCount);
   irqCount = 0;
 }, 1000);

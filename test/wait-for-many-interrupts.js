@@ -1,11 +1,11 @@
 "use strict";
 
-var Gpio = require('../onoff').Gpio,
-  assert = require('assert'),
-  button = new Gpio(4, 'in', 'rising', {
-    debounceTimeout : 10
-  }),
-  count = 0;
+const Gpio = require('../onoff').Gpio;
+const assert = require('assert');
+const button = new Gpio(4, 'in', 'rising', {
+  debounceTimeout : 10
+});
+let count = 0;
 
 assert(button.direction() === 'in');
 assert(button.edge() === 'rising');
@@ -13,7 +13,7 @@ assert(button.options().debounceTimeout === 10);
 
 console.info('Please press button connected to GPIO4 5 times...');
 
-button.watch(function (err, value) {
+button.watch((err, value) => {
   if (err) {
     throw err;
   }

@@ -1,14 +1,13 @@
 "use strict";
 
-var Gpio = require('../onoff').Gpio,
-  led = new Gpio(17, 'out'),
-  iv;
+const Gpio = require('../onoff').Gpio;
+const led = new Gpio(17, 'out');
 
-iv = setInterval(function () {
+const iv = setInterval(() => {
   led.writeSync(led.readSync() ^ 1);
 }, 100);
 
-setTimeout(function () {
+setTimeout(() => {
   clearInterval(iv);
 
   led.writeSync(0);

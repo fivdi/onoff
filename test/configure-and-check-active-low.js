@@ -4,10 +4,10 @@
  * In this test, GPIO7 is connected to one end of a 1kΩ current limiting
  * resistor and GPIO8 is connected to the other end of the resistor.
  */
-var Gpio = require('../onoff').Gpio,
-  assert = require('assert'),
-  input = new Gpio(7, 'in'),
-  output = new Gpio(8, 'out', {activeLow: true});
+const Gpio = require('../onoff').Gpio;
+const assert = require('assert');
+const input = new Gpio(7, 'in');
+const output = new Gpio(8, 'out', {activeLow: true});
 
 assert(input.activeLow() === false);
 assert(output.activeLow() === true);

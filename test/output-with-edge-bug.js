@@ -7,24 +7,24 @@
 // the sysfs edge file for an output GPIO results in an
 // "EIO: i/o error, write"
 
-var Gpio = require('../onoff').Gpio,
-  assert = require('assert');
+const Gpio = require('../onoff').Gpio;
+const assert = require('assert');
 
 function ensureGpio17Unexported(cb) {
-  var led = new Gpio(17, 'out');
+  let led = new Gpio(17, 'out');
 
   led.unexport();
 
-  setTimeout(function () {
+  setTimeout(() => {
     cb();
   }, 100);
 }
 
-ensureGpio17Unexported(function () {
-  var led;
+ensureGpio17Unexported(() => {
+  let led;
 
   assert.doesNotThrow(
-    function () {
+    () => {
       led = new Gpio(17, 'out', 'both');
     },
     'can\'t instantiate a Gpio for an output with edge option specified'

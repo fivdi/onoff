@@ -1,10 +1,9 @@
 "use strict";
 
-var Gpio = require('../onoff').Gpio,
-  led = new Gpio(17, 'out'),
-  time = process.hrtime(),
-  hertz,
-  i;
+const Gpio = require('../onoff').Gpio;
+const led = new Gpio(17, 'out');
+let time = process.hrtime();
+let i;
 
 for (i = 0; i !== 50000; i += 1) {
   led.writeSync(1);
@@ -12,7 +11,7 @@ for (i = 0; i !== 50000; i += 1) {
 }
 
 time = process.hrtime(time);
-hertz = Math.floor(i / (time[0] + time[1] / 1E9));
+const hertz = Math.floor(i / (time[0] + time[1] / 1E9));
 
 led.unexport();
 

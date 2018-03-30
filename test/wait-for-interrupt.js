@@ -1,15 +1,15 @@
 "use strict";
 
-var Gpio = require('../onoff').Gpio,
-  assert = require('assert'),
-  button = new Gpio(4, 'in', 'both');
+const Gpio = require('../onoff').Gpio;
+const assert = require('assert');
+const button = new Gpio(4, 'in', 'both');
 
 assert(button.direction() === 'in');
 assert(button.edge() === 'both');
 
 console.info('Please press button connected to GPIO #4...');
 
-button.watch(function (err, value) {
+button.watch((err, value) => {
   if (err) {
     throw err;
   }

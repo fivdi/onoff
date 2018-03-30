@@ -1,19 +1,19 @@
 "use strict";
 
+const Gpio = require('../onoff').Gpio;
+const led = new Gpio(17, 'out');
+
 (function (loops) {
-  var Gpio = require('../onoff').Gpio,
-    led = new Gpio(17, 'out'),
-    time = process.hrtime(),
-    hertz;
+  let time = process.hrtime();
 
   (function next(i) {
     if (i >= 0) {
-      led.write(1, function (err) {
+      led.write(1, (err) => {
         if (err) {
           throw err;
         }
 
-        led.write(0, function (err) {
+        led.write(0, (err) => {
           if (err) {
             throw err;
           }
@@ -23,7 +23,7 @@
       });
     } else {
       time = process.hrtime(time);
-      hertz = Math.floor(loops / (time[0] + time[1] / 1E9));
+      const hertz = Math.floor(loops / (time[0] + time[1] / 1E9));
 
       led.unexport();
 
