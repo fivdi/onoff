@@ -32,7 +32,7 @@ of the debounceTimeout option which can be specified when calling the
 
 ## Installation
 
-``
+```
 npm install onoff
 ```
 
