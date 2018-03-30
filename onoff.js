@@ -17,16 +17,16 @@ class Gpio {
 
     options = options || {};
 
-    this.gpio = gpio;
-    this.gpioPath = GPIO_ROOT_PATH + 'gpio' + this.gpio + '/';
-    this.opts = {};
-    this.opts.debounceTimeout = options.debounceTimeout || 0;
-    this.readBuffer = new Buffer(16);
-    this.listeners = [];
+    this._gpio = gpio;
+    this._gpioPath = GPIO_ROOT_PATH + 'gpio' + this._gpio + '/';
+    this._opts = {};
+    this._opts.debounceTimeout = options.debounceTimeout || 0;
+    this._readBuffer = new Buffer(16);
+    this._listeners = [];
 
-    if (!fs.existsSync(this.gpioPath)) {
+    if (!fs.existsSync(this._gpioPath)) {
       // The pin hasn't been exported yet so export it.
-      fs.writeFileSync(GPIO_ROOT_PATH + 'export', this.gpio);
+      fs.writeFileSync(GPIO_ROOT_PATH + 'export', this._gpio);
 
       // A hack to avoid the issue described here:
       // https://github.com/raspberrypi/linux/issues/553
@@ -34,13 +34,13 @@ class Gpio {
       // versions of onoff, i.e., the Gpio constructor was and still is
       // synchronous.
       let permissionRequiredPaths = [
-        this.gpioPath + 'direction',
-        this.gpioPath + 'active_low',
-        this.gpioPath + 'value',
+        this._gpioPath + 'direction',
+        this._gpioPath + 'active_low',
+        this._gpioPath + 'value',
       ];
 
       if (edge && direction === 'in') {
-        permissionRequiredPaths.push(this.gpioPath + 'edge');
+        permissionRequiredPaths.push(this._gpioPath + 'edge');
       }
 
       permissionRequiredPaths.forEach((path) => {
@@ -61,14 +61,14 @@ class Gpio {
         }
       });
 
-      fs.writeFileSync(this.gpioPath + 'direction', direction);
+      fs.writeFileSync(this._gpioPath + 'direction', direction);
 
       if (edge && direction === 'in') {
-        fs.writeFileSync(this.gpioPath + 'edge', edge);
+        fs.writeFileSync(this._gpioPath + 'edge', edge);
       }
 
       if (!!options.activeLow) {
-        fs.writeFileSync(this.gpioPath + 'active_low', ONE);
+        fs.writeFileSync(this._gpioPath + 'active_low', ONE);
       }
     } else {
       // The pin has already been exported, perhaps by onoff itself, perhaps
@@ -84,15 +84,15 @@ class Gpio {
       // errors while attempting to perform the modifications, just keep on
       // truckin'.
       try {
-        fs.writeFileSync(this.gpioPath + 'direction', direction);
+        fs.writeFileSync(this._gpioPath + 'direction', direction);
       } catch (ignore) {
       }
       try {
         if (edge && direction === 'in') {
-          fs.writeFileSync(this.gpioPath + 'edge', edge);
+          fs.writeFileSync(this._gpioPath + 'edge', edge);
         }
         try {
-          fs.writeFileSync(this.gpioPath + 'active_low',
+          fs.writeFileSync(this._gpioPath + 'active_low',
             !!options.activeLow ? ONE : ZERO
           );
         } catch (ignore) {
@@ -102,41 +102,41 @@ class Gpio {
     }
 
     // Cache fd for performance.
-    this.valueFd = fs.openSync(this.gpioPath + 'value', 'r+');
+    this._valueFd = fs.openSync(this._gpioPath + 'value', 'r+');
 
     if (edge && direction === 'in') {
       const pollerEventHandler = (err, fd, events) => {
         const value = this.readSync();
 
-        if ((value === 0 && this.fallingEnabled) ||
-            (value === 1 && this.risingEnabled)) {
-          this.listeners.slice(0).forEach((callback) => {
+        if ((value === 0 && this._fallingEnabled) ||
+            (value === 1 && this._risingEnabled)) {
+          this._listeners.slice(0).forEach((callback) => {
             callback(err, value);
           });
         }
       };
 
-      this.risingEnabled = edge === 'both' || edge == 'rising';
-      this.fallingEnabled = edge === 'both' || edge == 'falling';
+      this._risingEnabled = edge === 'both' || edge == 'rising';
+      this._fallingEnabled = edge === 'both' || edge == 'falling';
 
       // Read GPIO value before polling to prevent unauthentic interrupts.
       this.readSync();
 
-      if (this.opts.debounceTimeout > 0) {
-        const db = debounce(pollerEventHandler, this.opts.debounceTimeout);
+      if (this._opts.debounceTimeout > 0) {
+        const db = debounce(pollerEventHandler, this._opts.debounceTimeout);
 
-        this.poller = new Epoll((err, fd, events) => {
+        this._poller = new Epoll((err, fd, events) => {
           this.readSync(); // Clear interrupt.
           db(err, fd, events);
         });
       } else {
-        this.poller = new Epoll(pollerEventHandler);
+        this._poller = new Epoll(pollerEventHandler);
       }
     }
   }
 
   read(callback) {
-    fs.read(this.valueFd, this.readBuffer, 0, 1, 0, (err, bytes, buf) => {
+    fs.read(this._valueFd, this._readBuffer, 0, 1, 0, (err, bytes, buf) => {
       if (typeof callback === 'function') {
         if (err) {
           return callback(err);
@@ -148,40 +148,40 @@ class Gpio {
   }
 
   readSync() {
-    fs.readSync(this.valueFd, this.readBuffer, 0, 1, 0);
-    return this.readBuffer[0] === ONE[0] ? 1 : 0;
+    fs.readSync(this._valueFd, this._readBuffer, 0, 1, 0);
+    return this._readBuffer[0] === ONE[0] ? 1 : 0;
   }
 
   write(value, callback) {
     const writeBuffer = value === 1 ? ONE : ZERO;
-    fs.write(this.valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
+    fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
   }
 
   writeSync(value) {
     const writeBuffer = value === 1 ? ONE : ZERO;
-    fs.writeSync(this.valueFd, writeBuffer, 0, writeBuffer.length, 0);
+    fs.writeSync(this._valueFd, writeBuffer, 0, writeBuffer.length, 0);
   }
 
   watch(callback) {
-    this.listeners.push(callback);
+    this._listeners.push(callback);
 
-    if (this.listeners.length === 1) {
-      this.poller.add(this.valueFd, Epoll.EPOLLPRI);
+    if (this._listeners.length === 1) {
+      this._poller.add(this._valueFd, Epoll.EPOLLPRI);
     }
   }
 
   unwatch(callback) {
-    if (this.listeners.length > 0) {
+    if (this._listeners.length > 0) {
       if (typeof callback !== 'function') {
-        this.listeners = [];
+        this._listeners = [];
       } else {
-        this.listeners = this.listeners.filter((listener) => {
+        this._listeners = this._listeners.filter((listener) => {
           return callback !== listener;
         });
       }
 
-      if (this.listeners.length === 0) {
-        this.poller.remove(this.valueFd);
+      if (this._listeners.length === 0) {
+        this._poller.remove(this._valueFd);
       }
     }
   }
@@ -191,39 +191,39 @@ class Gpio {
   }
 
   direction() {
-    return fs.readFileSync(this.gpioPath + 'direction').toString().trim();
+    return fs.readFileSync(this._gpioPath + 'direction').toString().trim();
   }
 
   setDirection(direction) {
-    fs.writeFileSync(this.gpioPath + 'direction', direction);
+    fs.writeFileSync(this._gpioPath + 'direction', direction);
   }
 
   edge() {
-    return fs.readFileSync(this.gpioPath + 'edge').toString().trim();
+    return fs.readFileSync(this._gpioPath + 'edge').toString().trim();
   }
 
   setEdge(edge) {
-    fs.writeFileSync(this.gpioPath + 'edge', edge);
+    fs.writeFileSync(this._gpioPath + 'edge', edge);
   }
 
   activeLow() {
     return fs.readFileSync(
-      this.gpioPath + 'active_low')[0] === ONE[0] ? true : false;
+      this._gpioPath + 'active_low')[0] === ONE[0] ? true : false;
   }
 
   setActiveLow(invert) {
-    fs.writeFileSync(this.gpioPath + 'active_low', !!invert ? ONE : ZERO);
+    fs.writeFileSync(this._gpioPath + 'active_low', !!invert ? ONE : ZERO);
   }
 
   options() {
-    return this.opts;
+    return this._opts;
   }
 
   unexport() {
     this.unwatchAll();
-    fs.closeSync(this.valueFd);
+    fs.closeSync(this._valueFd);
     try {
-      fs.writeFileSync(GPIO_ROOT_PATH + 'unexport', this.gpio);
+      fs.writeFileSync(GPIO_ROOT_PATH + 'unexport', this._gpio);
     } catch (ignore) {
       // Flow of control always arrives here when cape_universal is enabled on
       // the bbb.
