@@ -18,7 +18,8 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "epoll": "^2.0.0"
+    "epoll": "^2.0.0",
+    "lodash.debounce": "^4.0.8"
   },
   "keywords": [
     "gpio",

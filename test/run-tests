@@ -3,6 +3,7 @@ node blink-led
 node configure-and-check-active-low
 node configure-and-check-input
 node configure-and-check-output
+node debounce
 node many-interrupts
 node output-with-edge-bug
 node performance-async

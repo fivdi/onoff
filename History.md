@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * add effective debouncing support
+
 2.0.0 - Feb 26 2018
 ===================
 

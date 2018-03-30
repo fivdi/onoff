@@ -1,30 +1,12 @@
 "use strict";
 
 var fs = require('fs'),
+  debounce = require('lodash.debounce'),
   Epoll = require('epoll').Epoll;
 
 var GPIO_ROOT_PATH = '/sys/class/gpio/',
   ZERO = new Buffer('0'),
   ONE = new Buffer('1');
-
-function pollerEventHandler(err, fd, events) {
-  var value = this.readSync(),
-    callbacks = this.listeners.slice(0);
-
-  if (this.opts.debounceTimeout > 0) {
-    setTimeout(function () {
-      if (this.listeners.length > 0) {
-        // Read current value before polling to prevent unauthentic interrupts.
-        this.readSync();
-        this.poller.modify(this.valueFd, Epoll.EPOLLPRI | Epoll.EPOLLONESHOT);
-      }
-    }.bind(this), this.opts.debounceTimeout);
-  }
-
-  callbacks.forEach(function (callback) {
-    callback(err, value);
-  });
-}
 
 /**
  * Constructor. Exports a GPIO to userspace.
@@ -157,10 +139,35 @@ function Gpio(gpio, direction, edge, options) {
   // Cache fd for performance.
   this.valueFd = fs.openSync(this.gpioPath + 'value', 'r+');
 
-  // Read current value before polling to prevent unauthentic interrupts.
-  this.readSync();
+  if (edge && direction === 'in') {
+    const pollerEventHandler = (err, fd, events) => {
+      const value = this.readSync();
 
-  this.poller = new Epoll(pollerEventHandler.bind(this));
+      if ((value === 0 && this.fallingEnabled) ||
+          (value === 1 && this.risingEnabled)) {
+        this.listeners.slice(0).forEach(function (callback) {
+          callback(err, value);
+        });
+      }
+    };
+
+    this.risingEnabled = edge === 'both' || edge == 'rising';
+    this.fallingEnabled = edge === 'both' || edge == 'falling';
+
+    // Read GPIO value before polling to prevent unauthentic interrupts.
+    this.readSync();
+
+    if (this.opts.debounceTimeout > 0) {
+      const db = debounce(pollerEventHandler, this.opts.debounceTimeout);
+
+      this.poller = new Epoll((err, fd, events) => {
+        this.readSync(); // Clear interrupt.
+        db(err, fd, events);
+      });
+    } else {
+      this.poller = new Epoll(pollerEventHandler);
+    }
+  }
 }
 exports.Gpio = Gpio;
 
@@ -230,16 +237,10 @@ Gpio.prototype.writeSync = function (value) {
  * callback: (err: error, value: number) => {}
  */
 Gpio.prototype.watch = function (callback) {
-  var events;
-
   this.listeners.push(callback);
 
   if (this.listeners.length === 1) {
-    events = Epoll.EPOLLPRI;
-    if (this.opts.debounceTimeout > 0) {
-      events |= Epoll.EPOLLONESHOT;
-    }
-    this.poller.add(this.valueFd, events);
+    this.poller.add(this.valueFd, Epoll.EPOLLPRI);
   }
 };
 

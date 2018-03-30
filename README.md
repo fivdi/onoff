@@ -9,6 +9,7 @@ onoff supports Node.js versions 4, 6, 8 and 9.
 
 ## Contents
 
+ * [News & Updates](#news--updates)
  * [Installation](#installation)
  * [Usage](#usage)
  * [API](#api)
@@ -18,9 +19,20 @@ onoff supports Node.js versions 4, 6, 8 and 9.
  * [Related Packages](#related-packages)
  * [Additional Information](#additional-information)
 
+## News & Updates
+
+### March 2018: onoff v3.0.0
+
+Prior to v3.0.0 onoff had inadequate and undocumented support for debouncing
+GPIO inputs. onoff v3.0.0 comes with a very effective implementation based on
+lodash.debounce. It's important to know that the new implementation in v3.0.0
+is not compatible with the old undocumented implementation as the semantics
+of the debounceTimeout option which can be specified when calling the
+[Gpio Constructor](#gpiogpio-direction--edge--options) have changed.
+
 ## Installation
 
-```
+``
 npm install onoff
 ```
 
@@ -82,6 +94,41 @@ process.on('SIGINT', function () {
 });
 ```
 
+When working with buttons there will often be button bounce issues which
+result in the hardware thinking that a button was pressed several times
+although it was only pressed once. onoff provides a software debouncing
+solution for resolving bounce issues.
+
+Assume again that there's an LED connected to GPIO17 and a momentary push
+button connected to GPIO4.
+
+When the button is pressed the LED should toggle its state. This is a typical
+example of a situation where there will be button bounce issues. The issue can
+be resolved by using the debounceTimeout option when creating the Gpio object
+for the button. In the below program the debounceTimeout is set to 10
+milliseconds. This delays invoking the watch callback for the button until
+after 10 milliseconds have elapsed since the last time the state of the
+button changed.
+
+```js
+var Gpio = require('onoff').Gpio,
+  led = new Gpio(17, 'out'),
+  button = new Gpio(4, 'in', 'rising', {debounceTimeout: 10});
+
+button.watch(function (err, value) {
+  if (err) {
+    throw err;
+  }
+
+  led.writeSync(led.readSync() ^ 1);
+});
+
+process.on('SIGINT', function () {
+  led.unexport();
+  button.unexport();
+});
+```
+
 ## API
 
 ### Class Gpio
@@ -121,6 +168,11 @@ Configures the GPIO based on the passed arguments and returns a new Gpio
 object that can be used to access the GPIO.
 
 The following options are supported:
+- debounceTimeout - An unsigned integer specifying a millisecond delay. Delays
+invoking the watch callback for an interrupt generating input GPIO until after
+debounceTimeout milliseconds have elapsed since the last time the state of the
+input GPIO changed. Optional, if unspecified the input GPIO will not be
+debounced.
 - activeLow - A boolean value specifying whether the values read from or
 written to the GPIO should be inverted. The interrupt generating edge for the
 GPIO also follow this this setting. The valid values for activeLow are true
