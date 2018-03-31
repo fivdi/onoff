@@ -19,8 +19,7 @@ class Gpio {
 
     this._gpio = gpio;
     this._gpioPath = GPIO_ROOT_PATH + 'gpio' + this._gpio + '/';
-    this._opts = {};
-    this._opts.debounceTimeout = options.debounceTimeout || 0;
+    this._debounceTimeout = options.debounceTimeout || 0;
     this._readBuffer = new Buffer(16);
     this._listeners = [];
 
@@ -121,8 +120,8 @@ class Gpio {
       // Read GPIO value before polling to prevent unauthentic interrupts.
       this.readSync();
 
-      if (this._opts.debounceTimeout > 0) {
-        const db = debounce(pollerEventHandler, this._opts.debounceTimeout);
+      if (this._debounceTimeout > 0) {
+        const db = debounce(pollerEventHandler, this._debounceTimeout);
 
         this._poller = new Epoll((err, fd, events) => {
           this.readSync(); // Clear interrupt.
@@ -212,10 +211,6 @@ class Gpio {
 
   setActiveLow(invert) {
     fs.writeFileSync(this._gpioPath + 'active_low', !!invert ? ONE : ZERO);
-  }
-
-  options() {
-    return this._opts;
   }
 
   unexport() {

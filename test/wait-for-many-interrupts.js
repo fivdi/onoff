@@ -9,7 +9,6 @@ let count = 0;
 
 assert(button.direction() === 'in');
 assert(button.edge() === 'rising');
-assert(button.options().debounceTimeout === 10);
 
 console.info('Please press button connected to GPIO4 5 times...');
 

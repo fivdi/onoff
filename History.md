@@ -4,6 +4,7 @@ Unpublished
   * add effective debouncing support
   * codebase modernized
   * remove link to outdated tutorial
+  * remove undocumented options method
 
 2.0.0 - Feb 26 2018
 ===================
