@@ -1,5 +1,5 @@
-Unpublished
-===========
+3.0.0 - Mar 31 2018
+===================
 
   * add effective debouncing support
   * codebase modernized
