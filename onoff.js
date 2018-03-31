@@ -45,12 +45,11 @@ class Gpio {
 
       permissionRequiredPaths.forEach((path) => {
         let tries = 0;
-        let fd;
 
         while (true) {
           try {
             tries += 1;
-            fd = fs.openSync(path, 'r+');
+            const fd = fs.openSync(path, 'r+');
             fs.closeSync(fd);
             break;
           } catch (e) {
