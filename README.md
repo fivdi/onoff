@@ -466,7 +466,3 @@ relies on sysfs files located at /sys/classes/gpio being available. However,
 these sysfs files for userspace GPIO are optional and may not be available on a
 particular platform.
 
-For an introduction to onoff checkout
-[Node.js Embedded Development on the Raspberry Pi](https://learn.adafruit.com/node-embedded-development?view=all)
-at the Adafruit Learning System.
-
