@@ -24,7 +24,7 @@ class Gpio {
     this._listeners = [];
 
     if (!fs.existsSync(this._gpioPath)) {
-      // The pin hasn't been exported yet so export it.
+      // The pin hasn't been exported yet so export it
       fs.writeFileSync(GPIO_ROOT_PATH + 'export', this._gpio);
 
       // A hack to avoid the issue described here:
@@ -108,10 +108,14 @@ class Gpio {
       }
     }
 
-    // Cache fd for performance.
+    // Cache fd for performance
     this._valueFd = fs.openSync(this._gpioPath + 'value', 'r+');
 
-    if (edge && direction === 'in') {
+    {
+      // A poller is created for both inputs and outputs. A poller isn't
+      // actully needed for an output but the setDirection method can be
+      // invoked to change the direction of a GPIO from output to input and
+      // then a poller may be needed.
       const pollerEventHandler = (err, fd, events) => {
         const value = this.readSync();
 
@@ -126,14 +130,15 @@ class Gpio {
       this._risingEnabled = edge === 'both' || edge == 'rising';
       this._fallingEnabled = edge === 'both' || edge == 'falling';
 
-      // Read GPIO value before polling to prevent unauthentic interrupts.
+      // Read GPIO value before polling to prevent an initial unauthentic
+      // interrupt
       this.readSync();
 
       if (this._debounceTimeout > 0) {
         const db = debounce(pollerEventHandler, this._debounceTimeout);
 
         this._poller = new Epoll((err, fd, events) => {
-          this.readSync(); // Clear interrupt.
+          this.readSync(); // Clear interrupt
           db(err, fd, events);
         });
       } else {
@@ -211,6 +216,9 @@ class Gpio {
 
   setEdge(edge) {
     fs.writeFileSync(this._gpioPath + 'edge', edge);
+
+    this._risingEnabled = edge === 'both' || edge == 'rising';
+    this._fallingEnabled = edge === 'both' || edge == 'falling';
   }
 
   activeLow() {

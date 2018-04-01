@@ -1,3 +1,9 @@
+Unpublished
+===========
+
+  * create poller for both inputs and outputs
+  * add test to verify that gpio direction can be changed
+
 3.0.0 - Mar 31 2018
 ===================
 
