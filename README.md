@@ -24,11 +24,14 @@ onoff supports Node.js versions 4, 6, 8 and 9.
 ### March 2018: onoff v3.0.0
 
 Prior to v3.0.0 onoff had inadequate and undocumented support for debouncing
-GPIO inputs. onoff v3.0.0 comes with a very effective implementation based on
-lodash.debounce. It's important to know that the new implementation in v3.0.0
-is not compatible with the old undocumented implementation as the semantics
-of the debounceTimeout option which can be specified when calling the
+GPIO inputs. onoff v3.0.0 comes with a very effective debouncing
+implementation based on lodash.debounce. It's important to know that the new
+implementation in v3.0.0 is not compatible with the old undocumented
+implementation as the semantics of the debounceTimeout option which can be
+specified when calling the
 [Gpio Constructor](#gpiogpio-direction--edge--options) have changed.
+An example of the usage of the debounceTimeout can be found at
+[Debouncing Buttons](#button-bounce).
 
 ## Installation
 
@@ -94,6 +97,7 @@ process.on('SIGINT', function () {
 });
 ```
 
+#### Debouncing Buttons
 When working with buttons there will often be button bounce issues which
 result in the hardware thinking that a button was pressed several times
 although it was only pressed once. onoff provides a software debouncing
@@ -106,9 +110,9 @@ When the button is pressed the LED should toggle its state. This is a typical
 example of a situation where there will be button bounce issues. The issue can
 be resolved by using the debounceTimeout option when creating the Gpio object
 for the button. In the below program the debounceTimeout is set to 10
-milliseconds. This delays invoking the watch callback for the button until
-after 10 milliseconds have elapsed since the last time the state of the
-button changed.
+milliseconds. This delays invoking the watch callback for the button while the
+button is bouncing. The watch callback will not be invoked until the button
+stops bouncing and has been in a stable state for 10 milliseconds.
 
 ```js
 var Gpio = require('onoff').Gpio,
@@ -169,10 +173,10 @@ object that can be used to access the GPIO.
 
 The following options are supported:
 - debounceTimeout - An unsigned integer specifying a millisecond delay. Delays
-invoking the watch callback for an interrupt generating input GPIO until after
-debounceTimeout milliseconds have elapsed since the last time the state of the
-input GPIO changed. Optional, if unspecified the input GPIO will not be
-debounced.
+invoking the watch callback for an interrupt generating input GPIO while the
+input is bouncing. The watch callback will not be invoked until the input
+stops bouncing and has been in a stable state for debounceTimeout
+milliseconds. Optional, if unspecified the input GPIO will not be debounced.
 - activeLow - A boolean value specifying whether the values read from or
 written to the GPIO should be inverted. The interrupt generating edge for the
 GPIO also follow this this setting. The valid values for activeLow are true
@@ -193,7 +197,7 @@ or 1 and represents the state of the GPIO.
 Read GPIO value asynchronously.
 
 Note that most systems support readback of GPIOs configured as outputs. The
-read method can therefore be called for any GPIO, irrespective of whether it
+read method can therefore be invoked for any GPIO, irrespective of whether it
 was configured as an input or an output. The Raspberry Pi and BeagleBone are
 examples of such systems.
 
@@ -202,7 +206,7 @@ Read GPIO value synchronously. Returns the number 0 or 1 to represent the
 state of the GPIO.
 
 Note that most systems support readback of GPIOs configured as outputs. The
-readSync method can therefore be called for any GPIO, irrespective of whether
+readSync method can therefore be invoked for any GPIO, irrespective of whether
 it was configured as an input or an output. The Raspberry Pi and BeagleBone
 are examples of such systems.
 
