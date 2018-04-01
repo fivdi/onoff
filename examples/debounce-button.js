@@ -1,8 +1,8 @@
 "use strict";
 
-var Gpio = require('../onoff').Gpio,
-  led = new Gpio(17, 'out'),
-  button = new Gpio(4, 'in', 'rising', {debounceTimeout: 10});
+const Gpio = require('../onoff').Gpio;
+const led = new Gpio(17, 'out');
+const button = new Gpio(4, 'in', 'rising', {debounceTimeout: 10});
 
 button.watch(function (err, value) {
   if (err) {

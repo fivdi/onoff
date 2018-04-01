@@ -50,11 +50,11 @@ When the button is pressed the LED should turn on, when it's released the LED
 should turn off. This can be achieved with the following code:
 
 ```js
-var Gpio = require('onoff').Gpio,
-  led = new Gpio(17, 'out'),
-  button = new Gpio(4, 'in', 'both');
+const Gpio = require('onoff').Gpio;
+const led = new Gpio(17, 'out');
+const button = new Gpio(4, 'in', 'both');
 
-button.watch(function(err, value) {
+button.watch(function (err, value) {
   led.writeSync(value);
 });
 ```
@@ -79,9 +79,9 @@ ctrl-c gracefully and bails out on error. The resources used by the led and
 button Gpio objects are released by calling their unexport method.
 
 ```js
-var Gpio = require('onoff').Gpio,
-  led = new Gpio(17, 'out'),
-  button = new Gpio(4, 'in', 'both');
+const Gpio = require('onoff').Gpio;
+const led = new Gpio(17, 'out');
+const button = new Gpio(4, 'in', 'both');
 
 button.watch(function (err, value) {
   if (err) {
@@ -115,9 +115,9 @@ button is bouncing. The watch callback will not be invoked until the button
 stops bouncing and has been in a stable state for 10 milliseconds.
 
 ```js
-var Gpio = require('onoff').Gpio,
-  led = new Gpio(17, 'out'),
-  button = new Gpio(4, 'in', 'rising', {debounceTimeout: 10});
+const Gpio = require('onoff').Gpio;
+const led = new Gpio(17, 'out');
+const button = new Gpio(4, 'in', 'rising', {debounceTimeout: 10});
 
 button.watch(function (err, value) {
   if (err) {
@@ -288,20 +288,19 @@ be used after calling its unexport method.
 Blink the LED connected to GPIO17 for 5 seconds:
 
 ```js
-var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
-  led = new Gpio(17, 'out'),      // Export GPIO17 as an output.
-  iv;
+const Gpio = require('onoff').Gpio; // Gpio class
+const led = new Gpio(17, 'out');    // Export GPIO17 as an output
 
 // Toggle the state of the LED connected to GPIO17 every 200ms.
 // Here synchronous methods are used. Asynchronous methods are also available.
-iv = setInterval(function () {
+const iv = setInterval(function () {
   led.writeSync(led.readSync() ^ 1); // 1 = on, 0 = off :)
 }, 200);
 
-// Stop blinking the LED and turn it off after 5 seconds.
+// Stop blinking the LED and turn it off after 5 seconds
 setTimeout(function () {
   clearInterval(iv); // Stop blinking
-  led.writeSync(0);  // Turn LED off.
+  led.writeSync(0);  // Turn LED off
   led.unexport();    // Unexport GPIO and free resources
 }, 5000);
 ```
@@ -311,8 +310,8 @@ setTimeout(function () {
 Blink the LED connected to GPIO17 for 5 seconds:
 
 ```js
-var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
-  led = new Gpio(17, 'out');      // Export GPIO17 as an output.
+const Gpio = require('onoff').Gpio; // Gpio class
+const led = new Gpio(17, 'out');    // Export GPIO17 as an output
 
 // Toggle the state of the LED connected to GPIO17 every 200ms 'count' times.
 // Here asynchronous methods are used. Synchronous methods are also available.
@@ -321,12 +320,12 @@ var Gpio = require('onoff').Gpio, // Constructor function for Gpio objects.
     return led.unexport();
   }
 
-  led.read(function (err, value) { // Asynchronous read.
+  led.read(function (err, value) { // Asynchronous read
     if (err) {
       throw err;
     }
 
-    led.write(value ^ 1, function (err) { // Asynchronous write.
+    led.write(value ^ 1, function (err) { // Asynchronous write
       if (err) {
         throw err;
       }

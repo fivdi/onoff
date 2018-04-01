@@ -1,13 +1,15 @@
 "use strict";
 
-var Gpio = require('../onoff').Gpio,  // Constructor function for Gpio objects.
-  button = new Gpio(4, 'in', 'both'); // Export GPIO4 as an interrupt
-                                      // generating input.
+const Gpio = require('../onoff').Gpio; // Gpio class
+
+// Export GPIO4 as an interrupt generating input with a debounceTimeout of 10
+// milliseconds
+const button = new Gpio(4, 'in', 'rising', {debounceTimeout: 10});
 
 console.log('Please press the button on GPIO4...');
 
-// The callback passed to watch will be called when the button on GPIO4 is
-// pressed. 
+// The callback passed to watch will be invoked when the button connected to
+// GPIO4 is pressed
 button.watch(function (err, value) {
   if (err) {
     throw err;
