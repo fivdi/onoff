@@ -31,7 +31,7 @@ implementation as the semantics of the debounceTimeout option which can be
 specified when calling the
 [Gpio Constructor](#gpiogpio-direction--edge--options) have changed.
 An example of the usage of the debounceTimeout can be found at
-[Debouncing Buttons](#button-bounce).
+[Debouncing Buttons](#debouncing-buttons).
 
 ## Installation
 
