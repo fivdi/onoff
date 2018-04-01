@@ -281,7 +281,7 @@ Set GPIO activeLow setting.
 
 ##### unexport()
 Reverse the effect of exporting the GPIO to userspace. A Gpio object should not
-be used after calling its unexport method.
+be used after invoking its unexport method.
 
 ### Synchronous API
 
