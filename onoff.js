@@ -38,6 +38,9 @@ class Gpio {
         this._gpioPath + 'value',
       ];
 
+      // On some systems the edge file will not exist if the GPIO does not
+      // support interrupts
+      // https://github.com/fivdi/onoff/issues/77#issuecomment-321980735
       if (edge && direction === 'in') {
         permissionRequiredPaths.push(this._gpioPath + 'edge');
       }
@@ -61,6 +64,9 @@ class Gpio {
 
       fs.writeFileSync(this._gpioPath + 'direction', direction);
 
+      // On some systems writing to the edge file for an output GPIO will
+      // result in an "EIO, i/o error"
+      // https://github.com/fivdi/onoff/issues/87
       if (edge && direction === 'in') {
         fs.writeFileSync(this._gpioPath + 'edge', edge);
       }
@@ -86,6 +92,9 @@ class Gpio {
       } catch (ignore) {
       }
       try {
+        // On some systems writing to the edge file for an output GPIO will
+        // result in an "EIO, i/o error"
+        // https://github.com/fivdi/onoff/issues/87
         if (edge && direction === 'in') {
           fs.writeFileSync(this._gpioPath + 'edge', edge);
         }
