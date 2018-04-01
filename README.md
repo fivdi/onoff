@@ -28,7 +28,7 @@ GPIO inputs. onoff v3.0.0 comes with a very effective debouncing
 implementation based on lodash.debounce. It's important to know that the new
 implementation in v3.0.0 is not compatible with the old undocumented
 implementation as the semantics of the debounceTimeout option which can be
-specified when calling the
+specified when invoking the
 [Gpio Constructor](#gpiogpio-direction--edge--options) have changed.
 An example of the usage of the debounceTimeout can be found at
 [Debouncing Buttons](#debouncing-buttons).
@@ -76,7 +76,7 @@ When the above program is running it can be terminated with ctrl-c. However,
 it doesn't free its resources. It also ignores the err argument passed to
 the callback. Here's a slightly modified variant of the program that handles
 ctrl-c gracefully and bails out on error. The resources used by the led and
-button Gpio objects are released by calling their unexport method.
+button Gpio objects are released by invoking their unexport method.
 
 ```js
 const Gpio = require('onoff').Gpio;
@@ -184,8 +184,8 @@ and false. Setting activeLow to true inverts. Optional, the default value is
 false.
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
-should be passed to the onoff Gpio constructor function when exporting GPIOs
-to userspace. For example, pin 11 on the Raspberry Pi expansion header
+should be passed to the onoff Gpio constructor when exporting GPIOs to
+userspace. For example, pin 11 on the Raspberry Pi expansion header
 corresponds to GPIO17 in Raspbian Linux. 17 is therefore the number to pass
 to the onoff Gpio constructor when using pin 11 on the expansion header.
 
