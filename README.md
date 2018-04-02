@@ -12,6 +12,8 @@ onoff supports Node.js versions 4, 6, 8 and 9.
  * [News & Updates](#news--updates)
  * [Installation](#installation)
  * [Usage](#usage)
+   * [LEDs and Buttons](#leds-and-buttons)
+   * [Debouncing Buttons](#debouncing-buttons)
  * [API](#api)
  * [How Does onoff Work?](#how-does-onoff-work)
  * [Configuring Pullup and Pulldown Resistors](#configuring-pullup-and-pulldown-resistors)
@@ -41,6 +43,7 @@ npm install onoff
 
 ## Usage
 
+#### LEDs and Buttons
 Assume that there's an LED connected to GPIO17 and a momentary push button
 connected to GPIO4.
 
