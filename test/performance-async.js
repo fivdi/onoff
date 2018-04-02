@@ -1,35 +1,73 @@
 "use strict";
 
 const Gpio = require('../onoff').Gpio;
-const led = new Gpio(17, 'out');
 
-(function (loops) {
+const pulseLed = (led, pulseCount, cb) => {
   let time = process.hrtime();
 
-  (function next(i) {
-    if (i >= 0) {
-      led.write(1, (err) => {
+  const loop = (count) => {
+    if (count === 0) {
+      time = process.hrtime(time);
+      const writesPerSecond = pulseCount / (time[0] + time[1] / 1E9);
+      return cb(null, writesPerSecond);
+    }
+
+    led.write(1, (err) => {
+      if (err) {
+        return cb(err);
+      }
+
+      led.write(0, (err) => {
         if (err) {
-          throw err;
+          return cb(err);
         }
 
-        led.write(0, (err) => {
-          if (err) {
-            throw err;
-          }
-
-          next(i - 1);
-        });
+        loop(count - 1);
       });
-    } else {
-      time = process.hrtime(time);
-      const hertz = Math.floor(loops / (time[0] + time[1] / 1E9));
+    });
+  };
 
+  loop(pulseCount);
+};
+
+const asyncWritesPerSecond = (cb) => {
+  const led = new Gpio(17, 'out');
+  let writes = 0;
+
+  const loop = (count) => {
+    if (count === 0) {
       led.unexport();
-
-      console.log('ok - ' + __filename);
-      console.log('     async frequency = ' + hertz / 1000 + 'KHz');
+      return cb(null, writes / 10);
     }
-  }(loops));
-}(4000));
+
+    pulseLed(led, 10000, (err, writesPerSecond) => {
+      if (err) {
+        return cb(err);
+      }
+
+      writes += writesPerSecond;
+
+      loop(count - 1);
+    });
+  };
+
+  // Do a dry run first to get the runtime primed
+  pulseLed(led, 5000, (err, writesPerSecond) => {
+    if (err) {
+      return cb(err);
+    }
+    loop(10);
+  });
+};
+
+asyncWritesPerSecond((err, averageWritesPerSecond) => {
+  if (err) {
+    throw err;
+  }
+
+  console.log('ok - ' + __filename);
+  console.log(
+    '     ' + Math.floor(averageWritesPerSecond) + ' async writes per second'
+  );
+});
 
