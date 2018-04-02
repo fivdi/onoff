@@ -8,7 +8,7 @@ const pulseLed = (led, pulseCount, cb) => {
   const loop = (count) => {
     if (count === 0) {
       time = process.hrtime(time);
-      const writesPerSecond = pulseCount / (time[0] + time[1] / 1E9);
+      const writesPerSecond = pulseCount * 2 / (time[0] + time[1] / 1E9);
       return cb(null, writesPerSecond);
     }
 
