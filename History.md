@@ -1,5 +1,5 @@
-Unpublished
-===========
+3.0.2 - Apr 07 2018
+===================
 
   * update dependencies (epoll v2.0.1)
   * improve performance tests
