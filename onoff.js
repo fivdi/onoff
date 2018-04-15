@@ -5,8 +5,8 @@ const debounce = require('lodash.debounce');
 const Epoll = require('epoll').Epoll;
 
 const GPIO_ROOT_PATH = '/sys/class/gpio/';
-const ZERO = new Buffer('0');
-const ONE = new Buffer('1');
+const ZERO = Buffer.from('0');
+const ONE = Buffer.from('1');
 
 class Gpio {
   constructor(gpio, direction, edge, options) {
@@ -20,7 +20,7 @@ class Gpio {
     this._gpio = gpio;
     this._gpioPath = GPIO_ROOT_PATH + 'gpio' + this._gpio + '/';
     this._debounceTimeout = options.debounceTimeout || 0;
-    this._readBuffer = new Buffer(16);
+    this._readBuffer = Buffer.alloc(16);
     this._listeners = [];
 
     if (!fs.existsSync(this._gpioPath)) {

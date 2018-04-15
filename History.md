@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * replace new Buffer with Buffer.from or Buffer.alloc
+
 3.0.2 - Apr 07 2018
 ===================
 
