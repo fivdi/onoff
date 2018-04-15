@@ -136,6 +136,31 @@ process.on('SIGINT', function () {
 });
 ```
 
+#### Check accessibility
+Sometimes you want an easy way to check if the current system supports GPIOs programmatically, and mock some code if it doesn't. You can use `Gpio.accessible` for exactly this.
+
+```js
+const Gpio = require('onoff').Gpio;
+
+const useLed = function (led, value) {
+  led.writeSync(value)
+}
+
+let led;
+if(Gpio.accessible) {
+  led = new Gpio(17, 'out');
+  // more real code here
+} else {
+  led = { 
+    writeSync: function (value) {
+      console.log('virtual led now uses value: ' + value);
+    }
+  };
+}
+
+useLed(led, 1);
+```
+
 ## API
 
 ### Class Gpio
@@ -155,6 +180,7 @@ process.on('SIGINT', function () {
   * [activeLow() - Get GPIO activeLow setting](#activelow)
   * [setActiveLow(invert) - Set GPIO activeLow setting](#setactivelowinvert)
   * [unexport() - Reverse the effect of exporting the GPIO to userspace](#unexport)
+  * [static accessible - Check if system supports GPIOs](#static-accessible)
 
 ##### Gpio(gpio, direction [, edge] [, options])
 - gpio - An unsigned integer specifying the GPIO number.
@@ -285,6 +311,11 @@ Set GPIO activeLow setting.
 ##### unexport()
 Reverse the effect of exporting the GPIO to userspace. A Gpio object should not
 be used after invoking its unexport method.
+
+##### static accessible
+True if your system supports GPIO pins. It checks if there are no errors in opening your GPIO export path.
+
+This is a static property, so it should be accessed as `Gpio.accessible`
 
 ### Synchronous API
 

@@ -240,6 +240,18 @@ class Gpio {
       // the bbb.
     }
   }
+
+  static get accessible() {
+    try {
+      fs.openSync(GPIO_ROOT_PATH + 'export', 'r');
+    } catch(e) {
+      if(e.code === 'EACCESS') {
+        return false;
+      }
+    }
+
+    return true;
+  }
 }
 
 exports.Gpio = Gpio;
