@@ -137,7 +137,8 @@ process.on('SIGINT', function () {
 ```
 
 #### Check accessibility
-Sometimes you want an easy way to check if the current system supports GPIOs programmatically, and mock some code if it doesn't. You can use `Gpio.accessible` for exactly this.
+
+Validates basic level of Gpio compatibility needed by `onoff`
 
 ```js
 const Gpio = require('onoff').Gpio;
@@ -313,7 +314,8 @@ Reverse the effect of exporting the GPIO to userspace. A Gpio object should not
 be used after invoking its unexport method.
 
 ##### static accessible
-True if your system supports GPIO pins. It checks if there are no errors in opening your GPIO export path.
+Returns true if the system has access to the basic subsystem onoff utalizes.
+False otherwize. 
 
 This is a static property, so it should be accessed as `Gpio.accessible`
 

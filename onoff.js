@@ -1,6 +1,7 @@
 "use strict";
 
 const fs = require('fs');
+const path = require('path');
 const debounce = require('lodash.debounce');
 const Epoll = require('epoll').Epoll;
 
@@ -243,11 +244,11 @@ class Gpio {
 
   static get accessible() {
     try {
-      fs.openSync(GPIO_ROOT_PATH + 'export', 'r');
+      const p = path.join(GPIO_ROOT_PATH, 'export');
+      fs.openSync(p, 'w');
     } catch(e) {
-      if(e.code === 'EACCESS') {
-        return false;
-      }
+      if(e.code === 'ENOENT') { return false; }
+      if(e.code === 'EACCES') { return false; }
     }
 
     return true;
