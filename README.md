@@ -138,7 +138,7 @@ process.on('SIGINT', function () {
 
 #### Check accessibility
 
-Validates basic level of Gpio compatibility needed by `onoff`
+Using `accessible` to gaurd main gpio code against missing or restricted sysfs functionality.   
 
 ```js
 const Gpio = require('onoff').Gpio;
@@ -148,7 +148,7 @@ const useLed = function (led, value) {
 }
 
 let led;
-if(Gpio.accessible) {
+if (Gpio.accessible) {
   led = new Gpio(17, 'out');
   // more real code here
 } else {
@@ -314,8 +314,15 @@ Reverse the effect of exporting the GPIO to userspace. A Gpio object should not
 be used after invoking its unexport method.
 
 ##### static accessible
-Returns true if the system has access to the basic subsystem onoff utalizes.
-False otherwize. 
+Returns True if sysfs is currently exposing the /sys/class/gpio/export and 
+permissions are suficint to access it (aka open in write mode).
+False otherwise.
+
+It is notable that while this function may return false (restricting the ability to `export` new 
+gpio pins), existing exported pins may still be accessable.
+
+This method is usefull for garding system that lack sysfs completly (or are fully permissioned off).
+For implementation that work in mixer permission enviroments extra steps should be taken care.
 
 This is a static property, so it should be accessed as `Gpio.accessible`
 

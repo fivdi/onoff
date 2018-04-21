@@ -1,7 +1,6 @@
 "use strict";
 
 const fs = require('fs');
-const path = require('path');
 const debounce = require('lodash.debounce');
 const Epoll = require('epoll').Epoll;
 
@@ -243,12 +242,18 @@ class Gpio {
   }
 
   static get accessible() {
+    let fd;
     try {
-      const p = path.join(GPIO_ROOT_PATH, 'export');
-      fs.openSync(p, 'w');
-    } catch(e) {
-      if(e.code === 'ENOENT') { return false; }
-      if(e.code === 'EACCES') { return false; }
+      fd = fs.openSync(GPIO_ROOT_PATH + 'export', 'w');
+    }
+    catch(e) {
+      // e.code === 'ENOENT' / 'EACCES' are most common
+      // though any failure to open will also result in a gpio
+      // failure to export.
+      return false;
+    }
+    finally {
+      if (fd){ fs.closeSync(fd); }
     }
 
     return true;
