@@ -5,8 +5,13 @@ const debounce = require('lodash.debounce');
 const Epoll = require('epoll').Epoll;
 
 const GPIO_ROOT_PATH = '/sys/class/gpio/';
+
+// fs reads return char data
 const ZERO = Buffer.from('0');
 const ONE = Buffer.from('1');
+// lib returns numeric data
+const GPIO_ONE = 1;
+const GPIO_ZERO = 0;
 
 class Gpio {
   constructor(gpio, direction, edge, options) {
@@ -119,8 +124,8 @@ class Gpio {
       const pollerEventHandler = (err, fd, events) => {
         const value = this.readSync();
 
-        if ((value === 0 && this._fallingEnabled) ||
-            (value === 1 && this._risingEnabled)) {
+        if ((value === GPIO_ZERO && this._fallingEnabled) ||
+            (value === GPIO_ONE && this._risingEnabled)) {
           this._listeners.slice(0).forEach((callback) => {
             callback(err, value);
           });
@@ -154,23 +159,23 @@ class Gpio {
           return callback(err);
         }
 
-        callback(null, buf[0] === ONE[0] ? 1 : 0);
+        callback(null, buf[0] === ONE[0] ? GPIO_ONE : GPIO_ZERO);
       }
     });
   }
 
   readSync() {
     fs.readSync(this._valueFd, this._readBuffer, 0, 1, 0);
-    return this._readBuffer[0] === ONE[0] ? 1 : 0;
+    return this._readBuffer[0] === ONE[0] ? GPIO_ONE : GPIO_ZERO;
   }
 
   write(value, callback) {
-    const writeBuffer = value === 1 ? ONE : ZERO;
+    const writeBuffer = value === GPIO_ONE ? ONE : ZERO;
     fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
   }
 
   writeSync(value) {
-    const writeBuffer = value === 1 ? ONE : ZERO;
+    const writeBuffer = value === GPIO_ONE ? ONE : ZERO;
     fs.writeSync(this._valueFd, writeBuffer, 0, writeBuffer.length, 0);
   }
 
@@ -243,4 +248,4 @@ class Gpio {
 }
 
 exports.Gpio = Gpio;
-
+module.exports = { Gpio, GPIO_ONE, GPIO_ZERO };
