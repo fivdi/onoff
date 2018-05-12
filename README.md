@@ -136,6 +136,32 @@ process.on('SIGINT', function () {
 });
 ```
 
+#### Check accessibility
+
+Using `accessible` to gaurd main gpio code against missing or restricted sysfs functionality.   
+
+```js
+const Gpio = require('onoff').Gpio;
+
+const useLed = function (led, value) {
+  led.writeSync(value)
+}
+
+let led;
+if (Gpio.accessible) {
+  led = new Gpio(17, 'out');
+  // more real code here
+} else {
+  led = { 
+    writeSync: function (value) {
+      console.log('virtual led now uses value: ' + value);
+    }
+  };
+}
+
+useLed(led, 1);
+```
+
 ## API
 
 ### Class Gpio
@@ -155,6 +181,7 @@ process.on('SIGINT', function () {
   * [activeLow() - Get GPIO activeLow setting](#activelow)
   * [setActiveLow(invert) - Set GPIO activeLow setting](#setactivelowinvert)
   * [unexport() - Reverse the effect of exporting the GPIO to userspace](#unexport)
+  * [static accessible - Check if system supports GPIOs](#static-accessible)
 
 ##### Gpio(gpio, direction [, edge] [, options])
 - gpio - An unsigned integer specifying the GPIO number.
@@ -285,6 +312,19 @@ Set GPIO activeLow setting.
 ##### unexport()
 Reverse the effect of exporting the GPIO to userspace. A Gpio object should not
 be used after invoking its unexport method.
+
+##### static accessible
+Returns True if sysfs is currently exposing the /sys/class/gpio/export and 
+permissions are suficint to access it (aka open in write mode).
+False otherwise.
+
+It is notable that while this function may return false (restricting the ability to `export` new 
+gpio pins), existing exported pins may still be accessable.
+
+This method is usefull for garding system that lack sysfs completly (or are fully permissioned off).
+For implementation that work in mixer permission enviroments extra steps should be taken care.
+
+This is a static property, so it should be accessed as `Gpio.accessible`
 
 ### Synchronous API
 

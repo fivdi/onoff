@@ -240,6 +240,24 @@ class Gpio {
       // the bbb.
     }
   }
+
+  static get accessible() {
+    let fd;
+    try {
+      fd = fs.openSync(GPIO_ROOT_PATH + 'export', 'w');
+    }
+    catch(e) {
+      // e.code === 'ENOENT' / 'EACCES' are most common
+      // though any failure to open will also result in a gpio
+      // failure to export.
+      return false;
+    }
+    finally {
+      if (fd){ fs.closeSync(fd); }
+    }
+
+    return true;
+  }
 }
 
 exports.Gpio = Gpio;
