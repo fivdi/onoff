@@ -7,11 +7,11 @@ const Epoll = require('epoll').Epoll;
 const GPIO_ROOT_PATH = '/sys/class/gpio/';
 
 // fs reads return char data
-const ZERO = Buffer.from('0');
-const ONE = Buffer.from('1');
+const LOW_BUF = Buffer.from('0');
+const HIGH_BUF = Buffer.from('1');
 // lib returns numeric data
-const GPIO_ONE = 1;
-const GPIO_ZERO = 0;
+const HIGH = 1;
+const LOW = 0;
 
 class Gpio {
   constructor(gpio, direction, edge, options) {
@@ -77,7 +77,7 @@ class Gpio {
       }
 
       if (!!options.activeLow) {
-        fs.writeFileSync(this._gpioPath + 'active_low', ONE);
+        fs.writeFileSync(this._gpioPath + 'active_low', HIGH_BUF);
       }
     } else {
       // The pin has already been exported, perhaps by onoff itself, perhaps
@@ -105,7 +105,7 @@ class Gpio {
         }
         try {
           fs.writeFileSync(this._gpioPath + 'active_low',
-            !!options.activeLow ? ONE : ZERO
+            !!options.activeLow ? HIGH_BUF : LOW_BUF
           );
         } catch (ignore) {
         }
@@ -124,8 +124,8 @@ class Gpio {
       const pollerEventHandler = (err, fd, events) => {
         const value = this.readSync();
 
-        if ((value === GPIO_ZERO && this._fallingEnabled) ||
-            (value === GPIO_ONE && this._risingEnabled)) {
+        if ((value === HIGH && this._fallingEnabled) ||
+            (value === LOW && this._risingEnabled)) {
           this._listeners.slice(0).forEach((callback) => {
             callback(err, value);
           });
@@ -159,23 +159,23 @@ class Gpio {
           return callback(err);
         }
 
-        callback(null, buf[0] === ONE[0] ? GPIO_ONE : GPIO_ZERO);
+        callback(null, buf[0] === HIGH_BUF[0] ? HIGH : LOW);
       }
     });
   }
 
   readSync() {
     fs.readSync(this._valueFd, this._readBuffer, 0, 1, 0);
-    return this._readBuffer[0] === ONE[0] ? GPIO_ONE : GPIO_ZERO;
+    return this._readBuffer[0] === HIGH_BUF[0] ? HIGH : LOW;
   }
 
   write(value, callback) {
-    const writeBuffer = value === GPIO_ONE ? ONE : ZERO;
+    const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
     fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
   }
 
   writeSync(value) {
-    const writeBuffer = value === GPIO_ONE ? ONE : ZERO;
+    const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
     fs.writeSync(this._valueFd, writeBuffer, 0, writeBuffer.length, 0);
   }
 
@@ -228,11 +228,11 @@ class Gpio {
 
   activeLow() {
     return fs.readFileSync(
-      this._gpioPath + 'active_low')[0] === ONE[0] ? true : false;
+      this._gpioPath + 'active_low')[0] === HIGH_BUF[0] ? true : false;
   }
 
   setActiveLow(invert) {
-    fs.writeFileSync(this._gpioPath + 'active_low', !!invert ? ONE : ZERO);
+    fs.writeFileSync(this._gpioPath + 'active_low', !!invert ? HIGH_BUF : LOW_BUF);
   }
 
   unexport() {
@@ -247,5 +247,8 @@ class Gpio {
   }
 }
 
+Gpio.HIGH = HIGH;
+Gpio.LOW = LOW;
+
 exports.Gpio = Gpio;
-module.exports = { Gpio, GPIO_ONE, GPIO_ZERO };
+module.exports = { Gpio };
