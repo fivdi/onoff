@@ -136,6 +136,35 @@ process.on('SIGINT', function () {
 });
 ```
 
+#### Check accessibility
+
+Sometimes it may be necessary to determine if the current system supports
+GPIOs programmatically and mock functionality if it doesn't. `Gpio.accessible`
+can be used to achieve this.
+
+```js
+const Gpio = require('onoff').Gpio;
+
+const useLed = function (led, value) {
+  led.writeSync(value);
+}
+
+let led;
+
+if (Gpio.accessible) {
+  led = new Gpio(17, 'out');
+  // more real code here
+} else {
+  led = { 
+    writeSync: function (value) {
+      console.log('virtual led now uses value: ' + value);
+    }
+  };
+}
+
+useLed(led, 1);
+```
+
 ## API
 
 ### Class Gpio
@@ -155,6 +184,7 @@ process.on('SIGINT', function () {
   * [activeLow() - Get GPIO activeLow setting](#activelow)
   * [setActiveLow(invert) - Set GPIO activeLow setting](#setactivelowinvert)
   * [unexport() - Reverse the effect of exporting the GPIO to userspace](#unexport)
+  * [static accessible - Determine whether or not GPIO access is possible](#static-accessible)
 
 ##### Gpio(gpio, direction [, edge] [, options])
 - gpio - An unsigned integer specifying the GPIO number.
@@ -285,6 +315,21 @@ Set GPIO activeLow setting.
 ##### unexport()
 Reverse the effect of exporting the GPIO to userspace. A Gpio object should not
 be used after invoking its unexport method.
+
+##### static accessible
+Determine whether or not GPIO access is possible. true if the current process
+has the permissions required to export GPIOs to userspace. false otherwise.
+Loosely speaking, if this property is true it should be possible for the
+current process to create Gpio objects.
+
+It is notable that while this property may be false indicating that the
+current process does not have the permissions required to export GPIOs to
+userspace, existing exported GPIOs may still be accessible.
+
+This property is useful for mocking functionality on computers used for
+development that do not provide access to GPIOs.
+
+This is a static property and should be accessed as `Gpio.accessible`.
 
 ### Synchronous API
 
