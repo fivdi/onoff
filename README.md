@@ -138,16 +138,19 @@ process.on('SIGINT', function () {
 
 #### Check accessibility
 
-Using `accessible` to gaurd main gpio code against missing or restricted sysfs functionality.   
+Sometimes it may be necessary to determine if the current system supports
+GPIOs programmatically and mock functionality if it doesn't. `Gpio.accessible`
+can be used to achieve this.
 
 ```js
 const Gpio = require('onoff').Gpio;
 
 const useLed = function (led, value) {
-  led.writeSync(value)
+  led.writeSync(value);
 }
 
 let led;
+
 if (Gpio.accessible) {
   led = new Gpio(17, 'out');
   // more real code here
@@ -181,7 +184,7 @@ useLed(led, 1);
   * [activeLow() - Get GPIO activeLow setting](#activelow)
   * [setActiveLow(invert) - Set GPIO activeLow setting](#setactivelowinvert)
   * [unexport() - Reverse the effect of exporting the GPIO to userspace](#unexport)
-  * [static accessible - Check if system supports GPIOs](#static-accessible)
+  * [static accessible - Determine whether or not GPIO access is possible](#static-accessible)
 
 ##### Gpio(gpio, direction [, edge] [, options])
 - gpio - An unsigned integer specifying the GPIO number.
@@ -314,17 +317,19 @@ Reverse the effect of exporting the GPIO to userspace. A Gpio object should not
 be used after invoking its unexport method.
 
 ##### static accessible
-Returns True if sysfs is currently exposing the /sys/class/gpio/export and 
-permissions are suficint to access it (aka open in write mode).
-False otherwise.
+Determine whether or not GPIO access is possible. true if the current process
+has the permissions required to export GPIOs to userspace. false otherwise.
+Loosely speaking, if this property is true it should be possible for the
+current process to create Gpio objects.
 
-It is notable that while this function may return false (restricting the ability to `export` new 
-gpio pins), existing exported pins may still be accessable.
+It is notable that while this property may be false indicating that the
+current process does not have the permissions required to export GPIOs to
+userspace, existing exported GPIOs may still be accessible.
 
-This method is usefull for garding system that lack sysfs completly (or are fully permissioned off).
-For implementation that work in mixer permission enviroments extra steps should be taken care.
+This property is useful for mocking functionality on computers used for
+development that do not provide access to GPIOs.
 
-This is a static property, so it should be accessed as `Gpio.accessible`
+This is a static property and should be accessed as `Gpio.accessible`.
 
 ### Synchronous API
 
