@@ -124,8 +124,8 @@ class Gpio {
       const pollerEventHandler = (err, fd, events) => {
         const value = this.readSync();
 
-        if ((value === HIGH && this._fallingEnabled) ||
-            (value === LOW && this._risingEnabled)) {
+        if ((value === LOW && this._fallingEnabled) ||
+            (value === HIGH && this._risingEnabled)) {
           this._listeners.slice(0).forEach((callback) => {
             callback(err, value);
           });
