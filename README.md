@@ -185,7 +185,7 @@ useLed(led, 1);
   * [setActiveLow(invert) - Set GPIO activeLow setting](#setactivelowinvert)
   * [unexport() - Reverse the effect of exporting the GPIO to userspace](#unexport)
   * [static accessible - Determine whether or not GPIO access is possible](#static-accessible)
-  * [HIGH / LOW - Constants exported representing read/write values used](#high-low)
+  * [HIGH / LOW - Constants exported representing read/write values used](#static-high--low)
 
 ##### Gpio(gpio, direction [, edge] [, options])
 - gpio - An unsigned integer specifying the GPIO number.
