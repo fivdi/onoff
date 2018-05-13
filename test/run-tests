@@ -5,6 +5,7 @@ node configure-and-check-active-low
 node configure-and-check-input
 node configure-and-check-output
 node debounce
+node high-low
 node many-interrupts
 node output-with-edge-bug
 node wait-for-interrupt

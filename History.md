@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * add test to ensure HIGH and LOW have the expected values
+
 3.1.0 - May 13 2018
 ===================
 
