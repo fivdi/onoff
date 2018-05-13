@@ -27,7 +27,7 @@ onoff supports Node.js versions 4, 6, 8 and 10.
 
 onoff v3.1.0 adds two new features.
 
- * The new static property Gpio.accessible can be use to determine whether or
+ * The new static property Gpio.accessible can be used to determine whether or
 not GPIO access is possible.
  * The new static properties Gpio.HIGH and Gpio.LOW can be used in place of
 the numeric constants 1 and 0.
