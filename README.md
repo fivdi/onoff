@@ -185,6 +185,7 @@ useLed(led, 1);
   * [setActiveLow(invert) - Set GPIO activeLow setting](#setactivelowinvert)
   * [unexport() - Reverse the effect of exporting the GPIO to userspace](#unexport)
   * [static accessible - Determine whether or not GPIO access is possible](#static-accessible)
+  * [HIGH / LOW - Constants exported representing read/write values used](#static-high--low)
 
 ##### Gpio(gpio, direction [, edge] [, options])
 - gpio - An unsigned integer specifying the GPIO number.
@@ -330,6 +331,12 @@ This property is useful for mocking functionality on computers used for
 development that do not provide access to GPIOs.
 
 This is a static property and should be accessed as `Gpio.accessible`.
+
+##### static HIGH / LOW
+The static values of High and Low are exported on the `Gpio` object to provide
+consistent way for consuming application to test against, or use during `write` operations.
+
+These should be used in place of hardcoded `1` and `0` values (as per most lint rules).
 
 ### Synchronous API
 
