@@ -1,5 +1,5 @@
-Unpublished
-===========
+3.1.0 - May 13 2018
+===================
 
   * replace new Buffer with Buffer.from or Buffer.alloc
   * add accessebile property to Gpio class
