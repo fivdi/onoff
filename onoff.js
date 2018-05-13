@@ -6,10 +6,11 @@ const Epoll = require('epoll').Epoll;
 
 const GPIO_ROOT_PATH = '/sys/class/gpio/';
 
-// fs reads return char data
-const LOW_BUF = Buffer.from('0');
+// fs reads and writes use Buffers
 const HIGH_BUF = Buffer.from('1');
-// lib returns numeric data
+const LOW_BUF = Buffer.from('0');
+
+// lib returns numeric data and expects numeric data as arguments
 const HIGH = 1;
 const LOW = 0;
 

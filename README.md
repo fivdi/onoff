@@ -23,6 +23,15 @@ onoff supports Node.js versions 4, 6, 8 and 10.
 
 ## News & Updates
 
+### May 2018: onoff v3.1.0
+
+onoff v3.1.0 adds two new features.
+
+ * The new static property Gpio.accessible can be use to determine whether or
+not GPIO access is possible.
+ * The new static properties Gpio.HIGH and Gpio.LOW can be used in place of
+the numeric constants 1 and 0.
+
 ### March 2018: onoff v3.0.0
 
 Prior to v3.0.0 onoff had inadequate and undocumented support for debouncing
@@ -185,7 +194,7 @@ useLed(led, 1);
   * [setActiveLow(invert) - Set GPIO activeLow setting](#setactivelowinvert)
   * [unexport() - Reverse the effect of exporting the GPIO to userspace](#unexport)
   * [static accessible - Determine whether or not GPIO access is possible](#static-accessible)
-  * [HIGH / LOW - Constants exported representing read/write values used](#static-high--low)
+  * [HIGH / LOW - Constants used when reading or writing a GPIO value](#static-high--low)
 
 ##### Gpio(gpio, direction [, edge] [, options])
 - gpio - An unsigned integer specifying the GPIO number.
@@ -333,10 +342,8 @@ development that do not provide access to GPIOs.
 This is a static property and should be accessed as `Gpio.accessible`.
 
 ##### static HIGH / LOW
-The static values of High and Low are exported on the `Gpio` object to provide
-consistent way for consuming application to test against, or use during `write` operations.
-
-These should be used in place of hardcoded `1` and `0` values (as per most lint rules).
+Constants used when reading or writing a GPIO value. Gpio.HIGH and Gpio.LOW
+can be used in place of the numeric constants 1 and 0.
 
 ### Synchronous API
 
