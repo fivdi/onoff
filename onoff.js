@@ -171,11 +171,13 @@ class Gpio {
   }
 
   write(value, callback) {
+    if(value !== HIGH && value !== LOW) { callback(Error('write value must be HIGH or LOW')); }
     const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
     fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
   }
 
   writeSync(value) {
+    if(value !== HIGH && value !== LOW) { throw Error('write value must be HIGH or LOW'); }
     const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
     fs.writeSync(this._valueFd, writeBuffer, 0, writeBuffer.length, 0);
   }
