@@ -7,22 +7,23 @@ const MockEpoll = require('./mocks/Epoll');
 
 mockRequire('epoll', MockEpoll);
 const Gpio = require('../onoff').Gpio;
-mockfs({
-  '/sys/class/gpio': {
-    'export': '',
-    'unexport': '',
-    'gpio4': {
-      'direction': '',
-      'active_low': '',
-      'value': '',
-    }
-  }
-});
+
 
 describe('watching', () => {
   let pin;
 
   beforeEach(() => {
+    mockfs({
+      '/sys/class/gpio': {
+        'export': '',
+        'unexport': '',
+        'gpio4': {
+          'direction': '',
+          'active_low': '',
+          'value': '',
+        }
+      }
+    });
     pin = new Gpio(4, 'in', 'both');
   });
 
