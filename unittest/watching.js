@@ -1,7 +1,7 @@
 "use strict";
 
 const assert = require('assert');
-const mockfs = require('mock-fs');
+const mockFs = require('mock-fs');
 const mockRequire = require('mock-require');
 const MockEpoll = require('./mocks/Epoll');
 
@@ -13,7 +13,7 @@ describe('watching', () => {
   let pin;
 
   beforeEach(() => {
-    mockfs({
+    mockFs({
       '/sys/class/gpio': {
         'export': '',
         'unexport': '',
@@ -104,7 +104,7 @@ describe('watching', () => {
 
   afterEach(() => {
     pin.unexport();
-    mockfs.restore();
+    mockFs.restore();
   });
 
   function listener1(err, value) {
