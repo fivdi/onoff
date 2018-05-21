@@ -21,6 +21,9 @@
     "epoll": "^2.0.1",
     "lodash.debounce": "^4.0.8"
   },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  },
   "keywords": [
     "gpio",
     "embedded",
