@@ -1,10 +1,12 @@
 "use strict";
 
-const Gpio = require('../onoff').Gpio;
-
 const assert = require('assert');
 const mockfs = require('mock-fs');
+const mockRequire = require('mock-require');
+const MockEpoll = require('./mocks/Epoll');
 
+mockRequire('epoll', MockEpoll);
+const Gpio = require('../onoff').Gpio;
 mockfs({
   '/sys/class/gpio': {
     'export': '',
