@@ -23,7 +23,8 @@
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "mock-fs": "^4.5.0"
   },
   "keywords": [
     "gpio",

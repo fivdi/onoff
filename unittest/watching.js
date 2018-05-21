@@ -1,8 +1,21 @@
 "use strict";
 
 const Gpio = require('../onoff').Gpio;
-const assert = require('assert');
 
+const assert = require('assert');
+const mockfs = require('mock-fs');
+
+mockfs({
+  '/sys/class/gpio': {
+    'export': '',
+    'unexport': '',
+    'gpio4': {
+      'direction': '',
+      'active_low': '',
+      'value': '',
+    }
+  }
+});
 
 describe('watching', () => {
   let pin;
@@ -88,6 +101,7 @@ describe('watching', () => {
 
   afterEach(() => {
     pin.unexport();
+    mockfs.restore();
   });
 
   function listener1(err, value) {
