@@ -3,7 +3,7 @@
 const assert = require('assert');
 const mockFs = require('mock-fs');
 const mockRequire = require('mock-require');
-const MockEpoll = require('./mocks/Epoll');
+const MockEpoll = require('./mocks/epoll');
 
 mockRequire('epoll', MockEpoll);
 const Gpio = require('../onoff').Gpio;
