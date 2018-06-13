@@ -415,8 +415,9 @@ The GPIO sysfs interface can also be used for interrupt detection. onoff can
 detect several thousand interrupts per second on both the BeagleBone and the
 Raspberry Pi.
 
-Note that [epoll package](https://github.com/fivdi/epoll) is currently only
-supported for Linux based sysfs systems; resuting in a error similar to:
+Note that the [epoll package](https://github.com/fivdi/epoll) is currently
+only supported on Linux. Attempting to use onoff on non-Linux systems will
+result in runtime errors similar to:
 
 `Error: Module did not self-register.`
 
