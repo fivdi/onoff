@@ -2,13 +2,14 @@ Unpublished
 ===========
 
   * add test to ensure HIGH and LOW have the expected values
+  * add unittests (thank you [@pizzaisdavid](https://github.com/pizzaisdavid)
 
 3.1.0 - May 13 2018
 ===================
 
   * replace new Buffer with Buffer.from or Buffer.alloc
-  * add accessebile property to Gpio class
-  * add HIGH and LOW properties to Gpio class
+  * add accessebile property to Gpio class (thank you [@johntalton](https://github.com/johntalton))
+  * add HIGH and LOW properties to Gpio class (thank you [@johntalton](https://github.com/johntalton))
 
 3.0.2 - Apr 07 2018
 ===================
