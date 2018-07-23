@@ -2,7 +2,7 @@ Unpublished
 ===========
 
   * add test to ensure HIGH and LOW have the expected values
-  * add unittests (thank you [@pizzaisdavid](https://github.com/pizzaisdavid)
+  * add unittests (thank you [@pizzaisdavid](https://github.com/pizzaisdavid))
 
 3.1.0 - May 13 2018
 ===================
