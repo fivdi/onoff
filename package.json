@@ -1,6 +1,6 @@
 {
   "name": "onoff",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "GPIO access and interrupt detection with Node.js",
   "main": "onoff.js",
   "directories": {

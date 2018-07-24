@@ -1,5 +1,5 @@
-Unpublished
-===========
+3.2.0 - Jul 24 2018
+===================
 
   * add test to ensure HIGH and LOW have the expected values
   * add unittests (thank you [@pizzaisdavid](https://github.com/pizzaisdavid))
