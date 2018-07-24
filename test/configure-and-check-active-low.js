@@ -11,26 +11,36 @@ const output = new Gpio(8, 'out', {activeLow: true});
 
 assert(input.activeLow() === false);
 assert(output.activeLow() === true);
+
+assert(input.readSync() === 0);
+assert(output.readSync() === 1);
+
 output.writeSync(0);
 assert(input.readSync() === 1);
+assert(output.readSync() === 0);
 output.writeSync(1);
 assert(input.readSync() === 0);
+assert(output.readSync() === 1);
 
 output.setActiveLow(false);
 assert(input.activeLow() === false);
 assert(output.activeLow() === false);
 output.writeSync(0);
 assert(input.readSync() === 0);
+assert(output.readSync() === 0);
 output.writeSync(1);
 assert(input.readSync() === 1);
+assert(output.readSync() === 1);
 
 input.setActiveLow(true);
 assert(input.activeLow() === true);
 assert(output.activeLow() === false);
 output.writeSync(0);
 assert(input.readSync() === 1);
+assert(output.readSync() === 0);
 output.writeSync(1);
 assert(input.readSync() === 0);
+assert(output.readSync() === 1);
 
 input.unexport();
 output.unexport();

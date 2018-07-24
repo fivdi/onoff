@@ -3,6 +3,8 @@ Unpublished
 
   * add test to ensure HIGH and LOW have the expected values
   * add unittests (thank you [@pizzaisdavid](https://github.com/pizzaisdavid))
+  * set active_low before setting direction in constructor
+  * add constructor reconfigureDirection option
 
 3.1.0 - May 13 2018
 ===================

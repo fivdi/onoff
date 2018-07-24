@@ -14,6 +14,25 @@ const LOW_BUF = Buffer.from('0');
 const HIGH = 1;
 const LOW = 0;
 
+const waitForAccessPermission = function (paths) {
+  paths.forEach((path) => {
+    let tries = 0;
+
+    while (true) {
+      try {
+        tries += 1;
+        const fd = fs.openSync(path, 'r+');
+        fs.closeSync(fd);
+        break;
+      } catch (e) {
+        if (tries === 10000) {
+          throw e;
+        }
+      }
+    }
+  });
+};
+
 class Gpio {
   constructor(gpio, direction, edge, options) {
     if (typeof edge === 'object' && !options) {
@@ -30,14 +49,14 @@ class Gpio {
     this._listeners = [];
 
     if (!fs.existsSync(this._gpioPath)) {
-      // The pin hasn't been exported yet so export it
+      // The GPIO hasn't been exported yet so export it
       fs.writeFileSync(GPIO_ROOT_PATH + 'export', this._gpio);
 
-      // A hack to avoid the issue described here:
+      // Avoid the access permission issue described here:
       // https://github.com/raspberrypi/linux/issues/553
-      // I don't like this solution, but it enables compatibility with older
-      // versions of onoff, i.e., the Gpio constructor was and still is
-      // synchronous.
+      // On some syetems udev rules are used to set access permissions on the
+      // GPIO sysfs files enabling those files to be accessed without root
+      // privileges. This takes a while so wait for it to happen.
       let permissionRequiredPaths = [
         this._gpioPath + 'direction',
         this._gpioPath + 'active_low',
@@ -51,22 +70,14 @@ class Gpio {
         permissionRequiredPaths.push(this._gpioPath + 'edge');
       }
 
-      permissionRequiredPaths.forEach((path) => {
-        let tries = 0;
+      waitForAccessPermission(permissionRequiredPaths);
 
-        while (true) {
-          try {
-            tries += 1;
-            const fd = fs.openSync(path, 'r+');
-            fs.closeSync(fd);
-            break;
-          } catch (e) {
-            if (tries === 10000) {
-              throw e;
-            }
-          }
-        }
-      });
+      if (typeof options.activeLow === 'boolean') {
+        fs.writeFileSync(
+          this._gpioPath + 'active_low',
+          options.activeLow ? HIGH_BUF : LOW_BUF
+        );
+      }
 
       fs.writeFileSync(this._gpioPath + 'direction', direction);
 
@@ -76,12 +87,8 @@ class Gpio {
       if (edge && direction === 'in') {
         fs.writeFileSync(this._gpioPath + 'edge', edge);
       }
-
-      if (!!options.activeLow) {
-        fs.writeFileSync(this._gpioPath + 'active_low', HIGH_BUF);
-      }
     } else {
-      // The pin has already been exported, perhaps by onoff itself, perhaps
+      // The GPIO has already been exported, perhaps by onoff itself, perhaps
       // by quick2wire gpio-admin on the Pi, perhaps by the WiringPi gpio
       // utility on the Pi, or perhaps by something else. In any case, an
       // attempt is made to set the direction and edge to the requested
@@ -94,21 +101,31 @@ class Gpio {
       // errors while attempting to perform the modifications, just keep on
       // truckin'.
       try {
-        fs.writeFileSync(this._gpioPath + 'direction', direction);
+        if (typeof options.activeLow === 'boolean') {
+          fs.writeFileSync(
+            this._gpioPath + 'active_low',
+            options.activeLow ? HIGH_BUF : LOW_BUF
+          );
+        }
       } catch (ignore) {
       }
+
+      try {
+        const reconfigureDirection =
+          typeof options.reconfigureDirection === 'boolean' ? options.reconfigureDirection : true;
+
+        if (reconfigureDirection || this.direction() !== direction) {
+          fs.writeFileSync(this._gpioPath + 'direction', direction);
+        }
+      } catch (ignore) {
+      }
+
       try {
         // On some systems writing to the edge file for an output GPIO will
         // result in an "EIO, i/o error"
         // https://github.com/fivdi/onoff/issues/87
         if (edge && direction === 'in') {
           fs.writeFileSync(this._gpioPath + 'edge', edge);
-        }
-        try {
-          fs.writeFileSync(this._gpioPath + 'active_low',
-            !!options.activeLow ? HIGH_BUF : LOW_BUF
-          );
-        } catch (ignore) {
         }
       } catch (ignore) {
       }
@@ -133,8 +150,8 @@ class Gpio {
         }
       };
 
-      this._risingEnabled = edge === 'both' || edge == 'rising';
-      this._fallingEnabled = edge === 'both' || edge == 'falling';
+      this._risingEnabled = edge === 'both' || edge === 'rising';
+      this._fallingEnabled = edge === 'both' || edge === 'falling';
 
       // Read GPIO value before polling to prevent an initial unauthentic
       // interrupt
@@ -223,8 +240,8 @@ class Gpio {
   setEdge(edge) {
     fs.writeFileSync(this._gpioPath + 'edge', edge);
 
-    this._risingEnabled = edge === 'both' || edge == 'rising';
-    this._fallingEnabled = edge === 'both' || edge == 'falling';
+    this._risingEnabled = edge === 'both' || edge === 'rising';
+    this._fallingEnabled = edge === 'both' || edge === 'falling';
   }
 
   activeLow() {

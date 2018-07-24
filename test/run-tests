@@ -2,9 +2,12 @@
 node blink-led
 node change-configuration
 node configure-and-check-active-low
+node configure-and-check-active-low-defaults
 node configure-and-check-input
 node configure-and-check-output
 node debounce
+node dont-reconfigure-direction-part1
+node dont-reconfigure-direction-part2
 node high-low
 node many-interrupts
 node output-with-edge-bug

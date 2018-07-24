@@ -23,6 +23,12 @@ onoff supports Node.js versions 4, 6, 8 and 10.
 
 ## News & Updates
 
+### July 2018: onoff v3.2.0
+
+onoff v3.2.0 adds an new boolean option called reconfigureDirection to the
+Gpio constructor. This option can be used to retain the value of a GPIO output
+when an application is stopped and restarted.
+
 ### May 2018: onoff v3.1.0
 
 onoff v3.1.0 adds two new features.
@@ -225,6 +231,18 @@ written to the GPIO should be inverted. The interrupt generating edge for the
 GPIO also follow this this setting. The valid values for activeLow are true
 and false. Setting activeLow to true inverts. Optional, the default value is
 false.
+- reconfigureDirection - A boolean value specifying whether the direction for
+the GPIO should be reconfigured even though the direction is already
+configured correctly. When an application starts, the direction of a GPIO used
+by that application may already be configured correctly, for example, from a
+previous run of the application. Reconfiguring the direction of that GPIO can
+result in unwanted side effects. For example, if a GPIO is already configured
+as an output and it is reconfigured as an output by passing 'out' to the
+constructor, the value of that output will be set to 0. In some applications
+this is not desirable and the value of the output should not be modified. The
+reconfigureDirection can help here. If reconfigureDirection is set to false
+the direction of a GPIO that is already correctly configured will not be
+reconfigured. Optional, the default value is true.
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
 should be passed to the onoff Gpio constructor when exporting GPIOs to
@@ -473,7 +491,6 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 v8.2.1 | v1.1.4 | 4.9.35-v7+ | 27345 | 318771 | 20094
 v6.11.1 | v1.1.4 | 4.9.35-v7+ | 26010 | 280180 | 19050
 v4.8.4 | v1.1.4 | 4.9.35-v7+ | 27674 | 328949 | 18326
-v0.10.29 | v1.1.4 | 4.9.35-v7+ | 23021 | 188573 | 19352
 
 **Raspberry Pi 2, 900Mhz, Raspbian:**
 
@@ -482,7 +499,6 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 v8.2.1 | v1.1.4 | 4.9.35-v7+ | 12792 | 181829 | 9691
 v6.11.1 | v1.1.4 | 4.9.35-v7+ | 12348 | 167106 | 9215
 v4.8.4 | v1.1.4 | 4.9.35-v7+ | 13643 | 167248 | 8667
-v0.10.29 | v1.1.4 | 4.9.35-v7+ | 11368 | 98464 | 9451
 
 **Raspberry Pi 1, 700Mhz, Raspbian:**
 
@@ -491,7 +507,6 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 v8.2.1 | v1.1.4 | 4.9.35+ | 2738 | 53589 | 2353
 v6.11.1 | v1.1.4 | 4.9.35+ | 2565 | 23111 | 1709
 v4.8.4 | v1.1.4 | 4.9.35+ | 2806 | 33847 | 1590
-v0.10.29 | v1.1.4 | 4.9.35+ | 2468 | 24837 | 1955
 
 **BeagleBone Black, 1GHz, Debian 9.2:**
 
