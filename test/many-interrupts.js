@@ -9,12 +9,12 @@ let toggleCount = 0;
 let falling = 0;
 let rising = 0;
 
-function toggleOutput() {
+const toggleOutput = () => {
   output.writeSync(output.readSync() ^ 1);
   toggleCount += 1;
 }
 
-function interrupt(err, value) {
+const interrupt = (err, value) => {
   if (err) {
     throw err;
   }

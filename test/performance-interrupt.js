@@ -15,7 +15,7 @@ let irqCount = 0;
 let iv;
 
 // Exit handler
-function exit() {
+const exit = () => {
   input.unexport();
   output.unexport();
 

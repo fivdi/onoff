@@ -14,7 +14,7 @@ const LOW_BUF = Buffer.from('0');
 const HIGH = 1;
 const LOW = 0;
 
-const waitForAccessPermission = function (paths) {
+const waitForAccessPermission = (paths) => {
   paths.forEach((path) => {
     let tries = 0;
 

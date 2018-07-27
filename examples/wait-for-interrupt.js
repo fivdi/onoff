@@ -10,7 +10,7 @@ console.log('Please press the button on GPIO4...');
 
 // The callback passed to watch will be invoked when the button connected to
 // GPIO4 is pressed
-button.watch(function (err, value) {
+button.watch((err, value) => {
   if (err) {
     throw err;
   }

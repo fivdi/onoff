@@ -10,7 +10,7 @@
 const Gpio = require('../onoff').Gpio;
 const assert = require('assert');
 
-function ensureGpio17Unexported(cb) {
+const ensureGpio17Unexported = (cb) => {
   let led = new Gpio(17, 'out');
 
   led.unexport();

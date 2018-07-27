@@ -5,25 +5,27 @@ const led = new Gpio(17, 'out');       // Export GPIO17 as an output
 
 // Toggle the state of the LED connected to GPIO17 every 200ms 'count' times.
 // Here asynchronous methods are used. Synchronous methods are also available.
-(function blink(count) {
+const blinkLed = (count) => {
   if (count <= 0) {
     return led.unexport();
   }
 
-  led.read(function (err, value) { // Asynchronous read
+  led.read((err, value) => { // Asynchronous read
     if (err) {
       throw err;
     }
 
-    led.write(value ^ 1, function (err) { // Asynchronous write
+    led.write(value ^ 1, (err) => { // Asynchronous write
       if (err) {
         throw err;
       }
     });
   });
 
-  setTimeout(function () {
-    blink(count - 1);
+  setTimeout(() => {
+    blinkLed(count - 1);
   }, 200);
-}(25));
+};
+
+blinkLed(25);
 

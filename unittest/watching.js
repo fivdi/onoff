@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const assert = require('assert');
 const mockFs = require('mock-fs');
@@ -11,6 +11,20 @@ const Gpio = require('../onoff').Gpio;
 
 describe('watching', () => {
   let pin;
+
+  const listener1 = (err, value) => {
+    if (err) {
+      throw err;
+    }
+    console.log(`listener1: value is ${value}`);
+  }
+
+  const listener2 = (err, value) => {
+    if (err) {
+      throw err;
+    }
+    console.log(`listener2: value is ${value}`);
+  }
 
   beforeEach(() => {
     mockFs({
@@ -106,19 +120,4 @@ describe('watching', () => {
     pin.unexport();
     mockFs.restore();
   });
-
-  function listener1(err, value) {
-    if (err) {
-      throw err;
-    }
-    console.log(`listener1: value is ${value}`);
-  }
-
-  function listener2(err, value) {
-    if (err) {
-      throw err;
-    }
-    console.log(`listener2: value is ${value}`);
-  }
-
 });

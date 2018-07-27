@@ -72,7 +72,7 @@ const Gpio = require('onoff').Gpio;
 const led = new Gpio(17, 'out');
 const button = new Gpio(4, 'in', 'both');
 
-button.watch(function (err, value) {
+button.watch((err, value) => {
   led.writeSync(value);
 });
 ```
@@ -101,7 +101,7 @@ const Gpio = require('onoff').Gpio;
 const led = new Gpio(17, 'out');
 const button = new Gpio(4, 'in', 'both');
 
-button.watch(function (err, value) {
+button.watch((err, value) => {
   if (err) {
     throw err;
   }
@@ -109,7 +109,7 @@ button.watch(function (err, value) {
   led.writeSync(value);
 });
 
-process.on('SIGINT', function () {
+process.on('SIGINT', () => {
   led.unexport();
   button.unexport();
 });
@@ -137,7 +137,7 @@ const Gpio = require('onoff').Gpio;
 const led = new Gpio(17, 'out');
 const button = new Gpio(4, 'in', 'rising', {debounceTimeout: 10});
 
-button.watch(function (err, value) {
+button.watch((err, value) => {
   if (err) {
     throw err;
   }
@@ -145,7 +145,7 @@ button.watch(function (err, value) {
   led.writeSync(led.readSync() ^ 1);
 });
 
-process.on('SIGINT', function () {
+process.on('SIGINT', () => {
   led.unexport();
   button.unexport();
 });
@@ -160,7 +160,7 @@ can be used to achieve this.
 ```js
 const Gpio = require('onoff').Gpio;
 
-const useLed = function (led, value) {
+const useLed = (led, value) => {
   led.writeSync(value);
 }
 
@@ -171,7 +171,7 @@ if (Gpio.accessible) {
   // more real code here
 } else {
   led = { 
-    writeSync: function (value) {
+    writeSync: (value) => {
       console.log('virtual led now uses value: ' + value);
     }
   };
@@ -373,12 +373,12 @@ const led = new Gpio(17, 'out');    // Export GPIO17 as an output
 
 // Toggle the state of the LED connected to GPIO17 every 200ms.
 // Here synchronous methods are used. Asynchronous methods are also available.
-const iv = setInterval(function () {
+const iv = setInterval(() => {
   led.writeSync(led.readSync() ^ 1); // 1 = on, 0 = off :)
 }, 200);
 
 // Stop blinking the LED and turn it off after 5 seconds
-setTimeout(function () {
+setTimeout(() => {
   clearInterval(iv); // Stop blinking
   led.writeSync(0);  // Turn LED off
   led.unexport();    // Unexport GPIO and free resources
@@ -395,27 +395,29 @@ const led = new Gpio(17, 'out');    // Export GPIO17 as an output
 
 // Toggle the state of the LED connected to GPIO17 every 200ms 'count' times.
 // Here asynchronous methods are used. Synchronous methods are also available.
-(function blink(count) {
+const blinkLed = (count) => {
   if (count <= 0) {
     return led.unexport();
   }
 
-  led.read(function (err, value) { // Asynchronous read
+  led.read((err, value) => { // Asynchronous read
     if (err) {
       throw err;
     }
 
-    led.write(value ^ 1, function (err) { // Asynchronous write
+    led.write(value ^ 1, (err) => { // Asynchronous write
       if (err) {
         throw err;
       }
     });
   });
 
-  setTimeout(function () {
-    blink(count - 1);
+  setTimeout(() => {
+    blinkLed(count - 1);
   }, 200);
-}(25));
+};
+
+blinkLed(25);
 ```
 
 ## How Does onoff Work?
