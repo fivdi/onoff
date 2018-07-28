@@ -15,18 +15,14 @@ const ensureGpio17Unexported = (cb) => {
 
   led.unexport();
 
-  setTimeout(() => {
-    cb();
-  }, 100);
+  setTimeout(() => cb(), 100);
 }
 
 ensureGpio17Unexported(() => {
   let led;
 
   assert.doesNotThrow(
-    () => {
-      led = new Gpio(17, 'out', 'both');
-    },
+    () => led = new Gpio(17, 'out', 'both'),
     'can\'t instantiate a Gpio for an output with edge option specified'
   );
 

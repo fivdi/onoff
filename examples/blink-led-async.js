@@ -22,9 +22,7 @@ const blinkLed = (count) => {
     });
   });
 
-  setTimeout(() => {
-    blinkLed(count - 1);
-  }, 200);
+  setTimeout(() => blinkLed(count - 1), 200);
 };
 
 blinkLed(25);

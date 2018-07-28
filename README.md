@@ -72,9 +72,7 @@ const Gpio = require('onoff').Gpio;
 const led = new Gpio(17, 'out');
 const button = new Gpio(4, 'in', 'both');
 
-button.watch((err, value) => {
-  led.writeSync(value);
-});
+button.watch((err, value) => led.writeSync(value));
 ```
 
 Here two Gpio objects are being created. One called led for the LED connected
@@ -160,9 +158,7 @@ can be used to achieve this.
 ```js
 const Gpio = require('onoff').Gpio;
 
-const useLed = (led, value) => {
-  led.writeSync(value);
-}
+const useLed = (led, value) => led.writeSync(value);
 
 let led;
 
@@ -170,7 +166,7 @@ if (Gpio.accessible) {
   led = new Gpio(17, 'out');
   // more real code here
 } else {
-  led = { 
+  led = {
     writeSync: (value) => {
       console.log('virtual led now uses value: ' + value);
     }
@@ -373,9 +369,7 @@ const led = new Gpio(17, 'out');    // Export GPIO17 as an output
 
 // Toggle the state of the LED connected to GPIO17 every 200ms.
 // Here synchronous methods are used. Asynchronous methods are also available.
-const iv = setInterval(() => {
-  led.writeSync(led.readSync() ^ 1); // 1 = on, 0 = off :)
-}, 200);
+const iv = setInterval(() => led.writeSync(led.readSync() ^ 1), 200);
 
 // Stop blinking the LED and turn it off after 5 seconds
 setTimeout(() => {
@@ -412,9 +406,7 @@ const blinkLed = (count) => {
     });
   });
 
-  setTimeout(() => {
-    blinkLed(count - 1);
-  }, 200);
+  setTimeout(() => blinkLed(count - 1), 200);
 };
 
 blinkLed(25);

@@ -3,9 +3,7 @@
 const Gpio = require('../onoff').Gpio;
 const led = new Gpio(17, 'out');
 
-const iv = setInterval(() => {
-  led.writeSync(led.readSync() ^ 1);
-}, 100);
+const iv = setInterval(() => led.writeSync(led.readSync() ^ 1), 100);
 
 setTimeout(() => {
   clearInterval(iv);
