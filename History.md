@@ -1,5 +1,5 @@
-Unpublished
-===========
+3.2.1 - Jul 28 2018
+===================
 
   * code style
   * update dependencies (epoll v2.0.3)
