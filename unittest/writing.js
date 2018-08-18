@@ -22,10 +22,10 @@ describe('writing', () => {
   describe('write', () => {
 
     it('success', (done) => {
-      const actual = 1;
-      gpio.write(actual, (error) => {
-        const computed = MockLinux.read(pin);
-        assert.deepEqual(actual, computed);
+      const expected = 1;
+      gpio.write(expected, (error) => {
+        const actual = MockLinux.read(pin);
+        assert.deepEqual(actual, expected);
         done();
       });
     });
@@ -35,10 +35,10 @@ describe('writing', () => {
   describe('writeSync', () => {
 
     it('success', () => {
-      const actual = 1;
-      gpio.writeSync(actual);
-      const computed = MockLinux.read(pin);
-      assert.deepEqual(actual, computed);
+      const expected = 1;
+      gpio.writeSync(expected);
+      const actual = MockLinux.read(pin);
+      assert.deepEqual(actual, expected);
     });
 
   });
