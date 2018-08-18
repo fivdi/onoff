@@ -10,7 +10,7 @@ const Gpio = require('../onoff').Gpio;
 
 
 describe('watching', () => {
-  let pin;
+  let gpio;
 
   const listener1 = (err, value) => {
     if (err) {
@@ -38,86 +38,86 @@ describe('watching', () => {
         }
       }
     });
-    pin = new Gpio(4, 'in', 'both');
+    gpio = new Gpio(4, 'in', 'both');
   });
 
   describe('watch', () => {
 
     it('no listeners', () => {
-      assert.deepEqual(pin._listeners.length, 0);
+      assert.deepEqual(gpio._listeners.length, 0);
     });
 
     it('one listener', () => {
-      pin.watch(listener1);
-      assert.deepEqual(pin._listeners.length, 1);
+      gpio.watch(listener1);
+      assert.deepEqual(gpio._listeners.length, 1);
     });
 
     it('one listener multiple times', () => {
-      pin.watch(listener1);
-      pin.watch(listener1);
-      assert.deepEqual(pin._listeners.length, 2);
+      gpio.watch(listener1);
+      gpio.watch(listener1);
+      assert.deepEqual(gpio._listeners.length, 2);
     });
 
     it('multiple listeners', () => {
-      pin.watch(listener1);
-      pin.watch(listener2);
-      assert.deepEqual(pin._listeners.length, 2);
+      gpio.watch(listener1);
+      gpio.watch(listener2);
+      assert.deepEqual(gpio._listeners.length, 2);
     });
   });
 
   describe('unwatch', () => {
 
     it('no listeners', () => {
-      pin.unwatch(listener1);
-      assert.deepEqual(pin._listeners.length, 0);
+      gpio.unwatch(listener1);
+      assert.deepEqual(gpio._listeners.length, 0);
     });
 
     it('one listener', () => {
-      pin.watch(listener1);
-      pin.unwatch(listener1);
-      assert.deepEqual(pin._listeners.length, 0);
+      gpio.watch(listener1);
+      gpio.unwatch(listener1);
+      assert.deepEqual(gpio._listeners.length, 0);
     });
 
     it('one listener, all referneces', () => {
-      pin.watch(listener1);
-      pin.watch(listener1);
-      pin.unwatch(listener1);
-      assert.deepEqual(pin._listeners.length, 0);
+      gpio.watch(listener1);
+      gpio.watch(listener1);
+      gpio.unwatch(listener1);
+      assert.deepEqual(gpio._listeners.length, 0);
     });
 
     it('mutliple listeners, only remove one', () => {
-      pin.watch(listener1);
-      pin.watch(listener2);
-      pin.unwatch(listener1);
-      assert.deepEqual(pin._listeners.length, 1);
+      gpio.watch(listener1);
+      gpio.watch(listener2);
+      gpio.unwatch(listener1);
+      assert.deepEqual(gpio._listeners.length, 1);
     });
   });
 
   describe('unwatchAll', () => {
 
     it('no listeners', () => {
-      pin.unwatchAll();
-      assert.deepEqual(pin._listeners.length, 0);
+      gpio.unwatchAll();
+      assert.deepEqual(gpio._listeners.length, 0);
     });
 
 
     it('one listener multiple times', () => {
-      pin.watch(listener1);
-      pin.watch(listener1);
-      pin.unwatchAll(listener1);
-      assert.deepEqual(pin._listeners.length, 0);
+      gpio.watch(listener1);
+      gpio.watch(listener1);
+      gpio.unwatchAll(listener1);
+      assert.deepEqual(gpio._listeners.length, 0);
     });
 
     it('multiple listeners', () => {
-      pin.watch(listener1);
-      pin.watch(listener2);
-      pin.unwatchAll();
-      assert.deepEqual(pin._listeners.length, 0);
+      gpio.watch(listener1);
+      gpio.watch(listener2);
+      gpio.unwatchAll();
+      assert.deepEqual(gpio._listeners.length, 0);
     });
   });
 
   afterEach(() => {
-    pin.unexport();
+    gpio.unexport();
     mockFs.restore();
   });
 });

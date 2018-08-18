@@ -11,7 +11,7 @@ const Gpio = require('../onoff').Gpio;
 
 
 describe('reading', () => {
-  let pin;
+  let gpio;
 
   beforeEach(() => {
     mockFs({
@@ -25,32 +25,40 @@ describe('reading', () => {
         }
       }
     });
-    pin = new Gpio(4, 'out');
+    gpio = new Gpio(4, 'out');
   });
 
   describe('read', () => {
 
     it('success', (done) => {
       fs.writeFileSync('/sys/class/gpio/gpio4/value', '1');
-      pin.read((error, value) => {
+      gpio.read((error, value) => {
         assert.deepEqual(value, 1);
         done();
       });
     });
-    
+
+    it('error', (done) => {
+      gpio.read((error, value) => {
+        
+        console.log(error);
+        done();
+      })
+    });
+
   });
 
   describe('readSync', () => {
 
     it('success', () => {
       fs.writeFileSync('/sys/class/gpio/gpio4/value', '1');
-      assert.deepEqual(pin.readSync(), '1');
+      assert.deepEqual(gpio.readSync(), '1');
     });
 
   });
 
   afterEach(() => {
-    pin.unexport();
+    gpio.unexport();
     mockFs.restore();
   });
 });
