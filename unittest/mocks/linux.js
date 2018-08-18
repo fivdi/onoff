@@ -18,6 +18,10 @@ function gpio(pin) {
   });
 }
 
+function read(pin) {
+  return fs.readFileSync('/sys/class/gpio/gpio4/value', { encoding: 'UTF-8' });
+}
+
 function write(pin, value) {
   fs.writeFileSync(`/sys/class/gpio/gpio${pin}/value`, value);
 }
@@ -28,4 +32,5 @@ function restore() {
 
 exports.gpio = gpio;
 exports.write = write;
+exports.read = read;
 exports.restore = restore;
