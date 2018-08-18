@@ -11,6 +11,7 @@ const Gpio = require('../onoff').Gpio;
 
 describe('watching', () => {
   let gpio;
+  let pin;
 
   const listener1 = (err, value) => {
     if (err) {
@@ -27,8 +28,9 @@ describe('watching', () => {
   }
 
   beforeEach(() => {
-    MockLinux.gpio(4);
-    gpio = new Gpio(4, 'in', 'both');
+    pin = 4;
+    MockLinux.gpio(pin);
+    gpio = new Gpio(pin, 'in', 'both');
   });
 
   describe('watch', () => {

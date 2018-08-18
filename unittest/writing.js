@@ -11,10 +11,12 @@ const Gpio = require('../onoff').Gpio;
 
 describe('writing', () => {
   let gpio;
+  let pin;
 
   beforeEach(() => {
-    MockLinux.gpio(4);
-    gpio = new Gpio(4, 'in');
+    pin = 4;
+    MockLinux.gpio(pin);
+    gpio = new Gpio(pin, 'in');
   });
 
   describe('write', () => {
@@ -22,7 +24,7 @@ describe('writing', () => {
     it('success', (done) => {
       const actual = 1;
       gpio.write(actual, (error) => {
-        const computed = MockLinux.read(4);
+        const computed = MockLinux.read(pin);
         assert.deepEqual(actual, computed);
         done();
       });
@@ -35,7 +37,7 @@ describe('writing', () => {
     it('success', () => {
       const actual = 1;
       gpio.writeSync(actual);
-      const computed = MockLinux.read(4);
+      const computed = MockLinux.read(pin);
       assert.deepEqual(actual, computed);
     });
 
