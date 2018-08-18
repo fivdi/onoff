@@ -1,9 +1,8 @@
 'use strict';
 
 const assert = require('assert');
-const fs = require('fs');
-const mockFs = require('mock-fs');
 const mockRequire = require('mock-require');
+const MockLinux = require('./mocks/linux');
 const MockEpoll = require('./mocks/epoll');
 
 mockRequire('epoll', MockEpoll);
@@ -14,24 +13,14 @@ describe('reading', () => {
   let gpio;
 
   beforeEach(() => {
-    mockFs({
-      '/sys/class/gpio': {
-        'export': '',
-        'unexport': '',
-        'gpio4': {
-          'direction': '',
-          'active_low': '',
-          'value': '',
-        }
-      }
-    });
+    MockLinux.gpio(4);
     gpio = new Gpio(4, 'out');
   });
 
   describe('read', () => {
 
     it('success', (done) => {
-      fs.writeFileSync('/sys/class/gpio/gpio4/value', '1');
+      MockLinux.write(4, '1');
       gpio.read((error, value) => {
         assert.deepEqual(value, 1);
         done();
@@ -43,7 +32,7 @@ describe('reading', () => {
   describe('readSync', () => {
 
     it('success', () => {
-      fs.writeFileSync('/sys/class/gpio/gpio4/value', '1');
+      MockLinux.write(4, '1');
       assert.deepEqual(gpio.readSync(), '1');
     });
 
@@ -51,6 +40,6 @@ describe('reading', () => {
 
   afterEach(() => {
     gpio.unexport();
-    mockFs.restore();
+    MockLinux.restore();
   });
 });
