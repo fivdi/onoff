@@ -38,14 +38,6 @@ describe('reading', () => {
       });
     });
 
-    it('error', (done) => {
-      gpio.read((error, value) => {
-        
-        console.log(error);
-        done();
-      })
-    });
-
   });
 
   describe('readSync', () => {
