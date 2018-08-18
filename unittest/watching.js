@@ -1,9 +1,9 @@
 'use strict';
 
 const assert = require('assert');
-const mockFs = require('mock-fs');
 const mockRequire = require('mock-require');
 const MockEpoll = require('./mocks/epoll');
+const MockLinux = require('./mocks/linux');
 
 mockRequire('epoll', MockEpoll);
 const Gpio = require('../onoff').Gpio;
@@ -27,17 +27,7 @@ describe('watching', () => {
   }
 
   beforeEach(() => {
-    mockFs({
-      '/sys/class/gpio': {
-        'export': '',
-        'unexport': '',
-        'gpio4': {
-          'direction': '',
-          'active_low': '',
-          'value': '',
-        }
-      }
-    });
+    MockLinux.gpio(4);
     gpio = new Gpio(4, 'in', 'both');
   });
 
@@ -118,6 +108,6 @@ describe('watching', () => {
 
   afterEach(() => {
     gpio.unexport();
-    mockFs.restore();
+    MockLinux.restore();
   });
 });
