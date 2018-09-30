@@ -1,3 +1,9 @@
+Unpublished
+===========
+
+  * add unittests for reading and writing (thank you [@pizzaisdavid](https://github.com/pizzaisdavid))
+  * update dependencies (epoll v2.0.4, mocha v4.7.0)
+
 3.2.1 - Jul 28 2018
 ===================
 
