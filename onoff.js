@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const debounce = require('lodash.debounce');
-const Epoll = require('epoll').Epoll;
 
 const GPIO_ROOT_PATH = '/sys/class/gpio/';
 
@@ -35,6 +34,8 @@ const waitForAccessPermission = (paths) => {
 
 class Gpio {
   constructor(gpio, direction, edge, options) {
+    const Epoll = require('epoll').Epoll;
+
     if (typeof edge === 'object' && !options) {
       options = edge;
       edge = undefined;
