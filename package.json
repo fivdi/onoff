@@ -23,13 +23,13 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "epoll": "^2.0.4",
+    "epoll": "^2.0.7",
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
     "mocha": "^5.2.0",
-    "mock-fs": "^4.7.0",
-    "mock-require": "^3.0.2"
+    "mock-fs": "^4.8.0",
+    "mock-require": "^3.0.3"
   },
   "keywords": [
     "gpio",

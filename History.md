@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * update dependencies
+
 3.2.2 - Sep 30 2018
 ===================
 
