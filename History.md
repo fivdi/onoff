@@ -1,5 +1,5 @@
-Unpublished
-===========
+3.2.6 - Feb 09 2019
+===================
 
   * add travis build
 
