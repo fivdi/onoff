@@ -1,11 +1,11 @@
+![‘npm version’](http://img.shields.io/npm/v/onoff.svg) ![‘downloads per month’](http://img.shields.io/npm/dm/onoff.svg) [![Mentioned in Awesome Node.js](https://awesome.re/mentioned-badge.svg)](https://github.com/sindresorhus/awesome-nodejs)
+
 # onoff
 
 GPIO access and interrupt detection with **Node.js** on Linux boards like the
 Raspberry Pi, C.H.I.P. or BeagleBone.
 
 onoff supports Node.js versions 4, 6, 8 and 10.
-
-[![Mentioned in Awesome Node.js](https://awesome.re/mentioned-badge.svg)](https://github.com/sindresorhus/awesome-nodejs)
 
 ## Contents
 
