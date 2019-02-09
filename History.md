@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * lint with jshint
+
 3.2.4 - Feb 09 2019
 ===================
 

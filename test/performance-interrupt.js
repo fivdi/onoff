@@ -20,7 +20,7 @@ const exit = () => {
   output.unexport();
 
   clearInterval(iv);
-}
+};
 process.on('SIGINT', exit);
 
 // Interrupt handler

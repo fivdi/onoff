@@ -16,7 +16,7 @@ const ensureGpio17Unexported = (cb) => {
   led.unexport();
 
   setTimeout(() => cb(), 100);
-}
+};
 
 ensureGpio17Unexported(() => {
   let led;

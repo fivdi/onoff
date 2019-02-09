@@ -8,6 +8,7 @@
     "test": "test"
   },
   "scripts": {
+    "lint": "node_modules/jshint/bin/jshint onoff.js examples/*.js test/*.js",
     "test": "cd test && ./run-tests && cd ..",
     "unittest": "mocha ./unittest"
   },
@@ -27,6 +28,7 @@
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
+    "jshint": "^2.10.1",
     "mocha": "^5.2.0",
     "mock-fs": "^4.8.0",
     "mock-require": "^3.0.3"

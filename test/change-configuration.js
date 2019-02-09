@@ -20,7 +20,7 @@ const watchWithSecondConfiguration = () => {
   });
 
   output.writeSync(1);
-}
+};
 
 const changeConfiguration = () => {
   input.unwatchAll();
@@ -43,7 +43,7 @@ const changeConfiguration = () => {
   assert(input.readSync() === 0, 'expected value to be 0');
 
   watchWithSecondConfiguration();
-}
+};
 
 const watchWithFirstConfiguration = () => {
   input.watch((err, value) => {
@@ -54,6 +54,6 @@ const watchWithFirstConfiguration = () => {
   });
 
   output.writeSync(1);
-}
+};
 
 watchWithFirstConfiguration();

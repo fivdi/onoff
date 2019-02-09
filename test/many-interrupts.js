@@ -12,7 +12,7 @@ let rising = 0;
 const toggleOutput = () => {
   output.writeSync(output.readSync() ^ 1);
   toggleCount += 1;
-}
+};
 
 const interrupt = (err, value) => {
   if (err) {
@@ -40,7 +40,7 @@ const interrupt = (err, value) => {
 
     console.log('ok - ' + __filename);
   }
-}
+};
 
 input.watch(interrupt);
 toggleOutput();

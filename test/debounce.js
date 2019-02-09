@@ -20,7 +20,7 @@ const simulateToggleButtonStateWithBounce = (cb) => {
     output.writeSync(output.readSync() ^ 1);
     toggleCount += 1;
   }, 2);
-}
+};
 
 const simulatePressAndReleaseButtonWithBounce = () => {
   simulateToggleButtonStateWithBounce(() => {
@@ -38,7 +38,7 @@ const simulatePressAndReleaseButtonWithBounce = () => {
       });
     }, 50);
   });
-}
+};
 
 button.watch((err, value) => {
   if (err) {

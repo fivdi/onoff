@@ -15,7 +15,7 @@ const pulseLed = (led, pulseCount) => {
   const writesPerSecond = pulseCount * 2 / (time[0] + time[1] / 1E9);
 
   return writesPerSecond;
-}
+};
 
 const syncWritesPerSecond = () => {
   const led = new Gpio(17, 'out');
@@ -31,7 +31,7 @@ const syncWritesPerSecond = () => {
   led.unexport();
 
   return writes / 10;
-}
+};
 
 console.log('ok - ' + __filename);
 console.log(
