@@ -1,5 +1,5 @@
-Unpublished
-===========
+3.2.5 - Feb 09 2019
+===================
 
   * lint with jshint
 
