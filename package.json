@@ -8,9 +8,9 @@
     "test": "test"
   },
   "scripts": {
-    "lint": "node_modules/jshint/bin/jshint onoff.js examples/*.js test/*.js",
-    "test": "cd test && ./run-tests && cd ..",
-    "unittest": "mocha ./unittest"
+    "lint": "jshint onoff.js examples/*.js test/*.js",
+    "test": "mocha ./unittest",
+    "integration-test": "cd test && ./run-tests && cd .."
   },
   "repository": {
     "type": "git",
