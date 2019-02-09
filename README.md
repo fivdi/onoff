@@ -9,7 +9,6 @@ onoff supports Node.js versions 4, 6, 8 and 10.
 
 ## Contents
 
- * [News & Updates](#news--updates)
  * [Installation](#installation)
  * [Usage](#usage)
    * [LEDs and Buttons](#leds-and-buttons)
@@ -20,35 +19,6 @@ onoff supports Node.js versions 4, 6, 8 and 10.
  * [Benchmarks](#benchmarks)
  * [Related Packages](#related-packages)
  * [Additional Information](#additional-information)
-
-## News & Updates
-
-### July 2018: onoff v3.2.0
-
-onoff v3.2.0 adds an new boolean option called reconfigureDirection to the
-Gpio constructor. This option can be used to retain the value of a GPIO output
-when an application is stopped and restarted.
-
-### May 2018: onoff v3.1.0
-
-onoff v3.1.0 adds two new features.
-
- * The new static property Gpio.accessible can be used to determine whether or
-not GPIO access is possible.
- * The new static properties Gpio.HIGH and Gpio.LOW can be used in place of
-the numeric constants 1 and 0.
-
-### March 2018: onoff v3.0.0
-
-Prior to v3.0.0 onoff had inadequate and undocumented support for debouncing
-GPIO inputs. onoff v3.0.0 comes with a very effective debouncing
-implementation based on lodash.debounce. It's important to know that the new
-implementation in v3.0.0 is not compatible with the old undocumented
-implementation as the semantics of the debounceTimeout option which can be
-specified when invoking the
-[Gpio Constructor](#gpiogpio-direction--edge--options) have changed.
-An example of the usage of the debounceTimeout can be found at
-[Debouncing Buttons](#debouncing-buttons).
 
 ## Installation
 
