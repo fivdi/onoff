@@ -15,6 +15,10 @@
     "type": "git",
     "url": "https://github.com/fivdi/onoff.git"
   },
+  "homepage": "https://github.com/fivdi/onoff",
+  "bugs": {
+    "url": "https://github.com/fivdi/onoff/issues"
+  },
   "engines": {
     "node": ">=4.0.0"
   },
