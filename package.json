@@ -8,9 +8,10 @@
     "test": "test"
   },
   "scripts": {
-    "lint": "jshint onoff.js examples/*.js test/*.js",
-    "test": "mocha ./unittest",
-    "integration-test": "cd test && ./run-tests && cd .."
+    "lint": "jshint onoff.js examples/*.js integration-test/*.js",
+    "test": "nyc mocha",
+    "coverage-report": "nyc report --reporter=html",
+    "integration-test": "cd integration-test && ./run-tests && cd .."
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "jshint": "^2.10.1",
     "mocha": "^5.2.0",
+    "nyc": "^13.2.0",
     "mock-fs": "^4.8.0",
     "mock-require": "^3.0.3"
   },

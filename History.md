@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * add code coverage to build
+
 3.2.6 - Feb 09 2019
 ===================
 
