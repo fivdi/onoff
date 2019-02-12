@@ -14,5 +14,6 @@ addons:
       - g++-4.8
 script:
   - npm run lint
-  - npm test
+  - NODE_VERSION=$(node -v)
+    if [[ $NODE_VERSION != v4.* ]]; then npm test; fi
 
