@@ -1,5 +1,5 @@
-Unpublished
-===========
+3.2.7 - Feb 17 2019
+===================
 
   * add code coverage to build
   * add more unit tests
