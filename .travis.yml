@@ -1,9 +1,10 @@
 language: node_js
 node_js:
-  - "4"
-  - "6"
-  - "8"
+  - "11"
   - "10"
+  - "8"
+  - "6"
+  - "4"
 env:
   - CXX=g++-4.8
 addons:
@@ -14,5 +15,6 @@ addons:
       - g++-4.8
 script:
   - npm run lint
-  - npm test
+  - NODE_VERSION=$(node -v)
+  - if [[ $NODE_VERSION != v4.* ]]; then npm test; fi
 

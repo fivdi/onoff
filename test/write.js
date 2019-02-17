@@ -9,7 +9,7 @@ mockRequire('epoll', MockEpoll);
 const Gpio = require('../onoff').Gpio;
 
 
-describe('writing', () => {
+describe('write', () => {
   let gpio;
   let pin;
 
@@ -19,32 +19,29 @@ describe('writing', () => {
     gpio = new Gpio(pin, 'in');
   });
 
-  describe('write', () => {
 
-    it('success', (done) => {
-      const expected = 1;
-      gpio.write(expected, (error) => {
-        const actual = MockLinux.read(pin);
-        assert.deepEqual(actual, expected);
-        done();
-      });
-    });
-
-  });
-
-  describe('writeSync', () => {
-
-    it('success', () => {
-      const expected = 1;
-      gpio.writeSync(expected);
+  it('writes high', (done) => {
+    const expected = 1;
+    gpio.write(expected, (error) => {
       const actual = MockLinux.read(pin);
       assert.deepEqual(actual, expected);
+      done();
     });
-
   });
+
+  it('writes low', (done) => {
+    const expected = 0;
+    gpio.write(expected, (error) => {
+      const actual = MockLinux.read(pin);
+      assert.deepEqual(actual, expected);
+      done();
+    });
+  });
+
 
   afterEach(() => {
     gpio.unexport();
     MockLinux.restore();
   });
 });
+
