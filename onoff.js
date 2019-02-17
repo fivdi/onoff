@@ -35,6 +35,40 @@ const waitForAccessPermission = (paths) => {
 
 class Gpio {
   constructor(gpio, direction, edge, options) {
+    const configureGpio = (ignoreErrors) => {
+      try {
+        if (typeof options.activeLow === 'boolean') {
+          this.setActiveLow(options.activeLow);
+        }
+      } catch (err) {
+        if (!ignoreErrors) throw err;
+      }
+
+      try {
+        const reconfigureDirection =
+          typeof options.reconfigureDirection === 'boolean' ? options.reconfigureDirection : true;
+        const requestedDirection =
+          direction === 'high' || direction === 'low' ? 'out' : direction;
+
+        if (reconfigureDirection || this.direction() !== requestedDirection) {
+          this.setDirection(direction);
+        }
+      } catch (err) {
+        if (!ignoreErrors) throw err;
+      }
+
+      try {
+        // On some systems writing to the edge file for an output GPIO will
+        // result in an "EIO, i/o error"
+        // https://github.com/fivdi/onoff/issues/87
+        if (edge && direction === 'in') {
+          this.setEdge(edge);
+        }
+      } catch (err) {
+        if (!ignoreErrors) throw err;
+      }
+    };
+
     if (typeof edge === 'object' && !options) {
       options = edge;
       edge = undefined;
@@ -56,43 +90,6 @@ class Gpio {
     let permissionRequiredPaths = [
       this._gpioPath + 'value',
     ];
-
-    const configureGpio = (ignoreErrors) => {
-      try {
-        if (typeof options.activeLow === 'boolean') {
-          fs.writeFileSync(
-            this._gpioPath + 'active_low',
-            options.activeLow ? HIGH_BUF : LOW_BUF
-          );
-        }
-      } catch (err) {
-        if (!ignoreErrors) throw err;
-      }
-
-      try {
-        const reconfigureDirection =
-          typeof options.reconfigureDirection === 'boolean' ? options.reconfigureDirection : true;
-        const requestedDirection =
-          direction === 'high' || direction === 'low' ? 'out' : direction;
-
-        if (reconfigureDirection || this.direction() !== requestedDirection) {
-          fs.writeFileSync(this._gpioPath + 'direction', direction);
-        }
-      } catch (err) {
-        if (!ignoreErrors) throw err;
-      }
-
-      try {
-        // On some systems writing to the edge file for an output GPIO will
-        // result in an "EIO, i/o error"
-        // https://github.com/fivdi/onoff/issues/87
-        if (edge && direction === 'in') {
-          fs.writeFileSync(this._gpioPath + 'edge', edge);
-        }
-      } catch (err) {
-        if (!ignoreErrors) throw err;
-      }
-    };
 
     if (!fs.existsSync(this._gpioPath)) {
       // The GPIO hasn't been exported yet so export it
@@ -147,9 +144,6 @@ class Gpio {
           });
         }
       };
-
-      this._risingEnabled = edge === 'both' || edge === 'rising';
-      this._fallingEnabled = edge === 'both' || edge === 'falling';
 
       // Read GPIO value before polling to prevent an initial unauthentic
       // interrupt
