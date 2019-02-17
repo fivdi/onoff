@@ -1,5 +1,6 @@
 *~
+.nyc_output
+package-lock.json
 coverage
 node_modules
-.nyc_output
 
