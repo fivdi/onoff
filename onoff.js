@@ -72,8 +72,10 @@ class Gpio {
       try {
         const reconfigureDirection =
           typeof options.reconfigureDirection === 'boolean' ? options.reconfigureDirection : true;
+        const requestedDirection =
+          direction === 'high' || direction === 'low' ? 'out' : direction;
 
-        if (reconfigureDirection || this.direction() !== direction) {
+        if (reconfigureDirection || this.direction() !== requestedDirection) {
           fs.writeFileSync(this._gpioPath + 'direction', direction);
         }
       } catch (err) {

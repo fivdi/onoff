@@ -4,6 +4,7 @@ Unpublished
   * add code coverage to build
   * add more unit tests
   * document node 11 support
+  * only reconfigure direction if needed [#128](https://github.com/fivdi/onoff/issues/128)
 
 3.2.6 - Feb 09 2019
 ===================

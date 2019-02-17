@@ -206,8 +206,8 @@ result in unwanted side effects. For example, if a GPIO is already configured
 as an output and it is reconfigured as an output by passing 'out' to the
 constructor, the value of that output will be set to 0. In some applications
 this is not desirable and the value of the output should not be modified. The
-reconfigureDirection can help here. If reconfigureDirection is set to false
-the direction of a GPIO that is already correctly configured will not be
+reconfigureDirection option can help here. If reconfigureDirection is set to
+false the direction of a GPIO that is already correctly configured will not be
 reconfigured. Optional, the default value is true.
 
 GPIOs on Linux are identified by unsigned integers. These are the numbers that
