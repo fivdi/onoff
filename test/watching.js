@@ -113,3 +113,4 @@ describe('watching', () => {
     MockLinux.restore();
   });
 });
+

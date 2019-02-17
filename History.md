@@ -2,6 +2,8 @@ Unpublished
 ===========
 
   * add code coverage to build
+  * add more unit tests
+  * document node 11 support
 
 3.2.6 - Feb 09 2019
 ===================

@@ -25,7 +25,7 @@ const waitForAccessPermission = (paths) => {
         fs.closeSync(fd);
         break;
       } catch (e) {
-        if (tries === 10000) {
+        if (tries === 1000) {
           throw e;
         }
       }
@@ -48,20 +48,56 @@ class Gpio {
     this._readBuffer = Buffer.alloc(16);
     this._listeners = [];
 
+    // Avoid the access permission issue described here:
+    // https://github.com/raspberrypi/linux/issues/553
+    // On some syetems udev rules are used to set access permissions on the
+    // GPIO sysfs files enabling those files to be accessed without root
+    // privileges. This takes a while so wait for it to happen.
+    let permissionRequiredPaths = [
+      this._gpioPath + 'value',
+    ];
+
+    const configureGpio = (ignoreErrors) => {
+      try {
+        if (typeof options.activeLow === 'boolean') {
+          fs.writeFileSync(
+            this._gpioPath + 'active_low',
+            options.activeLow ? HIGH_BUF : LOW_BUF
+          );
+        }
+      } catch (err) {
+        if (!ignoreErrors) throw err;
+      }
+
+      try {
+        const reconfigureDirection =
+          typeof options.reconfigureDirection === 'boolean' ? options.reconfigureDirection : true;
+
+        if (reconfigureDirection || this.direction() !== direction) {
+          fs.writeFileSync(this._gpioPath + 'direction', direction);
+        }
+      } catch (err) {
+        if (!ignoreErrors) throw err;
+      }
+
+      try {
+        // On some systems writing to the edge file for an output GPIO will
+        // result in an "EIO, i/o error"
+        // https://github.com/fivdi/onoff/issues/87
+        if (edge && direction === 'in') {
+          fs.writeFileSync(this._gpioPath + 'edge', edge);
+        }
+      } catch (err) {
+        if (!ignoreErrors) throw err;
+      }
+    };
+
     if (!fs.existsSync(this._gpioPath)) {
       // The GPIO hasn't been exported yet so export it
       fs.writeFileSync(GPIO_ROOT_PATH + 'export', this._gpio);
 
-      // Avoid the access permission issue described here:
-      // https://github.com/raspberrypi/linux/issues/553
-      // On some syetems udev rules are used to set access permissions on the
-      // GPIO sysfs files enabling those files to be accessed without root
-      // privileges. This takes a while so wait for it to happen.
-      let permissionRequiredPaths = [
-        this._gpioPath + 'direction',
-        this._gpioPath + 'active_low',
-        this._gpioPath + 'value',
-      ];
+      permissionRequiredPaths.push(this._gpioPath + 'direction');
+      permissionRequiredPaths.push(this._gpioPath + 'active_low');
 
       // On some systems the edge file will not exist if the GPIO does not
       // support interrupts
@@ -72,22 +108,10 @@ class Gpio {
 
       waitForAccessPermission(permissionRequiredPaths);
 
-      if (typeof options.activeLow === 'boolean') {
-        fs.writeFileSync(
-          this._gpioPath + 'active_low',
-          options.activeLow ? HIGH_BUF : LOW_BUF
-        );
-      }
-
-      fs.writeFileSync(this._gpioPath + 'direction', direction);
-
-      // On some systems writing to the edge file for an output GPIO will
-      // result in an "EIO, i/o error"
-      // https://github.com/fivdi/onoff/issues/87
-      if (edge && direction === 'in') {
-        fs.writeFileSync(this._gpioPath + 'edge', edge);
-      }
+      configureGpio(false);
     } else {
+      waitForAccessPermission(permissionRequiredPaths);
+
       // The GPIO has already been exported, perhaps by onoff itself, perhaps
       // by quick2wire gpio-admin on the Pi, perhaps by the WiringPi gpio
       // utility on the Pi, or perhaps by something else. In any case, an
@@ -100,35 +124,7 @@ class Gpio {
       // gpio utility can set both direction and edge. If there are any
       // errors while attempting to perform the modifications, just keep on
       // truckin'.
-      try {
-        if (typeof options.activeLow === 'boolean') {
-          fs.writeFileSync(
-            this._gpioPath + 'active_low',
-            options.activeLow ? HIGH_BUF : LOW_BUF
-          );
-        }
-      } catch (ignore) {
-      }
-
-      try {
-        const reconfigureDirection =
-          typeof options.reconfigureDirection === 'boolean' ? options.reconfigureDirection : true;
-
-        if (reconfigureDirection || this.direction() !== direction) {
-          fs.writeFileSync(this._gpioPath + 'direction', direction);
-        }
-      } catch (ignore) {
-      }
-
-      try {
-        // On some systems writing to the edge file for an output GPIO will
-        // result in an "EIO, i/o error"
-        // https://github.com/fivdi/onoff/issues/87
-        if (edge && direction === 'in') {
-          fs.writeFileSync(this._gpioPath + 'edge', edge);
-        }
-      } catch (ignore) {
-      }
+      configureGpio(true);
     }
 
     // Cache fd for performance
@@ -268,7 +264,7 @@ class Gpio {
     let fd;
 
     try {
-      fd = fs.openSync(GPIO_ROOT_PATH + 'export', 'w');
+      fd = fs.openSync(GPIO_ROOT_PATH + 'export', 'r+');
     } catch(e) {
       // e.code === 'ENOENT' / 'EACCES' are most common
       // though any failure to open will also result in a gpio
@@ -288,3 +284,4 @@ Gpio.HIGH = HIGH;
 Gpio.LOW = LOW;
 
 exports.Gpio = Gpio;
+
