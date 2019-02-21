@@ -1,7 +1,7 @@
-Unpublished
-===========
+3.2.8 - Feb 21 2019
+===================
 
-  * prevent EACCES errors from occurring while waiting for file access permission [#128](https://github.com/fivdi/onoff/issues/128)
+  * prevent EACCES errors from occurring while waiting for file access permission [#131](https://github.com/fivdi/onoff/issues/131)
 
 3.2.7 - Feb 17 2019
 ===================
