@@ -25,7 +25,7 @@ const waitForAccessPermission = (paths) => {
         fs.closeSync(fd);
         break;
       } catch (e) {
-        if (tries === 1000) {
+        if (tries === 10000) {
           throw e;
         }
       }

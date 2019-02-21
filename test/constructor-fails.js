@@ -17,13 +17,14 @@ describe('constructor fails', () => {
   });
 
 
-  it('fails to construct', () => {
+  it('fails to construct', function() {
     MockLinux.makeGpioAccessible();
   
     const expected = 'ENOENT';
     let actual;
 
     try {
+      this.timeout(10000);
       const gpio = new Gpio(pin, 'in', 'both');
     } catch (err) {
       actual = err.code;
