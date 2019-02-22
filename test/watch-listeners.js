@@ -9,7 +9,7 @@ mockRequire('epoll', MockEpoll);
 const Gpio = require('../onoff').Gpio;
 
 
-describe('watching', () => {
+describe('watch listeners', () => {
   let gpio;
   let pin;
 

@@ -2,7 +2,6 @@
 .jshintrc
 .nyc_output/
 .travis.yml
-package-lock.json
 coverage/
 node_modules/
 test/
