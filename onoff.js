@@ -129,36 +129,34 @@ class Gpio {
     // Cache fd for performance
     this._valueFd = fs.openSync(this._gpioPath + 'value', 'r+');
 
-    {
-      // A poller is created for both inputs and outputs. A poller isn't
-      // actully needed for an output but the setDirection method can be
-      // invoked to change the direction of a GPIO from output to input and
-      // then a poller may be needed.
-      const pollerEventHandler = (err, fd, events) => {
-        const value = this.readSync();
+    // A poller is created for both inputs and outputs. A poller isn't
+    // actully needed for an output but the setDirection method can be
+    // invoked to change the direction of a GPIO from output to input and
+    // then a poller may be needed.
+    const pollerEventHandler = (err, fd, events) => {
+      const value = this.readSync();
 
-        if ((value === LOW && this._fallingEnabled) ||
-            (value === HIGH && this._risingEnabled)) {
-          this._listeners.slice(0).forEach((callback) => {
-            callback(err, value);
-          });
-        }
-      };
-
-      // Read GPIO value before polling to prevent an initial unauthentic
-      // interrupt
-      this.readSync();
-
-      if (this._debounceTimeout > 0) {
-        const db = debounce(pollerEventHandler, this._debounceTimeout);
-
-        this._poller = new Epoll((err, fd, events) => {
-          this.readSync(); // Clear interrupt
-          db(err, fd, events);
+      if ((value === LOW && this._fallingEnabled) ||
+          (value === HIGH && this._risingEnabled)) {
+        this._listeners.slice(0).forEach((callback) => {
+          callback(err, value);
         });
-      } else {
-        this._poller = new Epoll(pollerEventHandler);
       }
+    };
+
+    // Read GPIO value before polling to prevent an initial unauthentic
+    // interrupt
+    this.readSync();
+
+    if (this._debounceTimeout > 0) {
+      const db = debounce(pollerEventHandler, this._debounceTimeout);
+
+      this._poller = new Epoll((err, fd, events) => {
+        this.readSync(); // Clear interrupt
+        db(err, fd, events);
+      });
+    } else {
+      this._poller = new Epoll(pollerEventHandler);
     }
   }
 

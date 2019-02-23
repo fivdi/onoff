@@ -16,7 +16,7 @@ describe('read', () => {
   beforeEach(() => {
     pin = 4;
     MockLinux.gpio(pin);
-    gpio = new Gpio(pin, 'out');
+    gpio = new Gpio(pin, 'in');
   });
 
 
@@ -38,14 +38,25 @@ describe('read', () => {
     });
   });
 
+  it('reads without callback', (done) => {
+    gpio.read();
+    setTimeout(() => {
+      done();
+    }, 20);
+  });
+
   it('fails', (done) => {
     const expected = 'EBADF';
+
     const valueFd = gpio._valueFd;
     gpio._valueFd = 1e6;
+
     gpio.read((err, value) => {
       gpio._valueFd = valueFd;
+
       const actual = err.code;
       assert.deepEqual(actual, expected);
+
       done();
     });
   });

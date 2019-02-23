@@ -38,6 +38,26 @@ describe('write', () => {
     });
   });
 
+  it('writes high witout callback', (done) => {
+    const expected = 1;
+    gpio.write(expected);
+    setTimeout(() => {
+      const actual = MockLinux.read(pin);
+      assert.deepEqual(actual, expected);
+      done();
+    }, 20);
+  });
+
+  it('writes low witout callback', (done) => {
+    const expected = 0;
+    gpio.write(expected);
+    setTimeout(() => {
+      const actual = MockLinux.read(pin);
+      assert.deepEqual(actual, expected);
+      done();
+    }, 20);
+  });
+
 
   afterEach(() => {
     gpio.unexport();
