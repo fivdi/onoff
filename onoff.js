@@ -178,6 +178,7 @@ class Gpio {
   }
 
   write(value, callback) {
+    callback = callback ? callback : () => {};
     const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
     fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
   }
