@@ -1,4 +1,7 @@
-[![Build Status](https://travis-ci.org/fivdi/onoff.svg?branch=master)](https://travis-ci.org/fivdi/onoff) ![npm version](http://img.shields.io/npm/v/onoff.svg) ![downloads per month](http://img.shields.io/npm/dm/onoff.svg) [![Mentioned in Awesome Node.js](https://awesome.re/mentioned-badge.svg)](https://github.com/sindresorhus/awesome-nodejs)
+[![Build Status](https://travis-ci.org/fivdi/onoff.svg?branch=master)](https://travis-ci.org/fivdi/onoff)
+[![npm Version](http://img.shields.io/npm/v/onoff.svg)](https://www.npmjs.com/package/onoff)
+[![Downloads Per Month](http://img.shields.io/npm/dm/onoff.svg)](https://www.npmjs.com/package/onoff)
+[![Mentioned in Awesome Node.js](https://awesome.re/mentioned-badge.svg)](https://github.com/sindresorhus/awesome-nodejs)
 
 # onoff
 
