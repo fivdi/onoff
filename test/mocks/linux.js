@@ -10,11 +10,19 @@ function gpio(pin) {
       'export': '',
       'unexport': '',
       [name]: {
-        'direction': '',
-        'edge': '',
-        'active_low': '',
-        'value': '',
+        'direction': 'in',
+        'edge': 'none',
+        'active_low': '0',
+        'value': '0'
       }
+    }
+  });
+}
+
+function gpioWithoutPinFiles() {
+  mockFs({
+    '/sys/class/gpio': {
+      'export': ''
     }
   });
 }
@@ -71,6 +79,7 @@ function restore() {
 }
 
 exports.gpio = gpio;
+exports.gpioWithoutPinFiles = gpioWithoutPinFiles;
 exports.makeGpioAccessible = makeGpioAccessible;
 exports.makeGpioInaccessible = makeGpioInaccessible;
 exports.read = read;

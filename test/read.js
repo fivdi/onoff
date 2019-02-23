@@ -23,7 +23,7 @@ describe('read', () => {
   it('reads high', (done) => {
     const expected = 1;
     MockLinux.write(pin, expected);
-    gpio.read((error, actual) => {
+    gpio.read((err, actual) => {
       assert.deepEqual(actual, expected);
       done();
     });
@@ -32,7 +32,19 @@ describe('read', () => {
   it('reads low', (done) => {
     const expected = 0;
     MockLinux.write(pin, expected);
-    gpio.read((error, actual) => {
+    gpio.read((err, actual) => {
+      assert.deepEqual(actual, expected);
+      done();
+    });
+  });
+
+  it('fails', (done) => {
+    const expected = 'EBADF';
+    const valueFd = gpio._valueFd;
+    gpio._valueFd = -1;
+    gpio.read((err, value) => {
+      gpio._valueFd = valueFd;
+      const actual = err.code;
       assert.deepEqual(actual, expected);
       done();
     });

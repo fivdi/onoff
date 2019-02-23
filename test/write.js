@@ -22,7 +22,7 @@ describe('write', () => {
 
   it('writes high', (done) => {
     const expected = 1;
-    gpio.write(expected, (error) => {
+    gpio.write(expected, (err) => {
       const actual = MockLinux.read(pin);
       assert.deepEqual(actual, expected);
       done();
@@ -31,7 +31,7 @@ describe('write', () => {
 
   it('writes low', (done) => {
     const expected = 0;
-    gpio.write(expected, (error) => {
+    gpio.write(expected, (err) => {
       const actual = MockLinux.read(pin);
       assert.deepEqual(actual, expected);
       done();
