@@ -161,15 +161,28 @@ class Gpio {
   }
 
   read(callback) {
-    fs.read(this._valueFd, this._readBuffer, 0, 1, 0, (err, bytes, buf) => {
-      if (typeof callback === 'function') {
-        if (err) {
-          return callback(err);
+    if (callback) {
+      fs.read(this._valueFd, this._readBuffer, 0, 1, 0, (err, bytes, buf) => {
+        if (typeof callback === 'function') {
+          if (err) {
+            return callback(err);
+          }
+  
+          callback(null, buf[0] === HIGH_BUF[0] ? HIGH : LOW);
         }
-
-        callback(null, buf[0] === HIGH_BUF[0] ? HIGH : LOW);
-      }
-    });
+      });
+    } else {
+      return new Promise((resolve, reject) => {
+        fs.read(this._valueFd, this._readBuffer, 0, 1, 0, (err, bytes, buf) => {
+          if (typeof callback === 'function') {
+            if (err)
+              reject(err)
+            else 
+              resolve(buf[0] === HIGH_BUF[0] ? HIGH : LOW);
+          }
+        });
+      })
+    }
   }
 
   readSync() {
@@ -178,9 +191,20 @@ class Gpio {
   }
 
   write(value, callback) {
-    callback = callback ? callback : () => {};
-    const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
-    fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
+    if (callback) {
+      const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
+      fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
+    } else {
+      return new Promise((resolve, reject) => {
+        const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
+        fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, (err) => {
+            if (err)
+              reject(err);
+            else 
+              resolve();
+        });
+      });
+    }
   }
 
   writeSync(value) {
