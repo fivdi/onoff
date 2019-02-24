@@ -10,6 +10,7 @@
   "scripts": {
     "lint": "jshint onoff.js examples/*.js integration-test/*.js",
     "test": "nyc mocha",
+    "coveralls": "nyc --reporter=lcov | coveralls",
     "coverage-report": "nyc report --reporter=html",
     "integration-test": "cd integration-test && ./run-tests && cd .."
   },
@@ -29,6 +30,7 @@
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
+    "coveralls": "^3.0.3",
     "jshint": "^2.10.1",
     "mocha": "^5.2.0",
     "nyc": "^13.2.0",
