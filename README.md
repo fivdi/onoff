@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/fivdi/onoff.svg?branch=master)](https://travis-ci.org/fivdi/onoff)
+[![Coverage Status](https://coveralls.io/repos/github/fivdi/onoff/badge.svg)](https://coveralls.io/github/fivdi/onoff)
 [![npm Version](http://img.shields.io/npm/v/onoff.svg)](https://www.npmjs.com/package/onoff)
 [![Downloads Per Month](http://img.shields.io/npm/dm/onoff.svg)](https://www.npmjs.com/package/onoff)
 [![Mentioned in Awesome Node.js](https://awesome.re/mentioned-badge.svg)](https://github.com/sindresorhus/awesome-nodejs)
