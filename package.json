@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "jshint onoff.js examples/*.js integration-test/*.js",
     "test": "nyc mocha",
-    "coveralls": "nyc --reporter=lcov | coveralls",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "coverage-report": "nyc report --reporter=html",
     "integration-test": "cd integration-test && ./run-tests && cd .."
   },
