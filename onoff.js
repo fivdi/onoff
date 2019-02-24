@@ -176,12 +176,12 @@ class Gpio {
         fs.read(this._valueFd, this._readBuffer, 0, 1, 0, (err, bytes, buf) => {
           if (typeof callback === 'function') {
             if (err)
-              reject(err)
+              reject(err);
             else 
               resolve(buf[0] === HIGH_BUF[0] ? HIGH : LOW);
           }
         });
-      })
+      });
     }
   }
 
