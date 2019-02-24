@@ -55,36 +55,34 @@ describe('write Promise', () => {
     gpio = new Gpio(pin, 'in');
   });
 
-  it('writes high', async () => {
+  it('writes high', () => {
     const expected = 1;
-    await gpio.write(expected);
-    const actual = parseInt(MockLinux.read(pin));
-    return TestHelper.shouldEventuallyEqual(actual, expected);
+    return gpio.write(expected).then(() => {
+      const actual = parseInt(MockLinux.read(pin));
+      return TestHelper.shouldEventuallyEqual(actual, expected);
+    });
   });
 
-  it('writes low', async () => {
+  it('writes low', () => {
     const expected = 0;
-    await gpio.write(expected);
-    const actual = parseInt(MockLinux.read(pin));
-    return TestHelper.shouldEventuallyEqual(actual, expected);
+    return gpio.write(expected).then(() => {
+      const actual = parseInt(MockLinux.read(pin));
+      return TestHelper.shouldEventuallyEqual(actual, expected);
+    });
   });
 
-  it('write fail', async () => {
+  it('write fail',() => {
     const expected = 'EBADF';
-
+    
     const valueFd = gpio._valueFd;
     gpio._valueFd = 1e6;
 
-    try {
-      await gpio.write(1);
-    } catch (err) {
-      gpio._valueFd = valueFd;
-
-      const actual = err.code;
-      return TestHelper.shouldEventuallyEqual(actual, expected);
-    }
-    
-    throw new Error("Failed to test failing case");
+      return gpio.write(1)
+        .catch(err => {
+          gpio._valueFd = valueFd;
+          const actual = err.code;
+          return TestHelper.shouldEventuallyEqual(actual, expected);
+        });
   });
 
   afterEach(() => {
