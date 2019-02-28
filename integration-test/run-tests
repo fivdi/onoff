@@ -1,5 +1,6 @@
 #!/bin/sh
 node blink-led
+node blink-led-promises
 node change-configuration
 node configure-and-check-active-low
 node configure-and-check-active-low-defaults
