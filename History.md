@@ -1,5 +1,5 @@
-Unpublished
-===========
+4.0.0 - Feb 28 2019
+===================
 
   * added Promises to async read/write operations (thank you [@saenglert](https://github.com/saenglert)) - breaking change 
   * update dependencies (mocha@6.0.2, nyc@13.3.0)
