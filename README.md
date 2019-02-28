@@ -248,7 +248,7 @@ are examples of such systems.
 - [callback] - An optional completion callback that gets one argument (err),
 where err is reserved for an error object.
 
-Write GPIO value asynchronously. If no completion callback is specified read
+Write GPIO value asynchronously. If no completion callback is specified write
 returns a Promise that resolves with no value on success or rejects with an
 Error object on failure.
 
