@@ -19,6 +19,7 @@ onoff supports Node.js versions 4, 6, 8, 10 and 11.
    * [Debouncing Buttons](#debouncing-buttons)
    * [Blink an LED Using the Synchronous API](#blink-an-led-using-the-synchronous-api)
    * [Blink an LED Using the Asynchronous API and Completion Callbacks](#blink-an-led-using-the-asynchronous-api-and-completion-callbacks)
+   * [Blink an LED Using the Asynchronous API and Promises](#blink-an-led-using-the-asynchronous-api-and-promises)
  * [API](#api)
  * [How Does onoff Work?](#how-does-onoff-work)
  * [Configuring Pullup and Pulldown Resistors](#configuring-pullup-and-pulldown-resistors)
@@ -127,28 +128,26 @@ process.on('SIGINT', () => {
 
 #### Blink an LED Using the Synchronous API
 
-Blink an LED connected to GPIO17 for 5 seconds using synchronous readSync and
-writeSync methods.
+Blink an LED connected to GPIO17 for 5 seconds using the synchronous readSync
+and writeSync methods.
 
 ```js
-const Gpio = require('onoff').Gpio; // Gpio class
-const led = new Gpio(17, 'out');    // Export GPIO17 as an output
+const Gpio = require('../onoff').Gpio; // Gpio class
+const led = new Gpio(17, 'out');       // Export GPIO17 as an output
 
-// Toggle the state of the LED connected to GPIO17 every 200ms.
-// Here synchronous methods are used. Asynchronous methods are also available.
-const iv = setInterval(() => led.writeSync(led.readSync() ^ 1), 200);
+// Toggle the state of the LED connected to GPIO17 every 200ms
+const iv = setInterval(_ => led.writeSync(led.readSync() ^ 1), 200);
 
-// Stop blinking the LED and turn it off after 5 seconds
-setTimeout(() => {
+// Stop blinking the LED after 5 seconds
+setTimeout(_ => {
   clearInterval(iv); // Stop blinking
-  led.writeSync(0);  // Turn LED off
   led.unexport();    // Unexport GPIO and free resources
 }, 5000);
 ```
 
 #### Blink an LED Using the Asynchronous API and Completion Callbacks
 
-Blink an LED connected to GPIO17 for 5 seconds using asynchronous read and
+Blink an LED connected to GPIO17 for 5 seconds using the asynchronous read and
 write methods and completion callbacks.
 
 ```js
@@ -156,8 +155,7 @@ const Gpio = require('../onoff').Gpio; // Gpio class
 const led = new Gpio(17, 'out');       // Export GPIO17 as an output
 let stopBlinking = false;
 
-// Toggle the state of the LED connected to GPIO17 every 200ms.
-// Here asynchronous methods are used. Synchronous methods are also available.
+// Toggle the state of the LED connected to GPIO17 every 200ms
 const blinkLed = () => {
   if (stopBlinking) {
     return led.unexport();
@@ -168,7 +166,7 @@ const blinkLed = () => {
       throw err;
     }
 
-    led.write(value ^ 1, (err) => { // Asynchronous write
+    led.write(value ^ 1, err => { // Asynchronous write
       if (err) {
         throw err;
       }
@@ -180,7 +178,38 @@ const blinkLed = () => {
 
 blinkLed();
 
-setTimeout(() => stopBlinking = true, 5000);
+// Stop blinking the LED after 5 seconds
+setTimeout(_ => stopBlinking = true, 5000);
+```
+
+#### Blink an LED Using the Asynchronous API and Promises
+
+Blink an LED connected to GPIO17 for 5 seconds using the asynchronous read and
+write methods and Promises.
+
+```js
+const Gpio = require('../onoff').Gpio; // Gpio class
+const led = new Gpio(17, 'out');       // Export GPIO17 as an output
+let stopBlinking = false;
+
+// Toggle the state of the LED connected to GPIO17 every 200ms
+const blinkLed = () => {
+  if (stopBlinking) {
+    return led.unexport();
+  }
+
+  led.read()
+    .then(value => led.write(value ^ 1))
+    .then(_ => setTimeout(blinkLed, 200))
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+blinkLed();
+
+// Stop blinking the LED after 5 seconds
+setTimeout(_ => stopBlinking = true, 5000);
 ```
 
 #### Check accessibility
