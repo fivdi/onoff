@@ -222,10 +222,12 @@ to the onoff Gpio constructor when using pin 11 on the expansion header.
 
 ##### read([callback])
 - [callback] - An optional completion callback that gets two arguments (err,
-value), where err is reserved for an error object and value is the number 0
-or 1 and represents the state of the GPIO. If there is no callback specified function returns a promise which if successfull resolves to the same two values
+value), where err is reserved for an Error object and value is the number 0
+or 1 and represents the state of the GPIO.
 
-Read GPIO value asynchronously.
+Read GPIO value asynchronously. If no completion callback is specified read
+returns a Promise which resolves to the value of the GPIO on success or rejects
+with an Error object on failure.
 
 Note that most systems support readback of GPIOs configured as outputs. The
 read method can therefore be invoked for any GPIO, irrespective of whether it
@@ -244,9 +246,11 @@ are examples of such systems.
 ##### write(value[, callback])
 - value - The number 0 or 1.
 - [callback] - An optional completion callback that gets one argument (err),
-where err is reserved for an error object. If no callback is provided the function returns a promise that resolves with no return value.
+where err is reserved for an error object.
 
-Write GPIO value asynchronously.
+Write GPIO value asynchronously. If no completion callback is specified read
+returns a Promise that resolves with no value on success or rejects with an
+Error object on failure.
 
 ##### writeSync(value)
 - value - The number 0 or 1.

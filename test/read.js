@@ -92,13 +92,12 @@ describe('read Promise', () => {
     const valueFd = gpio._valueFd;
     gpio._valueFd = 1e6;
 
-    
-      return gpio.read().catch(err => {
-        gpio._valueFd = valueFd;
+    return gpio.read().catch((err) => {
+      gpio._valueFd = valueFd;
 
-        const actual = err.code;
-        return TestHelper.shouldEventuallyEqual(actual, expected);
-      });
+      const actual = err.code;
+      return TestHelper.shouldEventuallyEqual(actual, expected);
+    });
   });
 
   afterEach(() => {
@@ -106,3 +105,4 @@ describe('read Promise', () => {
     MockLinux.restore();
   });
 });
+

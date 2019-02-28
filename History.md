@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * added Promises to async read/write operations
+
 3.2.9 - Feb 24 2019
 ===================
 

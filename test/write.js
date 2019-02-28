@@ -77,12 +77,12 @@ describe('write Promise', () => {
     const valueFd = gpio._valueFd;
     gpio._valueFd = 1e6;
 
-      return gpio.write(1)
-        .catch(err => {
-          gpio._valueFd = valueFd;
-          const actual = err.code;
-          return TestHelper.shouldEventuallyEqual(actual, expected);
-        });
+    return gpio.write(1)
+      .catch((err) => {
+        gpio._valueFd = valueFd;
+        const actual = err.code;
+        return TestHelper.shouldEventuallyEqual(actual, expected);
+      });
   });
 
   afterEach(() => {
@@ -90,3 +90,4 @@ describe('write Promise', () => {
     MockLinux.restore();
   });
 });
+
