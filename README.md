@@ -223,7 +223,7 @@ to the onoff Gpio constructor when using pin 11 on the expansion header.
 ##### read([callback])
 - [callback] - An optional completion callback that gets two arguments (err,
 value), where err is reserved for an error object and value is the number 0
-or 1 and represents the state of the GPIO.
+or 1 and represents the state of the GPIO. If there is no callback specified function returns a promise which if successfull resolves to the same two values
 
 Read GPIO value asynchronously.
 
@@ -244,7 +244,7 @@ are examples of such systems.
 ##### write(value[, callback])
 - value - The number 0 or 1.
 - [callback] - An optional completion callback that gets one argument (err),
-where err is reserved for an error object.
+where err is reserved for an error object. If no callback is provided the function returns a promise that resolves with no return value.
 
 Write GPIO value asynchronously.
 
