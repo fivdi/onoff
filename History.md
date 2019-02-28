@@ -1,7 +1,7 @@
 Unpublished
 ===========
 
-  * added Promises to async read/write operations (thank you [@saenglert](https://github.com/saenglert))
+  * added Promises to async read/write operations (thank you [@saenglert](https://github.com/saenglert)) - breaking change 
   * update dependencies (mocha@6.0.2, nyc@13.3.0)
 
 3.2.9 - Feb 24 2019
