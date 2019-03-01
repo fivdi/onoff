@@ -210,9 +210,7 @@ const blinkLed = () => {
   led.read()
     .then(value => led.write(value ^ 1))
     .then(_ => setTimeout(blinkLed, 200))
-    .catch(err => {
-      console.log(err);
-    });
+    .catch(err => console.log(err));
 };
 
 blinkLed();
