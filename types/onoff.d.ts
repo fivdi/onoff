@@ -1,5 +1,3 @@
-import { watch, unwatchFile } from "fs";
-
 
 declare type Directions = "in" | "out";
 declare type Edges = "none" | "rising" | "falling" | "both";
