@@ -10,7 +10,7 @@ export type Options = {
 }
 
 export type BinaryValue = High | Low;
-export type ValueCallback = (err: Error | undefined, value: BinaryValue) => void;
+export type ValueCallback = (err: Error | null | undefined, value: BinaryValue) => void;
 
 export class Gpio {
     static HIGH: High;
@@ -24,7 +24,7 @@ export class Gpio {
 
     readSync(): BinaryValue;
 
-    write(value: BinaryValue, callback: (err: Error | undefined) => void): void;
+    write(value: BinaryValue, callback: (err: Error | null | undefined) => void): void;
     write(value: BinaryValue): Promise<void>;
 
     writeSync(value: BinaryValue): void;
