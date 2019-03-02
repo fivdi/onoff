@@ -15,6 +15,13 @@
     "coverage-report": "nyc report --reporter=html",
     "integration-test": "cd integration-test && ./run-tests && cd .."
   },
+  "mocha": {
+    "extension": [
+      "js",
+      "ts"
+    ],
+    "require": "ts-node/register"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/fivdi/onoff.git"
@@ -31,12 +38,16 @@
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
+    "@types/mocha": "^5.2.6",
+    "@types/mock-require": "^2.0.0",
     "coveralls": "^3.0.3",
     "jshint": "^2.10.1",
     "mocha": "^6.0.2",
-    "nyc": "^13.3.0",
     "mock-fs": "^4.8.0",
-    "mock-require": "^3.0.3"
+    "mock-require": "^3.0.3",
+    "nyc": "^13.3.0",
+    "ts-node": "^8.0.2",
+    "typescript": "^3.3.3333"
   },
   "keywords": [
     "gpio",
