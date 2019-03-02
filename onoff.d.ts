@@ -1,7 +1,7 @@
 
 export class Gpio {
-    static HIGH: number;
-    static LOW: number;
+    static HIGH: High;
+    static LOW: Low;
     static accessible: boolean;
 
     constructor(gpio: number, direction: Directions, edge?: Edges, options?: Options);
@@ -39,6 +39,8 @@ export type Options = {
     activeLow?: boolean,
     reconfigureDirection?: boolean,
 }
-export type BinaryValue = 0 | 1;
+export type High = 1;
+export type Low = 0;
+export type BinaryValue = High | Low;
 export type ValueCallback = (err: Error | undefined, value: BinaryValue) => void;
 
