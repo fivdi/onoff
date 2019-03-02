@@ -1,3 +1,16 @@
+export type High = 1;
+export type Low = 0;
+export type Directions = "in" | "out" | "high" | "low";
+export type Edges = "none" | "rising" | "falling" | "both";
+
+export type Options = {
+    debounceTimeout?: number,
+    activeLow?: boolean,
+    reconfigureDirection?: boolean,
+}
+
+export type BinaryValue = High | Low;
+export type ValueCallback = (err: Error | undefined, value: BinaryValue) => void;
 
 export class Gpio {
     static HIGH: High;
@@ -31,16 +44,3 @@ export class Gpio {
 
     unexport(): void
 }
-
-export type Directions = "in" | "out" | "high" | "low";
-export type Edges = "none" | "rising" | "falling" | "both";
-export type Options = {
-    debounceTimeout?: number,
-    activeLow?: boolean,
-    reconfigureDirection?: boolean,
-}
-export type High = 1;
-export type Low = 0;
-export type BinaryValue = High | Low;
-export type ValueCallback = (err: Error | undefined, value: BinaryValue) => void;
-
