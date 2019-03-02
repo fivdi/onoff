@@ -409,7 +409,7 @@ to the GPIO are inverted.
 - invert - A boolean value specifying whether the values read from or written
 to the GPIO should be inverted. The interrupt generating edge for the GPIO also
 follow this this setting. The valid values for invert are true and false.
-Setting activeLow to true inverts. Optional, the default value is false.
+Setting activeLow to true inverts.
 
 Set GPIO activeLow setting.
 
