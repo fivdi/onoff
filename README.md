@@ -30,6 +30,10 @@ onoff supports Node.js versions 4, 6, 8, 10 and 11.
 
 ## News & Updates
 
+### March 2019: onoff v4.1.0
+
+onoff v4.1.0 adds type definitions for TypeScript.
+
 ### February 2019: onoff v4.0.0
 
 onoff v4.0.0 adds support for Promises to the asynchronous read and write

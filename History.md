@@ -1,3 +1,8 @@
+4.1.0 - Mar 03 2019
+===================
+
+  * add type definitions for TypeScript (thank you [@saenglert](https://github.com/saenglert))
+
 4.0.0 - Feb 28 2019
 ===================
 
