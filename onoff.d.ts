@@ -1,7 +1,7 @@
 export type High = 1;
 export type Low = 0;
-export type Directions = "in" | "out" | "high" | "low";
-export type Edges = "none" | "rising" | "falling" | "both";
+export type Direction = "in" | "out" | "high" | "low";
+export type Edge = "none" | "rising" | "falling" | "both";
 
 export type Options = {
     debounceTimeout?: number,
@@ -17,7 +17,7 @@ export class Gpio {
     static LOW: Low;
     static accessible: boolean;
 
-    constructor(gpio: number, direction: Directions, edge?: Edges, options?: Options);
+    constructor(gpio: number, direction: Direction, edge?: Edge, options?: Options);
 
     read(callback: ValueCallback): void;
     read(): Promise<BinaryValue>;
@@ -33,11 +33,11 @@ export class Gpio {
     unwatch(callback?: ValueCallback): void;
     unwatchAll(): void;
 
-    direction(): Directions;
-    setDirection(direction: Directions): void;
+    direction(): Direction;
+    setDirection(direction: Direction): void;
 
-    edge(): Edges;
-    setEdge(edge: Edges): void;
+    edge(): Edge;
+    setEdge(edge: Edge): void;
 
     activeLow(): boolean;
     setActiveLow(invert: boolean): void;
