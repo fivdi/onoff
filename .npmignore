@@ -5,4 +5,5 @@
 coverage/
 node_modules/
 test/
+tsconfig.json
 

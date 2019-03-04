@@ -34,7 +34,7 @@
     "node": ">=4.0.0"
   },
   "dependencies": {
-    "epoll": "^2.0.7",
+    "epoll": "^2.0.8",
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
