@@ -46,6 +46,9 @@ can now return Promises in scenarios where undefined was previously returned.
 npm install onoff
 ```
 
+Note that although it's possible to install onoff on non-Linux systems the
+functionality offered by onoff is only available on Linux systems.
+
 ## Usage
 
 #### LEDs and Buttons
@@ -455,12 +458,6 @@ be written. Some systems will also allow the state of a output to be read.
 The GPIO sysfs interface can also be used for interrupt detection. onoff can
 detect several thousand interrupts per second on both the BeagleBone and the
 Raspberry Pi.
-
-Note that the [epoll package](https://github.com/fivdi/epoll) is currently
-only supported on Linux. Attempting to use onoff on non-Linux systems will
-result in runtime errors similar to:
-
-`Error: Module did not self-register.`
 
 
 ## Configuring Pullup and Pulldown Resistors
