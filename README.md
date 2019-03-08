@@ -139,6 +139,7 @@ button.watch((err, value) => {
 process.on('SIGINT', () => {
   led.unexport();
   button.unexport();
+  process.exit(1)
 });
 ```
 
