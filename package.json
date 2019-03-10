@@ -9,7 +9,7 @@
     "test": "test"
   },
   "scripts": {
-    "lint": "jshint onoff.js examples/*.js integration-test/*.js",
+    "lint": "jshint onoff.js examples/*.js integration-test/*.js test/*.js test/*/*.js",
     "test": "nyc mocha",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "coverage-report": "nyc report --reporter=html",

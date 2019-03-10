@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const Gpio = require('../onoff').Gpio; // Gpio class
 const led = new Gpio(17, 'out');       // Export GPIO17 as an output

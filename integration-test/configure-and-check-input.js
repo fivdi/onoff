@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const Gpio = require('../onoff').Gpio;
 const assert = require('assert');

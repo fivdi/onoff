@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 // Test for https://github.com/fivdi/onoff/issues/87
 //

@@ -1,5 +1,19 @@
 {
+  "curly": true,
   "esversion": 6,
-  "node": true
+  "eqeqeq": true,
+  "latedef": false,
+  "noarg": true,
+  "node": true,
+  "quotmark": "single",
+  "strict": "global",
+  "undef": true,
+  "varstmt": true,
+  "globals": {
+    "afterEach": false,
+    "beforeEach": false,
+    "describe": false,
+    "it": false
+  }
 }
 

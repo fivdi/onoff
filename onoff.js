@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 const fs = require('fs');
 const debounce = require('lodash.debounce');
@@ -41,7 +41,9 @@ class Gpio {
           this.setActiveLow(options.activeLow);
         }
       } catch (err) {
-        if (!ignoreErrors) throw err;
+        if (!ignoreErrors) {
+          throw err;
+        }
       }
 
       try {
@@ -54,7 +56,9 @@ class Gpio {
           this.setDirection(direction);
         }
       } catch (err) {
-        if (!ignoreErrors) throw err;
+        if (!ignoreErrors) {
+          throw err;
+        }
       }
 
       try {
@@ -65,7 +69,9 @@ class Gpio {
           this.setEdge(edge);
         }
       } catch (err) {
-        if (!ignoreErrors) throw err;
+        if (!ignoreErrors) {
+          throw err;
+        }
       }
     };
 
