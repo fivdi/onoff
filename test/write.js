@@ -4,7 +4,7 @@ const assert = require('assert');
 const MockLinux = require('./mocks/linux');
 const mockRequire = require('mock-require');
 const MockEpoll = require('./mocks/epoll');
-const TestHelper = require('./utils/test-promise')
+const TestHelper = require('./utils/test-promise');
 
 mockRequire('epoll', MockEpoll);
 const Gpio = require('../onoff').Gpio;

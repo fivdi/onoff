@@ -18,14 +18,14 @@ describe('watch listeners', () => {
       throw err;
     }
     console.log(`listener1: value is ${value}`);
-  }
+  };
 
   const listener2 = (err, value) => {
     if (err) {
       throw err;
     }
     console.log(`listener2: value is ${value}`);
-  }
+  };
 
   beforeEach(() => {
     pin = 4;

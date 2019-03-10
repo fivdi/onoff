@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 /*
  * In this test, GPIO7 is connected to one end of a 1kΩ current limiting

@@ -15,7 +15,7 @@ class Epoll {
   }
 
   remove(fd) {
-    if (this._timeout != null) {
+    if (this._timeout !== null) {
       clearTimeout(this._timeout);
     }
   }
