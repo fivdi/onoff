@@ -36,14 +36,18 @@ const waitForAccessPermission = (paths) => {
 class Gpio {
   constructor(gpio, direction, edge, options) {
     const configureGpio = (ignoreErrors) => {
+      const throwIfNeeded = (err) => {
+        if (!ignoreErrors) {
+          throw err;
+        }
+      };
+
       try {
         if (typeof options.activeLow === 'boolean') {
           this.setActiveLow(options.activeLow);
         }
       } catch (err) {
-        if (!ignoreErrors) {
-          throw err;
-        }
+        throwIfNeeded(err);
       }
 
       try {
@@ -56,9 +60,7 @@ class Gpio {
           this.setDirection(direction);
         }
       } catch (err) {
-        if (!ignoreErrors) {
-          throw err;
-        }
+        throwIfNeeded(err);
       }
 
       try {
@@ -69,9 +71,7 @@ class Gpio {
           this.setEdge(edge);
         }
       } catch (err) {
-        if (!ignoreErrors) {
-          throw err;
-        }
+        throwIfNeeded(err);
       }
     };
 
@@ -86,6 +86,7 @@ class Gpio {
     this._gpioPath = GPIO_ROOT_PATH + 'gpio' + this._gpio + '/';
     this._debounceTimeout = options.debounceTimeout || 0;
     this._readBuffer = Buffer.alloc(16);
+    this._readSyncBuffer = Buffer.alloc(16);
     this._listeners = [];
 
     // Avoid the access permission issue described here:
@@ -191,8 +192,8 @@ class Gpio {
   }
 
   readSync() {
-    fs.readSync(this._valueFd, this._readBuffer, 0, 1, 0);
-    return this._readBuffer[0] === HIGH_BUF[0] ? HIGH : LOW;
+    fs.readSync(this._valueFd, this._readSyncBuffer, 0, 1, 0);
+    return this._readSyncBuffer[0] === HIGH_BUF[0] ? HIGH : LOW;
   }
 
   write(value, callback) {
