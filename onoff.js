@@ -36,14 +36,18 @@ const waitForAccessPermission = (paths) => {
 class Gpio {
   constructor(gpio, direction, edge, options) {
     const configureGpio = (ignoreErrors) => {
+      const throwIfNeeded = (err) => {
+        if (!ignoreErrors) {
+          throw err;
+        }
+      };
+
       try {
         if (typeof options.activeLow === 'boolean') {
           this.setActiveLow(options.activeLow);
         }
       } catch (err) {
-        if (!ignoreErrors) {
-          throw err;
-        }
+        throwIfNeeded(err);
       }
 
       try {
@@ -56,9 +60,7 @@ class Gpio {
           this.setDirection(direction);
         }
       } catch (err) {
-        if (!ignoreErrors) {
-          throw err;
-        }
+        throwIfNeeded(err);
       }
 
       try {
@@ -69,9 +71,7 @@ class Gpio {
           this.setEdge(edge);
         }
       } catch (err) {
-        if (!ignoreErrors) {
-          throw err;
-        }
+        throwIfNeeded(err);
       }
     };
 
@@ -86,16 +86,14 @@ class Gpio {
     this._gpioPath = GPIO_ROOT_PATH + 'gpio' + this._gpio + '/';
     this._debounceTimeout = options.debounceTimeout || 0;
     this._readBuffer = Buffer.alloc(16);
+    this._readSyncBuffer = Buffer.alloc(16);
     this._listeners = [];
 
-    // Avoid the access permission issue described here:
-    // https://github.com/raspberrypi/linux/issues/553
-    // On some syetems udev rules are used to set access permissions on the
-    // GPIO sysfs files enabling those files to be accessed without root
-    // privileges. This takes a while so wait for it to happen.
     let permissionRequiredPaths = [
       this._gpioPath + 'value',
     ];
+
+    let ignoreConfigurationErrors = false;
 
     if (!fs.existsSync(this._gpioPath)) {
       // The GPIO hasn't been exported yet so export it
@@ -110,13 +108,7 @@ class Gpio {
       if (edge && direction === 'in') {
         permissionRequiredPaths.push(this._gpioPath + 'edge');
       }
-
-      waitForAccessPermission(permissionRequiredPaths);
-
-      configureGpio(false);
     } else {
-      waitForAccessPermission(permissionRequiredPaths);
-
       // The GPIO has already been exported, perhaps by onoff itself, perhaps
       // by quick2wire gpio-admin on the Pi, perhaps by the WiringPi gpio
       // utility on the Pi, or perhaps by something else. In any case, an
@@ -129,8 +121,17 @@ class Gpio {
       // gpio utility can set both direction and edge. If there are any
       // errors while attempting to perform the modifications, just keep on
       // truckin'.
-      configureGpio(true);
+      ignoreConfigurationErrors = true;
     }
+
+    // Avoid the access permission issue described here:
+    // https://github.com/raspberrypi/linux/issues/553
+    // On some syetems udev rules are used to set access permissions on the
+    // GPIO sysfs files enabling those files to be accessed without root
+    // privileges. This takes a while so wait for it to happen.
+    waitForAccessPermission(permissionRequiredPaths);
+
+    configureGpio(ignoreConfigurationErrors);
 
     // Cache fd for performance
     this._valueFd = fs.openSync(this._gpioPath + 'value', 'r+');
@@ -191,8 +192,8 @@ class Gpio {
   }
 
   readSync() {
-    fs.readSync(this._valueFd, this._readBuffer, 0, 1, 0);
-    return this._readBuffer[0] === HIGH_BUF[0] ? HIGH : LOW;
+    fs.readSync(this._valueFd, this._readSyncBuffer, 0, 1, 0);
+    return this._readSyncBuffer[0] === HIGH_BUF[0] ? HIGH : LOW;
   }
 
   write(value, callback) {
