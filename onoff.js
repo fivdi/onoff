@@ -6,16 +6,60 @@ const Epoll = require('epoll').Epoll;
 
 const GPIO_ROOT_PATH = '/sys/class/gpio/';
 
-// fs reads and writes use Buffers
 const HIGH_BUF = Buffer.from('1');
 const LOW_BUF = Buffer.from('0');
 
-// lib returns numeric data and expects numeric data as arguments
 const HIGH = 1;
 const LOW = 0;
 
-const waitForAccessPermission = (paths) => {
-  paths.forEach((path) => {
+const exportGpio = (gpio) => {
+  if (!fs.existsSync(gpio._gpioPath)) {
+    // The GPIO hasn't been exported yet so export it
+    fs.writeFileSync(GPIO_ROOT_PATH + 'export', gpio._gpio);
+
+    return false;
+  }
+
+  // The GPIO has already been exported, perhaps by onoff itself, perhaps
+  // by quick2wire gpio-admin on the Pi, perhaps by the WiringPi gpio
+  // utility on the Pi, or perhaps by something else. In any case, an
+  // attempt is made to set the direction and edge to the requested
+  // values here. If quick2wire gpio-admin was used for the export, the
+  // user should have access to both direction and edge files. This is
+  // important as gpio-admin sets niether direction nor edge. If the
+  // WiringPi gpio utility was used, the user should have access to edge
+  // file, but not the direction file. This is also ok as the WiringPi
+  // gpio utility can set both direction and edge. If there are any
+  // errors while attempting to perform the modifications, just keep on
+  // truckin'.
+  return true;
+};
+
+// Avoid the access permission issue described here:
+// https://github.com/raspberrypi/linux/issues/553
+// On some syetems udev rules are used to set access permissions on the GPIO
+// sysfs files enabling those files to be accessed without root privileges.
+// This takes a while so wait for it to complete.
+const waitForGpioAccessPermission = (
+  gpio, direction, edge, gpioPreviouslyExported
+) => {
+  let permissionRequiredPaths = [
+    gpio._gpioPath + 'value',
+  ];
+
+  if (gpioPreviouslyExported === false) {
+    permissionRequiredPaths.push(gpio._gpioPath + 'direction');
+    permissionRequiredPaths.push(gpio._gpioPath + 'active_low');
+
+    // On some systems the edge file will not exist if the GPIO does not
+    // support interrupts
+    // https://github.com/fivdi/onoff/issues/77#issuecomment-321980735
+    if (edge && direction === 'in') {
+      permissionRequiredPaths.push(gpio._gpioPath + 'edge');
+    }
+  }
+
+  permissionRequiredPaths.forEach((path) => {
     let tries = 0;
 
     while (true) {
@@ -33,48 +77,84 @@ const waitForAccessPermission = (paths) => {
   });
 };
 
+const configureGpio = (
+  gpio, direction, edge, options, gpioPreviouslyExported
+) => {
+  const throwIfNeeded = (err) => {
+    if (gpioPreviouslyExported === false) {
+      throw err;
+    }
+  };
+
+  try {
+    if (typeof options.activeLow === 'boolean') {
+      gpio.setActiveLow(options.activeLow);
+    }
+  } catch (err) {
+    throwIfNeeded(err);
+  }
+
+  try {
+    const reconfigureDirection =
+      typeof options.reconfigureDirection === 'boolean' ?
+        options.reconfigureDirection : true;
+
+    const requestedDirection =
+      direction === 'high' || direction === 'low' ? 'out' : direction;
+
+    if (reconfigureDirection || gpio.direction() !== requestedDirection) {
+      gpio.setDirection(direction);
+    }
+  } catch (err) {
+    throwIfNeeded(err);
+  }
+
+  try {
+    // On some systems writing to the edge file for an output GPIO will
+    // result in an "EIO, i/o error"
+    // https://github.com/fivdi/onoff/issues/87
+    if (edge && direction === 'in') {
+      gpio.setEdge(edge);
+    }
+  } catch (err) {
+    throwIfNeeded(err);
+  }
+};
+
+const configureInterruptHandler = (gpio) => {
+  // A poller is created for both inputs and outputs. A poller isn't
+  // actully needed for an output but the setDirection method can be
+  // invoked to change the direction of a GPIO from output to input and
+  // then a poller may be needed.
+  const pollerEventHandler = (err, fd, events) => {
+    const value = gpio.readSync();
+
+    if ((value === LOW && gpio._fallingEnabled) ||
+        (value === HIGH && gpio._risingEnabled)) {
+      gpio._listeners.slice(0).forEach((callback) => {
+        callback(err, value);
+      });
+    }
+  };
+
+  // Read GPIO value before polling to prevent an initial unauthentic
+  // interrupt
+  gpio.readSync();
+
+  if (gpio._debounceTimeout > 0) {
+    const db = debounce(pollerEventHandler, gpio._debounceTimeout);
+
+    gpio._poller = new Epoll((err, fd, events) => {
+      gpio.readSync(); // Clear interrupt
+      db(err, fd, events);
+    });
+  } else {
+    gpio._poller = new Epoll(pollerEventHandler);
+  }
+};
+
 class Gpio {
   constructor(gpio, direction, edge, options) {
-    const configureGpio = (ignoreErrors) => {
-      const throwIfNeeded = (err) => {
-        if (!ignoreErrors) {
-          throw err;
-        }
-      };
-
-      try {
-        if (typeof options.activeLow === 'boolean') {
-          this.setActiveLow(options.activeLow);
-        }
-      } catch (err) {
-        throwIfNeeded(err);
-      }
-
-      try {
-        const reconfigureDirection =
-          typeof options.reconfigureDirection === 'boolean' ? options.reconfigureDirection : true;
-        const requestedDirection =
-          direction === 'high' || direction === 'low' ? 'out' : direction;
-
-        if (reconfigureDirection || this.direction() !== requestedDirection) {
-          this.setDirection(direction);
-        }
-      } catch (err) {
-        throwIfNeeded(err);
-      }
-
-      try {
-        // On some systems writing to the edge file for an output GPIO will
-        // result in an "EIO, i/o error"
-        // https://github.com/fivdi/onoff/issues/87
-        if (edge && direction === 'in') {
-          this.setEdge(edge);
-        }
-      } catch (err) {
-        throwIfNeeded(err);
-      }
-    };
-
     if (typeof edge === 'object' && !options) {
       options = edge;
       edge = undefined;
@@ -89,82 +169,17 @@ class Gpio {
     this._readSyncBuffer = Buffer.alloc(16);
     this._listeners = [];
 
-    let permissionRequiredPaths = [
-      this._gpioPath + 'value',
-    ];
+    const gpioPreviouslyExported = exportGpio(this);
 
-    let ignoreConfigurationErrors = false;
+    waitForGpioAccessPermission(
+      this, direction, edge, gpioPreviouslyExported
+    );
 
-    if (!fs.existsSync(this._gpioPath)) {
-      // The GPIO hasn't been exported yet so export it
-      fs.writeFileSync(GPIO_ROOT_PATH + 'export', this._gpio);
+    configureGpio(this, direction, edge, options, gpioPreviouslyExported);
 
-      permissionRequiredPaths.push(this._gpioPath + 'direction');
-      permissionRequiredPaths.push(this._gpioPath + 'active_low');
-
-      // On some systems the edge file will not exist if the GPIO does not
-      // support interrupts
-      // https://github.com/fivdi/onoff/issues/77#issuecomment-321980735
-      if (edge && direction === 'in') {
-        permissionRequiredPaths.push(this._gpioPath + 'edge');
-      }
-    } else {
-      // The GPIO has already been exported, perhaps by onoff itself, perhaps
-      // by quick2wire gpio-admin on the Pi, perhaps by the WiringPi gpio
-      // utility on the Pi, or perhaps by something else. In any case, an
-      // attempt is made to set the direction and edge to the requested
-      // values here. If quick2wire gpio-admin was used for the export, the
-      // user should have access to both direction and edge files. This is
-      // important as gpio-admin sets niether direction nor edge. If the
-      // WiringPi gpio utility was used, the user should have access to edge
-      // file, but not the direction file. This is also ok as the WiringPi
-      // gpio utility can set both direction and edge. If there are any
-      // errors while attempting to perform the modifications, just keep on
-      // truckin'.
-      ignoreConfigurationErrors = true;
-    }
-
-    // Avoid the access permission issue described here:
-    // https://github.com/raspberrypi/linux/issues/553
-    // On some syetems udev rules are used to set access permissions on the
-    // GPIO sysfs files enabling those files to be accessed without root
-    // privileges. This takes a while so wait for it to happen.
-    waitForAccessPermission(permissionRequiredPaths);
-
-    configureGpio(ignoreConfigurationErrors);
-
-    // Cache fd for performance
     this._valueFd = fs.openSync(this._gpioPath + 'value', 'r+');
 
-    // A poller is created for both inputs and outputs. A poller isn't
-    // actully needed for an output but the setDirection method can be
-    // invoked to change the direction of a GPIO from output to input and
-    // then a poller may be needed.
-    const pollerEventHandler = (err, fd, events) => {
-      const value = this.readSync();
-
-      if ((value === LOW && this._fallingEnabled) ||
-          (value === HIGH && this._risingEnabled)) {
-        this._listeners.slice(0).forEach((callback) => {
-          callback(err, value);
-        });
-      }
-    };
-
-    // Read GPIO value before polling to prevent an initial unauthentic
-    // interrupt
-    this.readSync();
-
-    if (this._debounceTimeout > 0) {
-      const db = debounce(pollerEventHandler, this._debounceTimeout);
-
-      this._poller = new Epoll((err, fd, events) => {
-        this.readSync(); // Clear interrupt
-        db(err, fd, events);
-      });
-    } else {
-      this._poller = new Epoll(pollerEventHandler);
-    }
+    configureInterruptHandler(this);
   }
 
   read(callback) {
