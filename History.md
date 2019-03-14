@@ -1,7 +1,8 @@
 Unpublished
 ===========
 
-  * update dependencies (epoll v2.0.8)
+  * simplify constructor
+  * update dependencies (epoll v2.0.9, jshint v2.10.2, ts-node v8.0.3)
 
 4.1.0 - Mar 03 2019
 ===================
