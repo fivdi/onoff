@@ -324,5 +324,5 @@ class Gpio {
 Gpio.HIGH = HIGH;
 Gpio.LOW = LOW;
 
-exports.Gpio = Gpio;
+module.exports.Gpio = Gpio;
 
