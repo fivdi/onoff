@@ -572,7 +572,7 @@ how GPIO interfaces are made available on that board. The
 [GPIO interfaces](https://www.kernel.org/doc/Documentation/gpio/)
 documentation describes GPIO access conventions rather than standards that must
 be followed so GPIO can vary from platform to platform. For example, onoff
-relies on sysfs files located at /sys/classes/gpio being available. However,
+relies on sysfs files located at /sys/class/gpio being available. However,
 these sysfs files for userspace GPIO are optional and may not be available on a
 particular platform.
 
