@@ -3,17 +3,17 @@
 export class Epoll {
   static get EPOLLPRI(): number { return 2; }
 
-  _callback: any;
+  private callback: any;
   private timeout: any;
 
   constructor(callback: (error: Error | null | undefined, fd: any, events: any) => void) {
-    this._callback = callback;
+    this.callback = callback;
     this.timeout = null;
   }
 
   add(fd: any, events: any) {
     this.timeout = setTimeout(() => {
-      this._callback(null, fd, events);
+      this.callback(null, fd, events);
     }, 10);
   }
 
