@@ -217,10 +217,9 @@ class Gpio {
       fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
     } else {
       return new Promise((resolve, reject) => {
-        const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
-        fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, (err) => {
-          if (err) {
-            reject(err);
+        this.write(value, (error) => {
+          if (error) {
+            reject(error);
           } else {
             resolve();
           }
