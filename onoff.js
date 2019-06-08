@@ -195,9 +195,9 @@ class Gpio {
       });
     } else {
       return new Promise((resolve, reject) => {
-        this.read((error, value) => {
-          if (error) {
-            reject(error);
+        this.read((err, value) => {
+          if (err) {
+            reject(err);
           } else {
             resolve(value);
           }
@@ -217,9 +217,9 @@ class Gpio {
       fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
     } else {
       return new Promise((resolve, reject) => {
-        this.write(value, (error) => {
-          if (error) {
-            reject(error);
+        this.write(value, (err) => {
+          if (err) {
+            reject(err);
           } else {
             resolve();
           }
