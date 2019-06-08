@@ -1,25 +1,25 @@
 'use strict';
 
-class Epoll {
+export class Epoll {
   static get EPOLLPRI() { return 2; }
 
-  constructor(callback) {
+  _callback: any;
+  _timeout: any;
+
+  constructor(callback: any) {
     this._callback = callback;
     this._timeout = null;
   }
 
-  add(fd, events) {
+  add(fd: any, events: any) {
     this._timeout = setTimeout(() => {
       this._callback(null, fd, events);
     }, 10);
   }
 
-  remove(fd) {
+  remove(fd: any) {
     if (this._timeout !== null) {
       clearTimeout(this._timeout);
     }
   }
 }
-
-exports.Epoll = Epoll;
-
