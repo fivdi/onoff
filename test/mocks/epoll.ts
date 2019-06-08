@@ -1,12 +1,12 @@
 'use strict';
 
 export class Epoll {
-  static get EPOLLPRI() { return 2; }
+  static get EPOLLPRI(): number { return 2; }
 
   _callback: any;
   _timeout: any;
 
-  constructor(callback: any) {
+  constructor(callback: (error: Error | null | undefined, fd: any, events: any) => void) {
     this._callback = callback;
     this._timeout = null;
   }
