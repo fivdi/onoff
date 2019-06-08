@@ -213,7 +213,7 @@ class Gpio {
 
   write(value, callback) {
     if (callback) {
-      const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
+      const writeBuffer = convertBitToBuffer(value);
       fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
     } else {
       return new Promise((resolve, reject) => {
@@ -230,7 +230,7 @@ class Gpio {
   }
 
   writeSync(value) {
-    const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
+    const writeBuffer = convertBitToBuffer(value);
     fs.writeSync(this._valueFd, writeBuffer, 0, writeBuffer.length, 0);
   }
 
@@ -320,6 +320,8 @@ class Gpio {
     return true;
   }
 }
+
+const convertBitToBuffer = (bit) => bit === HIGH ? HIGH_BUF : LOW_BUF;
 
 Gpio.HIGH = HIGH;
 Gpio.LOW = LOW;
