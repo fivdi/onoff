@@ -3,11 +3,9 @@
 export class Epoll {
   static get EPOLLPRI(): number { return 2; }
 
-  private callback: any;
   private timeout: any;
 
-  constructor(callback: (error: Error | null | undefined, fd: any, events: any) => void) {
-    this.callback = callback;
+  constructor(private callback: (error: Error | null | undefined, fd: any, events: any) => void) {
     this.timeout = null;
   }
 
