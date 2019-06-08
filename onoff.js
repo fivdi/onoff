@@ -282,8 +282,7 @@ class Gpio {
   }
 
   activeLow() {
-    return fs.readFileSync(
-      this._gpioPath + 'active_low')[0] === HIGH_BUF[0] ? true : false;
+    return convertBufferToBoolean(fs.readFileSync(this._gpioPath + 'active_low'));
   }
 
   setActiveLow(invert) {
@@ -325,6 +324,7 @@ const convertBitToBuffer = (bit) => bit === HIGH ? HIGH_BUF : LOW_BUF;
 const convertBufferToBit = (buffer) => buffer[0] === HIGH_BUF[0] ? HIGH : LOW;
 
 const convertBooleanToBuffer = (boolean) => boolean ? HIGH_BUF : LOW_BUF;
+const convertBufferToBoolean = (buffer) => buffer[0] === HIGH_BUF[0];
 
 Gpio.HIGH = HIGH;
 Gpio.LOW = LOW;
