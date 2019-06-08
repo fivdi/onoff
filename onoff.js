@@ -189,8 +189,8 @@ class Gpio {
           if (err) {
             return callback(err);
           }
-  
-          callback(null, buf[0] === HIGH_BUF[0] ? HIGH : LOW);
+
+          callback(null, convertBufferToBit(buf));
         }
       });
     } else {
@@ -208,7 +208,7 @@ class Gpio {
 
   readSync() {
     fs.readSync(this._valueFd, this._readSyncBuffer, 0, 1, 0);
-    return this._readSyncBuffer[0] === HIGH_BUF[0] ? HIGH : LOW;
+    return convertBufferToBit(this._readSyncBuffer);
   }
 
   write(value, callback) {
@@ -322,6 +322,7 @@ class Gpio {
 }
 
 const convertBitToBuffer = (bit) => bit === HIGH ? HIGH_BUF : LOW_BUF;
+const convertBufferToBit = (buffer) => buffer[0] === HIGH_BUF[0] ? HIGH : LOW;
 
 Gpio.HIGH = HIGH;
 Gpio.LOW = LOW;
