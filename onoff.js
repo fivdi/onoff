@@ -195,11 +195,11 @@ class Gpio {
       });
     } else {
       return new Promise((resolve, reject) => {
-        fs.read(this._valueFd, this._readBuffer, 0, 1, 0, (err, bytes, buf) => {
+        this.read((err, value) => {
           if (err) {
             reject(err);
           } else {
-            resolve(buf[0] === HIGH_BUF[0] ? HIGH : LOW);
+            resolve(value);
           }
         });
       });
@@ -217,8 +217,7 @@ class Gpio {
       fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
     } else {
       return new Promise((resolve, reject) => {
-        const writeBuffer = value === HIGH ? HIGH_BUF : LOW_BUF;
-        fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, (err) => {
+        this.write(value, (err) => {
           if (err) {
             reject(err);
           } else {
