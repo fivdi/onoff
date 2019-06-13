@@ -321,7 +321,7 @@ class Gpio {
 }
 
 const convertBitToBuffer = (bit) => convertBooleanToBuffer(bit === HIGH);
-const convertBufferToBit = (buffer) => buffer[0] === HIGH_BUF[0] ? HIGH : LOW;
+const convertBufferToBit = (buffer) => convertBufferToBoolean(buffer) ? HIGH : LOW;
 
 const convertBooleanToBuffer = (boolean) => boolean ? HIGH_BUF : LOW_BUF;
 const convertBufferToBoolean = (buffer) => buffer[0] === HIGH_BUF[0];
