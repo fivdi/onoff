@@ -123,7 +123,7 @@ const configureGpio = (
 
 const configureInterruptHandler = (gpio) => {
   // A poller is created for both inputs and outputs. A poller isn't
-  // actully needed for an output but the setDirection method can be
+  // actually needed for an output but the setDirection method can be
   // invoked to change the direction of a GPIO from output to input and
   // then a poller may be needed.
   const pollerEventHandler = (err, fd, events) => {
