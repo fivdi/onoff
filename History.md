@@ -1,3 +1,11 @@
+4.1.2 - Jun 16 2019
+===================
+
+  * fix export
+  * refactor promises (thank you [@pizzaisdavid](https://github.com/pizzaisdavid))
+  * update npm keywords
+  * update dependencies
+
 4.1.1 - Mar 14 2019
 ===================
 
