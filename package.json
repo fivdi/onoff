@@ -51,13 +51,14 @@
   },
   "keywords": [
     "gpio",
-    "embedded",
+    "iot",
     "interrupt",
-    "beaglebone",
     "raspberry",
     "raspi",
     "rpi",
     "pi",
+    "beaglebone",
+    "beaglebone-black",
     "linux"
   ],
   "author": "fivdi",
