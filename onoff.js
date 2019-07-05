@@ -183,7 +183,7 @@ class Gpio {
   }
 
   read(callback) {
-    if (callback) {
+    const readValue = (callback) => {
       fs.read(this._valueFd, this._readBuffer, 0, 1, 0, (err, bytes, buf) => {
         if (typeof callback === 'function') {
           if (err) {
@@ -193,9 +193,13 @@ class Gpio {
           callback(null, convertBufferToBit(buf));
         }
       });
+    };
+
+    if (callback) {
+      readValue(callback);
     } else {
       return new Promise((resolve, reject) => {
-        this.read((err, value) => {
+        readValue((err, value) => {
           if (err) {
             reject(err);
           } else {
@@ -212,12 +216,16 @@ class Gpio {
   }
 
   write(value, callback) {
-    if (callback) {
+    const writeValue = (value, callback) => {
       const writeBuffer = convertBitToBuffer(value);
       fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
+    };
+
+    if (callback) {
+      writeValue(value, callback);
     } else {
       return new Promise((resolve, reject) => {
-        this.write(value, (err) => {
+        writeValue(value, (err) => {
           if (err) {
             reject(err);
           } else {

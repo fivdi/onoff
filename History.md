@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * avoid recursion in read and write methods (fixes [#156](https://github.com/fivdi/onoff/issues/156))
+
 4.1.2 - Jun 16 2019
 ===================
 
