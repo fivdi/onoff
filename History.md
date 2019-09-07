@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * update dependencies (epoll v2.0.10, coveralls v3.0.6, mocha v6.2.0, typescript v3.6.2)
+
 4.1.3 - Jul 05 2019
 ===================
 
