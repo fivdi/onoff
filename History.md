@@ -1,5 +1,5 @@
-Unpublished
-===========
+4.1.4 - Sep 07 2019
+===================
 
   * update dependencies (epoll v2.0.10, coveralls v3.0.6, mocha v6.2.0, typescript v3.6.2)
 
