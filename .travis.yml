@@ -4,7 +4,6 @@ node_js:
   - "10"
   - "8"
   - "6"
-  - "4"
 env:
   - CXX=g++-4.8
 addons:
@@ -15,9 +14,7 @@ addons:
       - g++-4.8
 script:
   - npm run lint
-  - NODE_VERSION=$(node -v)
-  - if [[ $NODE_VERSION != v4.* ]]; then npm test; fi
+  - npm test
 after_success:
-  - NODE_VERSION=$(node -v)
-  - if [[ $NODE_VERSION != v4.* ]]; then npm run coveralls; fi
+  - npm run coveralls
 

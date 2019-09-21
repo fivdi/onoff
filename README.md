@@ -9,7 +9,7 @@
 GPIO access and interrupt detection with **Node.js** on Linux boards like the
 Raspberry Pi or BeagleBone.
 
-onoff supports Node.js versions 4, 6, 8, 10 and 12.
+onoff supports Node.js versions 6, 8, 10 and 12.
 
 ## Contents
 
@@ -497,7 +497,6 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
 v8.2.1 | v1.1.4 | 4.9.35-v7+ | 27345 | 318771 | 20094
 v6.11.1 | v1.1.4 | 4.9.35-v7+ | 26010 | 280180 | 19050
-v4.8.4 | v1.1.4 | 4.9.35-v7+ | 27674 | 328949 | 18326
 
 **Raspberry Pi 2, 900Mhz, Raspbian:**
 
@@ -505,7 +504,6 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
 v8.2.1 | v1.1.4 | 4.9.35-v7+ | 12792 | 181829 | 9691
 v6.11.1 | v1.1.4 | 4.9.35-v7+ | 12348 | 167106 | 9215
-v4.8.4 | v1.1.4 | 4.9.35-v7+ | 13643 | 167248 | 8667
 
 **Raspberry Pi 1, 700Mhz, Raspbian:**
 
@@ -513,7 +511,6 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
 v8.2.1 | v1.1.4 | 4.9.35+ | 2738 | 53589 | 2353
 v6.11.1 | v1.1.4 | 4.9.35+ | 2565 | 23111 | 1709
-v4.8.4 | v1.1.4 | 4.9.35+ | 2806 | 33847 | 1590
 
 **BeagleBone Black, 1GHz, Debian 9.2:**
 
@@ -522,7 +519,6 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 v9.2.0 | v1.1.8 | 4.4.91-ti-r133 | 7584 | 105198 | 6820
 v8.2.1 | v1.1.8 | 4.4.91-ti-r133 | 7908 | 113476 | 6544
 v6.11.4 | v1.1.8 | 4.4.91-ti-r133 | 7784 | 100586 | 6079
-v4.8.4 | v1.1.8 | 4.4.91-ti-r133 | 8236 | 113988 | 5216
 
 **BeagleBone, 720MHz, Debian 9.2:**
 
@@ -531,7 +527,6 @@ node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 v9.2.0 | v1.1.8 | 4.4.91-ti-r133 | 5348 | 74305 | 4870
 v8.2.1 | v1.1.8 | 4.4.91-ti-r133 | 5703 | 82007 | 4871
 v6.11.4 | v1.1.8 | 4.4.91-ti-r133 | 5534 | 72223 | 4247
-v4.8.4 | v1.1.8 | 4.4.91-ti-r133 | 6020 | 81516 | 3786
 
 ## Related Packages
 
