@@ -218,7 +218,9 @@ class Gpio {
   write(value, callback) {
     const writeValue = (value, callback) => {
       const writeBuffer = convertBitToBuffer(value);
-      fs.write(this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback);
+      fs.write(
+        this._valueFd, writeBuffer, 0, writeBuffer.length, 0, callback
+      );
     };
 
     if (callback) {
@@ -289,11 +291,15 @@ class Gpio {
   }
 
   activeLow() {
-    return convertBufferToBoolean(fs.readFileSync(this._gpioPath + 'active_low'));
+    return convertBufferToBoolean(
+      fs.readFileSync(this._gpioPath + 'active_low')
+    );
   }
 
   setActiveLow(invert) {
-    fs.writeFileSync(this._gpioPath + 'active_low', convertBooleanToBuffer(!!invert));
+    fs.writeFileSync(
+      this._gpioPath + 'active_low', convertBooleanToBuffer(!!invert)
+    );
   }
 
   unexport() {
@@ -328,7 +334,8 @@ class Gpio {
 }
 
 const convertBitToBuffer = bit => convertBooleanToBuffer(bit === HIGH);
-const convertBufferToBit = buffer => convertBufferToBoolean(buffer) ? HIGH : LOW;
+const convertBufferToBit =
+  buffer => convertBufferToBoolean(buffer) ? HIGH : LOW;
 
 const convertBooleanToBuffer = boolean => boolean ? HIGH_BUF : LOW_BUF;
 const convertBufferToBoolean = buffer => buffer[0] === HIGH_BUF[0];
