@@ -7,7 +7,7 @@
 # onoff
 
 GPIO access and interrupt detection with **Node.js** on Linux boards like the
-Raspberry Pi, C.H.I.P. or BeagleBone.
+Raspberry Pi or BeagleBone.
 
 onoff supports Node.js versions 4, 6, 8, 10 and 12.
 
@@ -547,10 +547,8 @@ of interest.
 
 onoff was tested on the following platforms:
 
-- Raspberry Pi 1, 2 and 3
+- Raspberry Pi 1, 2, 3 and 4
   - Raspbian
-- C.H.I.P.
-  - Debian
 - BeagleBone, BeagleBone Black and PocketBeagle
   - Debian
 
