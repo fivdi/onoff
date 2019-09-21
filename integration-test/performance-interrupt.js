@@ -15,7 +15,7 @@ let irqCount = 0;
 let iv;
 
 // Exit handler
-const exit = () => {
+const exit = _ => {
   input.unexport();
   output.unexport();
 
@@ -36,7 +36,7 @@ input.watch((err, value) => {
 });
 
 // Print number of interrupts once a second.
-iv = setInterval(() => {
+iv = setInterval(_ => {
   console.log(irqCount);
   irqCount = 0;
 }, 1000);

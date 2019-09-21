@@ -4,7 +4,7 @@ const Gpio = require('../onoff').Gpio;
 const led = new Gpio(17, 'out');
 let stopBlinking = false;
 
-const blinkLed = () => {
+const blinkLed = _ => {
   if (stopBlinking) {
     led.unexport();
     console.log('ok - ' + __filename);

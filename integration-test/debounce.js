@@ -8,10 +8,10 @@ const button = new Gpio(7, 'in', 'both', {debounceTimeout: 10});
 let buttonPressedCount = 0;
 let buttonReleasedCount = 0;
 
-const simulateToggleButtonStateWithBounce = (cb) => {
+const simulateToggleButtonStateWithBounce = cb => {
   let toggleCount = 0;
 
-  const iv = setInterval(() => {
+  const iv = setInterval(_ => {
     if (toggleCount === 19) {
       clearInterval(iv);
       return cb();
@@ -22,11 +22,11 @@ const simulateToggleButtonStateWithBounce = (cb) => {
   }, 2);
 };
 
-const simulatePressAndReleaseButtonWithBounce = () => {
-  simulateToggleButtonStateWithBounce(() => {
-    setTimeout(() => {
-      simulateToggleButtonStateWithBounce(() => {
-        setTimeout(() => {
+const simulatePressAndReleaseButtonWithBounce = _ => {
+  simulateToggleButtonStateWithBounce(_ => {
+    setTimeout(_ => {
+      simulateToggleButtonStateWithBounce(_ => {
+        setTimeout(_ => {
           assert(buttonPressedCount === 1);
           assert(buttonReleasedCount === 1);
 

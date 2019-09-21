@@ -87,7 +87,7 @@ button.watch((err, value) => {
   led.writeSync(value);
 });
 
-process.on('SIGINT', () => {
+process.on('SIGINT', _ => {
   led.unexport();
   button.unexport();
 });
@@ -123,7 +123,7 @@ button.watch((err, value) => {
   led.writeSync(led.readSync() ^ 1);
 });
 
-process.on('SIGINT', () => {
+process.on('SIGINT', _ => {
   led.unexport();
   button.unexport();
 });
@@ -159,7 +159,7 @@ const led = new Gpio(17, 'out');       // Export GPIO17 as an output
 let stopBlinking = false;
 
 // Toggle the state of the LED connected to GPIO17 every 200ms
-const blinkLed = () => {
+const blinkLed = _ => {
   if (stopBlinking) {
     return led.unexport();
   }
@@ -196,7 +196,7 @@ const led = new Gpio(17, 'out');       // Export GPIO17 as an output
 let stopBlinking = false;
 
 // Toggle the state of the LED connected to GPIO17 every 200ms
-const blinkLed = () => {
+const blinkLed = _ => {
   if (stopBlinking) {
     return led.unexport();
   }
@@ -231,7 +231,7 @@ if (Gpio.accessible) {
   // more real code here
 } else {
   led = {
-    writeSync: (value) => {
+    writeSync: value => {
       console.log('virtual led now uses value: ' + value);
     }
   };

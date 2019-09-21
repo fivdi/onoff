@@ -9,7 +9,7 @@ class Epoll {
   }
 
   add(fd, events) {
-    this._timeout = setTimeout(() => {
+    this._timeout = setTimeout(_ => {
       this._callback(null, fd, events);
     }, 10);
   }

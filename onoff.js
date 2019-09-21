@@ -12,7 +12,7 @@ const LOW_BUF = Buffer.from('0');
 const HIGH = 1;
 const LOW = 0;
 
-const exportGpio = (gpio) => {
+const exportGpio = gpio => {
   if (!fs.existsSync(gpio._gpioPath)) {
     // The GPIO hasn't been exported yet so export it
     fs.writeFileSync(GPIO_ROOT_PATH + 'export', gpio._gpio);
@@ -59,7 +59,7 @@ const waitForGpioAccessPermission = (
     }
   }
 
-  permissionRequiredPaths.forEach((path) => {
+  permissionRequiredPaths.forEach(path => {
     let tries = 0;
 
     while (true) {
@@ -80,7 +80,7 @@ const waitForGpioAccessPermission = (
 const configureGpio = (
   gpio, direction, edge, options, gpioPreviouslyExported
 ) => {
-  const throwIfNeeded = (err) => {
+  const throwIfNeeded = err => {
     if (gpioPreviouslyExported === false) {
       throw err;
     }
@@ -121,7 +121,7 @@ const configureGpio = (
   }
 };
 
-const configureInterruptHandler = (gpio) => {
+const configureInterruptHandler = gpio => {
   // A poller is created for both inputs and outputs. A poller isn't
   // actually needed for an output but the setDirection method can be
   // invoked to change the direction of a GPIO from output to input and
@@ -131,7 +131,7 @@ const configureInterruptHandler = (gpio) => {
 
     if ((value === LOW && gpio._fallingEnabled) ||
         (value === HIGH && gpio._risingEnabled)) {
-      gpio._listeners.slice(0).forEach((callback) => {
+      gpio._listeners.slice(0).forEach(callback => {
         callback(err, value);
       });
     }
@@ -183,7 +183,7 @@ class Gpio {
   }
 
   read(callback) {
-    const readValue = (callback) => {
+    const readValue = callback => {
       fs.read(this._valueFd, this._readBuffer, 0, 1, 0, (err, bytes, buf) => {
         if (typeof callback === 'function') {
           if (err) {
@@ -225,7 +225,7 @@ class Gpio {
       writeValue(value, callback);
     } else {
       return new Promise((resolve, reject) => {
-        writeValue(value, (err) => {
+        writeValue(value, err => {
           if (err) {
             reject(err);
           } else {
@@ -254,7 +254,7 @@ class Gpio {
       if (typeof callback !== 'function') {
         this._listeners = [];
       } else {
-        this._listeners = this._listeners.filter((listener) => {
+        this._listeners = this._listeners.filter(listener => {
           return callback !== listener;
         });
       }
@@ -327,11 +327,11 @@ class Gpio {
   }
 }
 
-const convertBitToBuffer = (bit) => convertBooleanToBuffer(bit === HIGH);
-const convertBufferToBit = (buffer) => convertBufferToBoolean(buffer) ? HIGH : LOW;
+const convertBitToBuffer = bit => convertBooleanToBuffer(bit === HIGH);
+const convertBufferToBit = buffer => convertBufferToBoolean(buffer) ? HIGH : LOW;
 
-const convertBooleanToBuffer = (boolean) => boolean ? HIGH_BUF : LOW_BUF;
-const convertBufferToBoolean = (buffer) => buffer[0] === HIGH_BUF[0];
+const convertBooleanToBuffer = boolean => boolean ? HIGH_BUF : LOW_BUF;
+const convertBufferToBoolean = buffer => buffer[0] === HIGH_BUF[0];
 
 Gpio.HIGH = HIGH;
 Gpio.LOW = LOW;

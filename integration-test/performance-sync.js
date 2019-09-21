@@ -17,7 +17,7 @@ const pulseLed = (led, pulseCount) => {
   return writesPerSecond;
 };
 
-const syncWritesPerSecond = () => {
+const syncWritesPerSecond = _ => {
   const led = new Gpio(17, 'out');
   let writes = 0;
 

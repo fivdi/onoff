@@ -9,7 +9,7 @@ let toggleCount = 0;
 let falling = 0;
 let rising = 0;
 
-const toggleOutput = () => {
+const toggleOutput = _ => {
   output.writeSync(output.readSync() ^ 1);
   toggleCount += 1;
 };

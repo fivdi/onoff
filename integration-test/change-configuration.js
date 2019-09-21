@@ -6,12 +6,12 @@ const Gpio = require('../onoff').Gpio;
 let output = new Gpio(8, 'out');
 let input = new Gpio(7, 'in', 'both');
 
-const watchWithSecondConfiguration = () => {
+const watchWithSecondConfiguration = _ => {
   input.watch((err, value) => {
     assert(!err, 'error during interrupt detection');
     assert(value === 1, 'expected interrupt on rising edge');
 
-    setTimeout(() => {
+    setTimeout(_ => {
       input.unexport();
       output.unexport();
 
@@ -22,7 +22,7 @@ const watchWithSecondConfiguration = () => {
   output.writeSync(1);
 };
 
-const changeConfiguration = () => {
+const changeConfiguration = _ => {
   input.unwatchAll();
 
   let temp = output;
@@ -45,7 +45,7 @@ const changeConfiguration = () => {
   watchWithSecondConfiguration();
 };
 
-const watchWithFirstConfiguration = () => {
+const watchWithFirstConfiguration = _ => {
   input.watch((err, value) => {
     assert(!err, 'error during interrupt detection');
     assert(value === 1, 'expected interrupt on rising edge');

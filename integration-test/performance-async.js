@@ -5,19 +5,19 @@ const Gpio = require('../onoff').Gpio;
 const pulseLed = (led, pulseCount, cb) => {
   let time = process.hrtime();
 
-  const loop = (count) => {
+  const loop = count => {
     if (count === 0) {
       time = process.hrtime(time);
       const writesPerSecond = pulseCount * 2 / (time[0] + time[1] / 1E9);
       return cb(null, writesPerSecond);
     }
 
-    led.write(1, (err) => {
+    led.write(1, err => {
       if (err) {
         return cb(err);
       }
 
-      led.write(0, (err) => {
+      led.write(0, err => {
         if (err) {
           return cb(err);
         }
@@ -30,11 +30,11 @@ const pulseLed = (led, pulseCount, cb) => {
   loop(pulseCount);
 };
 
-const asyncWritesPerSecond = (cb) => {
+const asyncWritesPerSecond = cb => {
   const led = new Gpio(17, 'out');
   let writes = 0;
 
-  const loop = (count) => {
+  const loop = count => {
     if (count === 0) {
       led.unexport();
       return cb(null, writes / 10);

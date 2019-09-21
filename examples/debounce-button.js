@@ -12,7 +12,7 @@ button.watch((err, value) => {
   led.writeSync(led.readSync() ^ 1);
 });
 
-process.on('SIGINT', () => {
+process.on('SIGINT', _ => {
   led.unexport();
   button.unexport();
 });
