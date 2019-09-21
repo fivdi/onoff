@@ -2,6 +2,7 @@ Unpublished
 ===========
 
   * drop support for node.js v4
+  * update dependencies (epoll v3.0.0, ts-node v8.4.1, typescript v3.6.3)
 
 4.1.4 - Sep 07 2019
 ===================
