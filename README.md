@@ -488,31 +488,45 @@ Three of the onoff tests are used to monitor performance:
   * performance-sync.js - determine max. no. of writeSync ops per second
   * performance-interrupt.js - determine max. no. of interrupts per second
 
-The average of ten runs of these tests using various versions of Node.js
-and onoff are shown in the following tables.
+The results of these tests are shown in the following tables.
 
-**Raspberry Pi 3, 1.2Ghz, Raspbian:**
-
-node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
-:---: | :---: | :---: | ---: | ---: | ---:
-v8.2.1 | v1.1.4 | 4.9.35-v7+ | 27345 | 318771 | 20094
-v6.11.1 | v1.1.4 | 4.9.35-v7+ | 26010 | 280180 | 19050
-
-**Raspberry Pi 2, 900Mhz, Raspbian:**
+**Raspberry Pi 4 B, 1.5GHz, Raspbian Buster 10.1**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v8.2.1 | v1.1.4 | 4.9.35-v7+ | 12792 | 181829 | 9691
-v6.11.1 | v1.1.4 | 4.9.35-v7+ | 12348 | 167106 | 9215
+v13.5.0 | v5.0.0 | 4.19.75-v7l+ | 25050 | 261875 | 23308
+v12.14.0 | v5.0.0 | 4.19.75-v7l+ | 26249 | 354699 | 24802
+v10.18.0 | v5.0.0 | 4.19.75-v7l+ | 28221 | 356435 | 24767
+v8.17.0 | v5.0.0 | 4.19.75-v7l+ | 28080 | 526504 | 25086
 
-**Raspberry Pi 1, 700Mhz, Raspbian:**
+**Raspberry Pi 3 B, 1.2GHz, Raspbian Buster 10.1**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v8.2.1 | v1.1.4 | 4.9.35+ | 2738 | 53589 | 2353
-v6.11.1 | v1.1.4 | 4.9.35+ | 2565 | 23111 | 1709
+v13.5.0 | v5.0.0 | 4.19.75-v7l+ | 20676 | 158916 | 17259
+v12.14.0 | v5.0.0 | 4.19.75-v7l+ | 21670 | 207222 | 18328
+v10.18.0 | v5.0.0 | 4.19.75-v7l+ | 23661 | 225758 | 20741
+v8.17.0 | v5.0.0 | 4.19.75-v7l+ | 22381 | 331501 | 21266
 
-**BeagleBone Black, 1GHz, Debian 9.2:**
+**Raspberry Pi 2 B, 900MHz, Raspbian Buster 10.1**
+
+node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
+:---: | :---: | :---: | ---: | ---: | ---:
+v13.5.0 | v5.0.0 | 4.19.75-v7l+ | 10146 | 87727 | 8798
+v12.14.0 | v5.0.0 | 4.19.75-v7l+ | 10769 | 113107 | 10373
+v10.18.0 | v5.0.0 | 4.19.75-v7l+ | 11843 | 129086 | 10536
+v8.17.0 | v5.0.0 | 4.19.75-v7l+ | 11992 | 177764 | 10466
+
+**Raspberry Pi 1 B, 700MHz, Raspbian Buster 10.1**
+
+node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
+:---: | :---: | :---: | ---: | ---: | ---:
+v13.5.0 | v5.0.0 | 4.19.75+ | 2158 | 19673 | 1985
+v12.14.0 | v5.0.0 | 4.19.75+ | 2316 | 26696 | 2112
+v10.18.0 | v5.0.0 | 4.19.75+ | 2613 | 33129 | 2225
+v8.17.0 | v5.0.0 | 4.19.75+ | 2651 | 57811 | 2347
+
+**BeagleBone Black, 1GHz, Debian 9.2**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
@@ -520,7 +534,7 @@ v9.2.0 | v1.1.8 | 4.4.91-ti-r133 | 7584 | 105198 | 6820
 v8.2.1 | v1.1.8 | 4.4.91-ti-r133 | 7908 | 113476 | 6544
 v6.11.4 | v1.1.8 | 4.4.91-ti-r133 | 7784 | 100586 | 6079
 
-**BeagleBone, 720MHz, Debian 9.2:**
+**BeagleBone, 720MHz, Debian 9.2**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
