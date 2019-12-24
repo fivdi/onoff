@@ -1,3 +1,9 @@
+5.0.1 - Dec 24 2019
+===================
+
+  * document node 11 support
+  * update benchmark results for pi 1, 2, 3 and 4
+
 5.0.0 - Sep 22 2019
 ===================
 
