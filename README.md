@@ -482,7 +482,7 @@ describes this mechanism in more detail.
 
 ## Benchmarks
 
-Three of the onoff tests are used to monitor performance:
+Three of the onoff tests are used to monitor performance.
 
   * performance-async.js - determine max. no. of write ops per seconds
   * performance-sync.js - determine max. no. of writeSync ops per second
@@ -526,21 +526,23 @@ v12.14.0 | v5.0.0 | 4.19.75+ | 2316 | 26696 | 2112
 v10.18.0 | v5.0.0 | 4.19.75+ | 2613 | 33129 | 2225
 v8.17.0 | v5.0.0 | 4.19.75+ | 2651 | 57811 | 2347
 
-**BeagleBone Black, 1GHz, Debian 9.2**
+**BeagleBone Black, 1GHz, Debian Buster 10.2**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v9.2.0 | v1.1.8 | 4.4.91-ti-r133 | 7584 | 105198 | 6820
-v8.2.1 | v1.1.8 | 4.4.91-ti-r133 | 7908 | 113476 | 6544
-v6.11.4 | v1.1.8 | 4.4.91-ti-r133 | 7784 | 100586 | 6079
+v13.5.0 | v5.0.0 | 4.19.79-ti-r30 | 6509 | 53240 | 5402
+v12.14.0 | v5.0.0 | 4.19.79-ti-r30 | 6855 | 70535 | 5911
+v10.18.0 | v5.0.0 | 4.19.79-ti-r30 | 7564 | 79133 | 5920
+v8.17.0 | v5.0.0 | 4.19.79-ti-r30 | 7116 | 103920 | 6144
 
-**BeagleBone, 720MHz, Debian 9.2**
+**BeagleBone, 720MHz, Debian Buster 10.2**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v9.2.0 | v1.1.8 | 4.4.91-ti-r133 | 5348 | 74305 | 4870
-v8.2.1 | v1.1.8 | 4.4.91-ti-r133 | 5703 | 82007 | 4871
-v6.11.4 | v1.1.8 | 4.4.91-ti-r133 | 5534 | 72223 | 4247
+v13.5.0 | v5.0.0 | 4.19.79-ti-r30 | 4441 | 38425 | 4031
+v12.14.0 | v5.0.0 | 4.19.79-ti-r30 | 5013 | 49741 | 4297
+v10.18.0 | v5.0.0 | 4.19.79-ti-r30 | 5400 | 57157 | 4371
+v8.17.0 | v5.0.0 | 4.19.79-ti-r30 | 5307 | 75034 | 4406
 
 ## Related Packages
 
