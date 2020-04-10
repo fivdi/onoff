@@ -342,10 +342,18 @@ Write GPIO value asynchronously. If no completion callback is specified write
 returns a Promise that resolves with no value on success or rejects with an
 Error object on failure.
 
+Note that on most systems invoking write for a GPIO configured as an input
+will result in an EPERM error indicating that the operation is not permitted.
+The Raspberry Pi and BeagleBone are examples of such systems.
+
 ##### writeSync(value)
 - value - The number 0 or 1.
 
 Write GPIO value synchronously.
+
+Note that on most systems invoking writeSync for a GPIO configured as an input
+will result in an EPERM error indicating that the operation is not permitted.
+The Raspberry Pi and BeagleBone are examples of such systems.
 
 ##### watch(callback)
 - callback - A callback that gets two arguments (err, value), where err is

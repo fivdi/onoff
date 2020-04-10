@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+ * document the potential of EPERM errors when invoking write methods (fixes [#167](https://github.com/fivdi/onoff/issues/167))
+
 5.0.1 - Dec 24 2019
 ===================
 
