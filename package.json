@@ -31,23 +31,23 @@
     "url": "https://github.com/fivdi/onoff/issues"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "dependencies": {
-    "epoll": "^3.0.0",
+    "epoll": "^4.0.0",
     "lodash.debounce": "^4.0.8"
   },
   "devDependencies": {
-    "@types/mocha": "^5.2.7",
+    "@types/mocha": "^7.0.2",
     "@types/mock-require": "^2.0.0",
-    "coveralls": "^3.0.6",
-    "jshint": "^2.10.2",
-    "mocha": "^6.2.0",
-    "mock-fs": "^4.10.1",
+    "coveralls": "^3.0.13",
+    "jshint": "^2.11.0",
+    "mocha": "^7.1.1",
+    "mock-fs": "^4.11.0",
     "mock-require": "^3.0.3",
-    "nyc": "^14.1.1",
-    "ts-node": "^8.4.1",
-    "typescript": "^3.6.3"
+    "nyc": "^15.0.1",
+    "ts-node": "^8.9.0",
+    "typescript": "^3.8.3"
   },
   "keywords": [
     "gpio",
