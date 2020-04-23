@@ -15,7 +15,7 @@ const LOW = 0;
 const exportGpio = gpio => {
   if (!fs.existsSync(gpio._gpioPath)) {
     // The GPIO hasn't been exported yet so export it
-    fs.writeFileSync(GPIO_ROOT_PATH + 'export', gpio._gpio);
+    fs.writeFileSync(GPIO_ROOT_PATH + 'export', '' + gpio._gpio);
 
     return false;
   }
@@ -306,7 +306,7 @@ class Gpio {
     this.unwatchAll();
     fs.closeSync(this._valueFd);
     try {
-      fs.writeFileSync(GPIO_ROOT_PATH + 'unexport', this._gpio);
+      fs.writeFileSync(GPIO_ROOT_PATH + 'unexport', '' + this._gpio);
     } catch (ignore) {
       // Flow of control always arrives here when cape_universal is enabled on
       // the bbb.
