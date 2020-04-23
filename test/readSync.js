@@ -22,14 +22,14 @@ describe('readSync', () => {
 
   it('reads high', () => {
     const expected = 1;
-    MockLinux.write(pin, expected);
+    MockLinux.write(pin, '' + expected);
     const actual = gpio.readSync();
     assert.deepEqual(actual, expected);
   });
 
   it('reads low', () => {
     const expected = 0;
-    MockLinux.write(pin, expected);
+    MockLinux.write(pin, '' + expected);
     const actual = gpio.readSync();
     assert.deepEqual(actual, expected);
   });

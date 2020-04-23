@@ -21,13 +21,13 @@ describe('activeLow', () => {
 
 
   it('is active high', () => {
-    MockLinux.writeActiveLow(pin, 1);
+    MockLinux.writeActiveLow(pin, '1');
     const actual = gpio.activeLow();
     assert.deepEqual(actual, true);
   });
 
   it('is active low', () => {
-    MockLinux.writeActiveLow(pin, 0);
+    MockLinux.writeActiveLow(pin, '0');
     const actual = gpio.activeLow();
     assert.deepEqual(actual, false);
   });

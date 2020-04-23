@@ -23,7 +23,7 @@ describe('read', () => {
 
   it('reads high', (done) => {
     const expected = 1;
-    MockLinux.write(pin, expected);
+    MockLinux.write(pin, '' + expected);
     gpio.read((err, actual) => {
       assert.deepEqual(actual, expected);
       done();
@@ -32,7 +32,7 @@ describe('read', () => {
 
   it('reads low', (done) => {
     const expected = 0;
-    MockLinux.write(pin, expected);
+    MockLinux.write(pin, '' + expected);
     gpio.read((err, actual) => {
       assert.deepEqual(actual, expected);
       done();
@@ -74,14 +74,14 @@ describe('read Promise', () => {
 
   it('reads high', () => {
     const expected = 1;
-    MockLinux.write(pin, expected);
+    MockLinux.write(pin, '' + expected);
     return gpio.read()
       .then(actual => TestHelper.shouldEventuallyEqual(actual, expected));
   });
 
   it('reads low', () => {
     const expected = 0;
-    MockLinux.write(pin, expected);
+    MockLinux.write(pin, '' + expected);
     return gpio.read()
       .then(actual => TestHelper.shouldEventuallyEqual(actual, expected));
   });

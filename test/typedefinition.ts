@@ -23,7 +23,7 @@ describe('definition', () => {
         assert.deepEqual(actual, expected);
         done();
       });
-      MockLinux.write(pin, expected);
+      MockLinux.write(pin, '' + expected);
     });
 
     afterEach(() => {
