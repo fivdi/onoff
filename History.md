@@ -5,6 +5,7 @@ Unpublished
   * drop support for node.js 6, add support for node.js 14
   * avoid calling fs.writeFileSync with numeric data (fixes [#170](https://github.com/fivdi/onoff/issues/170))
   * update dependencies
+  * use g++-6 on travis
 
 5.0.1 - Dec 24 2019
 ===================
