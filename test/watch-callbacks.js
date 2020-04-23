@@ -23,7 +23,7 @@ describe('watch callbacks', () => {
       gpio = new Gpio(pin, 'in', 'both');
 
       const expected = 1;
-      MockLinux.write(pin, expected);
+      MockLinux.write(pin, '' + expected);
       gpio.watch((err, actual) => {
         assert.deepEqual(actual, expected);
         done();
