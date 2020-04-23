@@ -1,5 +1,5 @@
-Unpublished
-===========
+6.0.0 - Apr 23 2020
+===================
 
   * document the potential of EPERM errors when invoking write methods (fixes [#167](https://github.com/fivdi/onoff/issues/167))
   * drop support for node.js 6, add support for node.js 14
