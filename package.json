@@ -31,7 +31,7 @@
     "url": "https://github.com/fivdi/onoff/issues"
   },
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   },
   "dependencies": {
     "epoll": "^3.0.0",
