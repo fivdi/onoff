@@ -1,3 +1,9 @@
+Unpublished
+===========
+
+  * switch from coveralls to codecov
+  * update dependencies
+
 6.0.0 - Apr 23 2020
 ===================
 
