@@ -1,3 +1,11 @@
+Unpublished
+===========
+
+  * switch from coveralls to codecov
+  * update dependencies
+  * drop support for node.js 8
+  * drop support for node.js 13
+
 6.0.0 - Apr 23 2020
 ===================
 

@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/fivdi/onoff.svg?branch=master)](https://travis-ci.org/fivdi/onoff)
-[![Coverage Status](https://coveralls.io/repos/github/fivdi/onoff/badge.svg)](https://coveralls.io/github/fivdi/onoff)
+[![codecov](https://codecov.io/gh/fivdi/onoff/branch/master/graph/badge.svg)](https://codecov.io/gh/fivdi/onoff)
 [![npm Version](http://img.shields.io/npm/v/onoff.svg)](https://www.npmjs.com/package/onoff)
 [![Downloads Per Month](http://img.shields.io/npm/dm/onoff.svg)](https://www.npmjs.com/package/onoff)
 [![Mentioned in Awesome Node.js](https://awesome.re/mentioned-badge.svg)](https://github.com/sindresorhus/awesome-nodejs#hardware)
@@ -9,7 +9,7 @@
 GPIO access and interrupt detection with **Node.js** on Linux boards like the
 Raspberry Pi or BeagleBone.
 
-onoff supports Node.js versions 8, 10, 12, 13 and 14.
+onoff supports Node.js versions 10, 12 and 14.
 
 ## Contents
 

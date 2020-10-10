@@ -1,10 +1,8 @@
 language: node_js
 node_js:
   - "14"
-  - "13"
   - "12"
   - "10"
-  - "8"
 env:
   - CXX=g++-6
 addons:
@@ -17,5 +15,5 @@ script:
   - npm run lint
   - npm test
 after_success:
-  - npm run coveralls
+  - npm run codecov
 
