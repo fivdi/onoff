@@ -1,5 +1,5 @@
-Unpublished
-===========
+6.0.1 - Oct 10 2020
+===================
 
   * switch from coveralls to codecov
   * update dependencies
