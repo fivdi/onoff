@@ -3,6 +3,7 @@ Unpublished
 
   * fix accessible property (thank you [@mildsunrise](https://github.com/mildsunrise))
   * update dependencies
+  * add support for node.js 15
 
 6.0.1 - Oct 10 2020
 ===================
