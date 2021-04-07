@@ -1,5 +1,5 @@
-Unpublished
-===========
+6.0.2 - Apr 07 2021
+===================
 
   * fix accessible property (thank you [@mildsunrise](https://github.com/mildsunrise))
   * update dependencies
