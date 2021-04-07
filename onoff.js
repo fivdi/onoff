@@ -317,7 +317,7 @@ class Gpio {
     let fd;
 
     try {
-      fd = fs.openSync(GPIO_ROOT_PATH + 'export', 'r+');
+      fd = fs.openSync(GPIO_ROOT_PATH + 'export', fs.constants.O_WRONLY);
     } catch(e) {
       // e.code === 'ENOENT' / 'EACCES' are most common
       // though any failure to open will also result in a gpio
