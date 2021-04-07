@@ -1,3 +1,9 @@
+Unpublished
+===========
+
+  * fix accessible property (thank you [@mildsunrise](https://github.com/mildsunrise))
+  * update dependencies
+
 6.0.1 - Oct 10 2020
 ===================
 
