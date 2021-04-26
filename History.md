@@ -1,3 +1,8 @@
+Unpublished
+===========
+
+  * update dependencies
+
 6.0.2 - Apr 07 2021
 ===================
 
