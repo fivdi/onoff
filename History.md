@@ -1,6 +1,7 @@
 Unpublished
 ===========
 
+  * add support for node.js 16
   * update dependencies
 
 6.0.2 - Apr 07 2021
