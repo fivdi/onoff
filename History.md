@@ -1,5 +1,5 @@
-Unpublished
-===========
+6.0.3 - Apr 26 2021
+===================
 
   * update performance numbers
   * add support for node.js 16
