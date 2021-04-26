@@ -1,6 +1,7 @@
 Unpublished
 ===========
 
+  * update performance numbers
   * add support for node.js 16
   * update dependencies
 

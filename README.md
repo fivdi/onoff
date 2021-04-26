@@ -498,59 +498,50 @@ Three of the onoff tests are used to monitor performance.
 
 The results of these tests are shown in the following tables.
 
-**Raspberry Pi 4 B, 1.5GHz, Raspbian Buster 10.1**
+**Raspberry Pi 4 B, 1.5GHz, Raspberry Pi OS (March 4th 2021, Buster 10.8)**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v13.5.0 | v5.0.0 | 4.19.75-v7l+ | 25050 | 261875 | 23308
-v12.14.0 | v5.0.0 | 4.19.75-v7l+ | 26249 | 354699 | 24802
-v10.18.0 | v5.0.0 | 4.19.75-v7l+ | 28221 | 356435 | 24767
-v8.17.0 | v5.0.0 | 4.19.75-v7l+ | 28080 | 526504 | 25086
+v16.0.0 | v6.0.2 | 5.10.17-v7l+ | 25124 | 280417 | 20240
+v15.14.0 | v6.0.2 | 5.10.17-v7l+ | 24055 | 271149 | 20488
+v14.16.1 | v6.0.2 | 5.10.17-v7l+ | 21669 | 254705 | 19703
+v12.22.1 | v6.0.2 | 5.10.17-v7l+ | 22618 | 318417 | 21122
+v10.24.1 | v6.0.2 | 5.10.17-v7l+ | 22405 | 329927 | 19583
 
 **Raspberry Pi 3 B, 1.2GHz, Raspbian Buster 10.1**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v13.5.0 | v5.0.0 | 4.19.75-v7l+ | 20676 | 158916 | 17259
 v12.14.0 | v5.0.0 | 4.19.75-v7l+ | 21670 | 207222 | 18328
 v10.18.0 | v5.0.0 | 4.19.75-v7l+ | 23661 | 225758 | 20741
-v8.17.0 | v5.0.0 | 4.19.75-v7l+ | 22381 | 331501 | 21266
 
 **Raspberry Pi 2 B, 900MHz, Raspbian Buster 10.1**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v13.5.0 | v5.0.0 | 4.19.75-v7l+ | 10146 | 87727 | 8798
 v12.14.0 | v5.0.0 | 4.19.75-v7l+ | 10769 | 113107 | 10373
 v10.18.0 | v5.0.0 | 4.19.75-v7l+ | 11843 | 129086 | 10536
-v8.17.0 | v5.0.0 | 4.19.75-v7l+ | 11992 | 177764 | 10466
 
 **Raspberry Pi 1 B, 700MHz, Raspbian Buster 10.1**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v13.5.0 | v5.0.0 | 4.19.75+ | 2158 | 19673 | 1985
 v12.14.0 | v5.0.0 | 4.19.75+ | 2316 | 26696 | 2112
 v10.18.0 | v5.0.0 | 4.19.75+ | 2613 | 33129 | 2225
-v8.17.0 | v5.0.0 | 4.19.75+ | 2651 | 57811 | 2347
 
 **BeagleBone Black, 1GHz, Debian Buster 10.2**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v13.5.0 | v5.0.0 | 4.19.79-ti-r30 | 6509 | 53240 | 5402
 v12.14.0 | v5.0.0 | 4.19.79-ti-r30 | 6855 | 70535 | 5911
 v10.18.0 | v5.0.0 | 4.19.79-ti-r30 | 7564 | 79133 | 5920
-v8.17.0 | v5.0.0 | 4.19.79-ti-r30 | 7116 | 103920 | 6144
 
 **BeagleBone, 720MHz, Debian Buster 10.2**
 
 node | onoff | kernel | write / sec | writeSync / sec | interrupts / sec
 :---: | :---: | :---: | ---: | ---: | ---:
-v13.5.0 | v5.0.0 | 4.19.79-ti-r30 | 4441 | 38425 | 4031
 v12.14.0 | v5.0.0 | 4.19.79-ti-r30 | 5013 | 49741 | 4297
 v10.18.0 | v5.0.0 | 4.19.79-ti-r30 | 5400 | 57157 | 4371
-v8.17.0 | v5.0.0 | 4.19.79-ti-r30 | 5307 | 75034 | 4406
 
 ## Related Packages
 
@@ -567,7 +558,7 @@ of interest.
 onoff was tested on the following platforms:
 
 - Raspberry Pi 1, 2, 3 and 4
-  - Raspbian
+  - Raspbian or Raspberry Pi OS
 - BeagleBone, BeagleBone Black and PocketBeagle
   - Debian
 
