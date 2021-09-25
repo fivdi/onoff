@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/fivdi/onoff.svg?branch=master)](https://travis-ci.org/fivdi/onoff)
+[![Build Status](https://app.travis-ci.com/fivdi/onoff.svg?branch=master)](https://app.travis-ci.com/github/fivdi/onoff)
 [![codecov](https://codecov.io/gh/fivdi/onoff/branch/master/graph/badge.svg)](https://codecov.io/gh/fivdi/onoff)
 [![npm Version](http://img.shields.io/npm/v/onoff.svg)](https://www.npmjs.com/package/onoff)
 [![Downloads Per Month](http://img.shields.io/npm/dm/onoff.svg)](https://www.npmjs.com/package/onoff)
